@@ -185,7 +185,7 @@ class _BottomNav extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.account_balance_wallet, color: Colors.green)),
-            IconButton(onPressed: () => Navigator.pushNamed(context, '/analysis'), icon: const Icon(Icons.monitoring, color: Colors.grey)),
+            IconButton(onPressed: () => Navigator.pushNamed(context, '/analysis'), icon: const Icon(Icons.analytics, color: Colors.grey)),
             const SizedBox(width: 48),
             IconButton(onPressed: () {}, icon: const Icon(Icons.query_stats, color: Colors.grey)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.lock, color: Colors.grey)),

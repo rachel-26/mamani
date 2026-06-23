@@ -99,7 +99,7 @@ class _InsightsGrid extends StatelessWidget {
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Row(children: [Icon(it.icon, color: Theme.of(context).colorScheme.primary), const SizedBox(width: 12), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(it.title, style: const TextStyle(fontWeight: FontWeight.w700)), Text(it.body, style: const TextStyle(color: Colors.grey))])), Column(mainAxisAlignment: MainAxisAlignment.end, children: [Text(it.value, style: const TextStyle(fontWeight: FontWeight.bold))])]),
+            child: Row(children: [Icon(Icons.lightbulb_outline, color: Theme.of(context).colorScheme.primary), const SizedBox(width: 12), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(it['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.w700)), Text(it['body'] ?? '', style: const TextStyle(color: Colors.grey))])), Column(mainAxisAlignment: MainAxisAlignment.end, children: [Text(it['value'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold))])]),
           ),
         );
       },

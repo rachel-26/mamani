@@ -21,10 +21,10 @@ class _LogExpenseScreenState extends State<LogExpenseScreen> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text('Natural Input', style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 8),
-            Card(child: Padding(padding: const EdgeInsets.all(8.0), child: Row(children: const [Icon(Icons.auto_awesome, color: Colors.green), SizedBox(width: 8), Expanded(child: TextField(decoration: InputDecoration(border: InputBorder.none, hintText: "Type 'Lunch with team $45'...")))]))),
+            Card(child: Padding(padding: const EdgeInsets.all(8.0), child: Row(children: const [Icon(Icons.auto_awesome, color: Colors.green), SizedBox(width: 8), Expanded(child: TextField(decoration: InputDecoration(border: InputBorder.none, hintText: "Type 'Lunch with team 45'...")))]))),
             const SizedBox(height: 12),
             Card(child: Padding(padding: const EdgeInsets.all(12.0), child: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Amount'), Row(children: [const Text('\$'), SizedBox(width: 8, child: TextField(controller: TextEditingController(text: '0.00'), keyboardType: TextInputType.number, decoration: const InputDecoration(border: InputBorder.none))])]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Amount'), Row(children: [const Text('\$'), SizedBox(width: 80, child: TextField(controller: TextEditingController(text: '0.00'), keyboardType: TextInputType.number, decoration: const InputDecoration(border: InputBorder.none)))])]),
               const SizedBox(height: 12),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Date'), TextButton(onPressed: () async { final d = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100)); if (d != null) setState(() => _date = d); }, child: Text('${DateTime.now().toLocal().toIso8601String().split('T').first}'))]),
               const SizedBox(height: 12),
