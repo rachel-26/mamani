@@ -2,316 +2,153 @@
 
 <html lang="en"><head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Smart Finance Companion - Quick Log</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Add Transaction - Finance Tracker</title>
+<!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Geist:wght@100..900&amp;display=swap" rel="stylesheet"/>
-<style>
-        .glass-panel {
-            background: #ffffff;
-            border: 1px solid #e0e3e7;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .ai-glow {
-            box-shadow: 0 0 20px rgba(0, 108, 71, 0.1);
-        }
-        .ai-border {
-            border: 1px solid #bacbbe;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .pulse-ai {
-            animation: pulse-border 3s infinite ease-in-out;
-        }
-        @keyframes pulse-border {
-            0%, 100% { border-color: #bacbbe; box-shadow: 0 0 10px rgba(0, 108, 71, 0.05); }
-            50% { border-color: #05da93; box-shadow: 0 0 25px rgba(5, 218, 147, 0.2); }
-        }
-        input:focus { outline: none; }
-    </style>
-<!-- THEME CONFIGURATION -->
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "surface-container-highest": "#e0e3e7",
-                    "on-secondary-fixed-variant": "#394762",
-                    "inverse-primary": "#20e19a",
-                    "error-container": "#ffdad6",
-                    "outline-variant": "#bacbbe",
-                    "tertiary": "#1e629a",
-                    "on-tertiary-fixed-variant": "#00497b",
-                    "primary": "#006c47",
-                    "surface": "#f7fafe",
-                    "on-error": "#ffffff",
-                    "surface-container-low": "#f1f4f8",
-                    "primary-fixed": "#50ffb4",
-                    "inverse-on-surface": "#eef1f5",
-                    "primary-container": "#05da93",
-                    "on-tertiary-fixed": "#001d35",
-                    "tertiary-fixed": "#d0e4ff",
-                    "on-secondary": "#ffffff",
-                    "secondary-fixed-dim": "#b9c7e7",
-                    "on-surface-variant": "#3b4a41",
-                    "background": "#f7fafe",
-                    "on-surface": "#181c1f",
-                    "surface-container-high": "#e5e8ec",
-                    "surface-dim": "#d7dade",
-                    "primary-fixed-dim": "#20e19a",
-                    "outline": "#6b7b70",
-                    "surface-container-lowest": "#ffffff",
-                    "on-error-container": "#93000a",
-                    "on-tertiary": "#ffffff",
-                    "surface-bright": "#f7fafe",
-                    "on-secondary-fixed": "#0d1b34",
-                    "on-primary-container": "#005a3a",
-                    "on-tertiary-container": "#005186",
-                    "error": "#ba1a1a",
-                    "secondary-container": "#cfddfe",
-                    "on-secondary-container": "#53617d",
-                    "secondary-fixed": "#d7e2ff",
-                    "surface-variant": "#e0e3e7",
-                    "surface-container": "#ebeef2",
-                    "on-primary-fixed-variant": "#005234",
-                    "on-primary-fixed": "#002112",
-                    "inverse-surface": "#2d3134",
-                    "tertiary-container": "#8ec4ff",
-                    "tertiary-fixed-dim": "#9ccaff",
-                    "on-background": "#181c1f",
-                    "secondary": "#515e7a",
-                    "on-primary": "#ffffff",
-                    "surface-tint": "#006c47"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "md": "24px",
-                    "sm": "12px",
-                    "gutter": "24px",
-                    "xs": "4px",
-                    "xl": "64px",
-                    "base": "8px",
-                    "margin-desktop": "48px",
-                    "lg": "40px",
-                    "margin-mobile": "16px"
-            },
-            "fontFamily": {
-                    "headline-md": ["Hanken Grotesk"],
-                    "body-lg": ["Hanken Grotesk"],
-                    "headline-lg": ["Hanken Grotesk"],
-                    "headline-sm": ["Hanken Grotesk"],
-                    "body-md": ["Hanken Grotesk"],
-                    "headline-lg-mobile": ["Hanken Grotesk"],
-                    "label-md": ["Geist"],
-                    "label-sm": ["Geist"],
-                    "body-sm": ["Hanken Grotesk"]
-            },
-            "fontSize": {
-                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
-                    "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
-            }
-          },
-        },
-      }
-    </script>
-<style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
+<style data-purpose="custom-animations">
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.4s ease-out forwards;
+    }
+    /* Custom radio hide */
+    .type-toggle input:checked + label {
+      background-color: white;
+      color: #111827;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+  </style>
 </head>
-<body class="bg-background text-on-surface font-body-lg min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
-<!-- TOP APP BAR -->
-<header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/50">
-<div class="flex justify-between items-center px-gutter h-16 w-full max-w-7xl mx-auto">
-<div class="flex items-center gap-base">
-<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-primary/20">
-<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTctJDsYan9ngeGS_a63_uh9bt5OU7jrB3mB-GOAfEMZRvmXwM1HcH_LIvJGEJDEAUB6XphLBeHrXmZIqPoXRPBTxb4j_7WtWyed0E8dNCajxYJZ62V74K0-IYHrpqiOxtkmpQ56UxAECXodSUsMbqjEIxA2zgR91mGsc4IciHUa-imDNZzvJA3Hrzsntwqy_Aa2W6dZVEZzqP1Mse3ZGPDyrFUkT3xJnpjBNHbtEkloQumwGCMbyDqlxAdmF_0TCFSj-3LNeK81k"/>
-</div>
-</div>
-<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">SmartFinance</h1>
-<div class="flex items-center">
-<button class="p-xs text-primary hover:bg-primary/5 transition-colors active:scale-95 duration-200">
-<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased select-none">
+<!-- BEGIN: MainContainer -->
+<main class="max-w-md mx-auto min-h-screen flex flex-col bg-white shadow-xl relative overflow-hidden">
+<!-- BEGIN: TopNavigation -->
+<header class="p-6 flex items-center justify-between" data-purpose="header-navigation">
+<button aria-label="Go back" class="p-2 -ml-2 text-slate-400 hover:text-slate-600 transition-colors">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
 </button>
-</div>
-</div>
+<h1 class="text-lg font-semibold text-slate-800">Add Transaction</h1>
+<div class="w-10"></div> <!-- Spacer for centering title -->
 </header>
-<!-- MAIN CONTENT CANVAS -->
-<main class="flex-grow pt-24 pb-32 px-gutter max-w-2xl mx-auto w-full">
-<!-- AI PREDICTIVE SECTION -->
-<section class="mb-lg">
-<div class="flex items-center gap-xs mb-sm">
-<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
-<span class="font-label-md text-label-md text-primary uppercase tracking-widest">AI Intelligence Active</span>
-</div>
-<!-- Natural Language Input -->
-<div class="glass-panel rounded-xl p-md ai-border pulse-ai mb-md">
-<label class="font-label-md text-label-md text-outline block mb-xs">NATURAL INPUT</label>
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
-<input class="bg-transparent border-none w-full text-headline-sm font-headline-sm text-on-surface placeholder:text-outline/50 focus:ring-0" placeholder="Type 'Lunch with team $45'..." type="text"/>
-</div>
-</div>
-<!-- Bento Grid of Quick Actions -->
-<div class="grid grid-cols-2 gap-sm">
-<!-- Quick Scan Button -->
-<button class="col-span-2 relative group overflow-hidden glass-panel rounded-xl h-32 flex flex-col items-center justify-center transition-all hover:border-primary active:scale-[0.98]">
-<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-<span class="material-symbols-outlined text-primary text-5xl mb-xs" data-icon="center_focus_strong" style="font-variation-settings: 'FILL' 1;">center_focus_strong</span>
-<span class="font-label-md text-label-md text-primary tracking-widest">QUICK SCAN RECEIPT</span>
-</button>
-<!-- AI Predicted Category 1 -->
-<button class="glass-panel rounded-xl p-md flex flex-col gap-xs hover:bg-surface-container-low transition-all">
-<div class="flex justify-between items-start">
-<span class="material-symbols-outlined text-tertiary" data-icon="restaurant">restaurant</span>
-<span class="font-label-sm text-label-sm text-primary">85% Match</span>
-</div>
-<div class="text-left">
-<p class="font-headline-sm text-headline-sm">Dining</p>
-<p class="font-body-sm text-body-sm text-outline">Predicted from location</p>
-</div>
-</button>
-<!-- AI Predicted Category 2 -->
-<button class="glass-panel rounded-xl p-md flex flex-col gap-xs hover:bg-surface-container-low transition-all">
-<div class="flex justify-between items-start">
-<span class="material-symbols-outlined text-primary" data-icon="commute">commute</span>
-<span class="font-label-sm text-label-sm text-outline">Recent</span>
-</div>
-<div class="text-left">
-<p class="font-headline-sm text-headline-sm">Transport</p>
-<p class="font-body-sm text-body-sm text-outline">Uber/Lyft habit</p>
-</div>
-</button>
+<!-- END: TopNavigation -->
+<!-- BEGIN: TransactionForm -->
+<form class="flex-1 flex flex-col px-6 pb-8 space-y-8 animate-slide-up" data-purpose="transaction-entry-form">
+<!-- BEGIN: AmountSection -->
+<section class="text-center py-4" data-purpose="amount-input-container">
+<label class="block text-sm font-medium text-slate-500 mb-2 uppercase tracking-wider" for="amount">Amount</label>
+<div class="relative inline-block w-full">
+<span class="absolute left-0 top-1/2 -translate-y-1/2 text-4xl font-light text-slate-400">$</span>
+<input class="w-full bg-transparent border-none text-center text-6xl font-bold focus:ring-0 placeholder-slate-200 text-slate-800" id="amount" name="amount" placeholder="0.00" required="" step="0.01" type="number"/>
 </div>
 </section>
-<!-- FORM DETAILS -->
-<section class="space-y-md">
-<h2 class="font-headline-sm text-headline-sm text-on-surface px-xs">Transaction Details</h2>
-<div class="glass-panel rounded-xl divide-y divide-outline-variant/30">
-<!-- Amount Entry -->
-<div class="p-md flex items-center justify-between">
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-outline" data-icon="payments">payments</span>
-<span class="font-body-md text-body-md">Amount</span>
+<!-- END: AmountSection -->
+<!-- BEGIN: TransactionTypeToggle -->
+<div class="flex p-1 bg-slate-100 rounded-2xl type-toggle" data-purpose="transaction-type-switcher">
+<div class="flex-1">
+<input checked="" class="hidden" id="expense" name="transaction_type" type="radio"/>
+<label class="block text-center py-3 rounded-xl cursor-pointer font-medium text-slate-500 transition-all" for="expense">Expense</label>
 </div>
-<div class="flex items-center gap-xs">
-<span class="font-headline-md text-headline-md text-outline">$</span>
-<input class="bg-transparent border-none text-right font-headline-lg text-headline-lg w-32 p-0 focus:ring-0 text-primary" type="text" value="0.00"/>
+<div class="flex-1">
+<input class="hidden" id="income" name="transaction_type" type="radio"/>
+<label class="block text-center py-3 rounded-xl cursor-pointer font-medium text-slate-500 transition-all" for="income">Income</label>
 </div>
 </div>
-<!-- Date Entry -->
-<div class="p-md flex items-center justify-between">
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-outline" data-icon="calendar_today">calendar_today</span>
-<span class="font-body-md text-body-md">Date</span>
+<!-- END: TransactionTypeToggle -->
+<!-- BEGIN: DetailsGrid -->
+<div class="space-y-6">
+<!-- Category Selector -->
+<div data-purpose="category-picker">
+<label class="block text-sm font-medium text-slate-500 mb-3">Category</label>
+<div class="grid grid-cols-4 gap-4">
+<!-- Category Item -->
+<button class="flex flex-col items-center gap-2 group" type="button">
+<div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center transition-transform active:scale-90 group-hover:bg-orange-200">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
 </div>
-<button class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-low px-md py-sm rounded-lg border border-outline-variant/30">Today, Oct 24</button>
+<span class="text-xs font-medium text-slate-600">Food</span>
+</button>
+<button class="flex flex-col items-center gap-2 group" type="button">
+<div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center transition-transform active:scale-90 group-hover:bg-blue-200">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
 </div>
-<!-- Account Selector -->
-<div class="p-md flex items-center justify-between">
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-outline" data-icon="account_balance">account_balance</span>
-<span class="font-body-md text-body-md">Account</span>
+<span class="text-xs font-medium text-slate-600">Transport</span>
+</button>
+<button class="flex flex-col items-center gap-2 group" type="button">
+<div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center transition-transform active:scale-90 group-hover:bg-purple-200">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
 </div>
-<div class="flex items-center gap-sm bg-surface-container-high px-md py-sm rounded-lg border border-outline-variant">
-<div class="w-4 h-4 rounded-full bg-secondary-container"></div>
-<span class="font-label-md text-label-md text-on-surface">PERSONAL VAULT</span>
-<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+<span class="text-xs font-medium text-slate-600">Rent</span>
+</button>
+<button class="flex flex-col items-center gap-2 group" type="button">
+<div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center border-2 border-dashed border-slate-200 transition-transform active:scale-90">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
 </div>
-</div>
-</div>
-<!-- Habits Insight Card -->
-<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-md border border-primary/20">
-<div class="absolute top-0 right-0 p-md opacity-10">
-<span class="material-symbols-outlined text-6xl text-primary" data-icon="insights">insights</span>
-</div>
-<div class="relative z-10">
-<p class="font-label-md text-label-md text-primary mb-xs">HABIT ALERT</p>
-<p class="font-body-md text-body-md mb-sm text-on-surface">You usually spend <span class="text-primary font-bold">$12.50</span> more on Fridays in this category.</p>
-<button class="text-primary font-label-md text-label-md flex items-center gap-xs hover:underline">
-                    ADJUST BUDGET <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+<span class="text-xs font-medium text-slate-400">More</span>
 </button>
 </div>
 </div>
-</section>
-<!-- SUBMIT BUTTON -->
-<div class="mt-lg flex gap-md">
-<button class="flex-grow py-md bg-primary-container text-on-primary-container font-bold rounded-xl active:scale-95 transition-all shadow-md shadow-primary/10 border border-primary/20">
-            Log Expense
+<!-- Date Picker -->
+<div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl" data-purpose="date-input">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-white rounded-lg shadow-sm text-indigo-500">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<p class="text-xs text-slate-400 font-medium">Date</p>
+<p class="text-sm font-semibold text-slate-700">Today, 14 Oct 2023</p>
+</div>
+</div>
+<button class="text-indigo-600 text-sm font-semibold px-2 py-1" type="button">Change</button>
+</div>
+<!-- Notes Field -->
+<div class="space-y-2" data-purpose="notes-input">
+<label class="block text-sm font-medium text-slate-500" for="notes">Notes (Optional)</label>
+<textarea class="w-full border-slate-200 rounded-2xl focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-300 resize-none p-4" id="notes" placeholder="What was this for?..." rows="3"></textarea>
+</div>
+</div>
+<!-- END: DetailsGrid -->
+<!-- BEGIN: ActionButtons -->
+<div class="mt-auto pt-6" data-purpose="form-actions">
+<button class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-slate-200 hover:bg-slate-800 active:scale-[0.98] transition-all" type="submit">
+          Save Transaction
         </button>
 </div>
+<!-- END: ActionButtons -->
+</form>
+<!-- END: TransactionForm -->
+<!-- Mobile Indicator Bar -->
+<div class="w-32 h-1.5 bg-slate-200 rounded-full mx-auto mb-2 mt-auto"></div>
 </main>
-<!-- BOTTOM NAVIGATION BAR -->
-<nav class="fixed bottom-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-lg border-t border-outline-variant/30">
-<div class="flex justify-around items-center h-20 px-gutter pb-safe w-full">
-<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all active:scale-90 duration-300">
-<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
-<span class="font-label-sm text-label-sm">Wealth</span>
-</button>
-<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all active:scale-90 duration-300">
-<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
-<span class="font-label-sm text-label-sm">Markets</span>
-</button>
-<!-- Center Log Action -->
-<button class="flex flex-col items-center justify-center text-primary scale-110 active:scale-90 duration-300">
-<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center mb-1 shadow-sm">
-<span class="material-symbols-outlined" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
-</div>
-<span class="font-label-sm text-label-sm font-bold">AI Ask</span>
-</button>
-<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all active:scale-90 duration-300">
-<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
-<span class="font-label-sm text-label-sm">Insight</span>
-</button>
-<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-all active:scale-90 duration-300">
-<span class="material-symbols-outlined" data-icon="lock">lock</span>
-<span class="font-label-sm text-label-sm">Vault</span>
-</button>
-</div>
-</nav>
-<!-- FLOATING BACKGROUND EFFECTS -->
-<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-[-1] overflow-hidden bg-surface">
-<div class="absolute top-[5%] left-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[100px] rounded-full"></div>
-<div class="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-tertiary/5 blur-[80px] rounded-full"></div>
-</div>
-<script>
-    // Micro-interaction: Update AI glow intensity based on input focus
-    const naturalInput = document.querySelector('input[type="text"]');
-    const aiContainer = document.querySelector('.pulse-ai');
-
-    naturalInput.addEventListener('focus', () => {
-        aiContainer.style.boxShadow = '0 0 35px rgba(5, 218, 147, 0.2)';
-        aiContainer.style.borderColor = '#05da93';
+<!-- END: MainContainer -->
+<script data-purpose="form-interactivity">
+    // Simple script to handle visual toggle logic if needed, 
+    // although Tailwind and CSS handled most of it.
+    document.querySelectorAll('input[name="transaction_type"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const amountDisplay = document.querySelector('input#amount');
+        if (e.target.id === 'income') {
+          amountDisplay.classList.remove('text-slate-800');
+          amountDisplay.classList.add('text-emerald-600');
+        } else {
+          amountDisplay.classList.remove('text-emerald-600');
+          amountDisplay.classList.add('text-slate-800');
+        }
+      });
     });
-
-    naturalInput.addEventListener('blur', () => {
-        aiContainer.style.boxShadow = '';
-        aiContainer.style.borderColor = '';
-    });
-
-    // Simple amount interaction
-    const amountInput = document.querySelector('input[value="0.00"]');
-    amountInput.addEventListener('focus', function() {
-        if (this.value === '0.00') this.value = '';
-    });
-    amountInput.addEventListener('blur', function() {
-        if (this.value === '') this.value = '0.00';
-    });
-</script>
+  </script>
 </body></html>

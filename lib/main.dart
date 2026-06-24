@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'screens/dashboard_screen.dart';
-import 'screens/analysis_screen.dart';
-import 'screens/log_expense_screen.dart';
+import 'screens/add_transaction_screen.dart';
+import 'screens/insights_screen.dart';
+import 'screens/goals_screen.dart';
 
 void main() {
-  runApp(const MamaniApp());
+  runApp(const FinanceTrackerApp());
 }
 
-class MamaniApp extends StatelessWidget {
-  const MamaniApp({super.key});
+class FinanceTrackerApp extends StatelessWidget {
+  const FinanceTrackerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final primary = const Color(0xFF006C47);
-    final surface = const Color(0xFFF7FAFE);
-
     return MaterialApp(
-      title: 'Mamani',
+      title: 'Finance Tracker',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: primary, background: surface),
-        scaffoldBackgroundColor: surface,
-        fontFamily: 'Hanken Grotesk',
+        textTheme: GoogleFonts.interTextTheme(),
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
       ),
-      initialRoute: '/',
+      initialRoute: '/dashboard',
       routes: {
-        '/': (ctx) => const DashboardScreen(),
-        '/analysis': (ctx) => const AnalysisScreen(),
-        '/log': (ctx) => const LogExpenseScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        '/add-transaction': (context) => const AddTransactionScreen(),
+        '/insights': (context) => const InsightsScreen(),
+        '/goals': (context) => const GoalsScreen(),
       },
     );
   }
