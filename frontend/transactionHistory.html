@@ -148,49 +148,47 @@
 </head>
 <body class="bg-surface text-on-surface antialiased">
 <!-- SideNavBar Shell -->
-<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-on-background shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col border-r border-black/5 p-md z-50">
-<div class="mb-xl px-4">
-<h1 class="text-headline-md font-display-lg text-primary dark:text-primary-fixed tracking-tight">Mamani</h1>
-<p class="text-label-sm text-on-surface-variant/70 uppercase tracking-widest mt-1">Prosperity &amp; Security</p>
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-on-background shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border-r border-black/5 flex flex-col p-6 z-50">
+<div class="flex items-center gap-3 mb-8 px-2">
+<img alt="Mamani Logo" class="w-10 h-10 object-contain drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDreS92pO8MxnoAUpQNjB94riDb2fM3qjYcPSMKACP3Mnd8zVMbcvx7ol7kwRuVgpPDGVxoUgwaK2cLse4zVqzZuTnJQG8QcwEDpNMYBieIzXu13BBJ46zE4IJyC6mosgLGaOayD4TZgzGHofqbZg9lZdHoUM4PCSmlIQq3LQNclsIQVD_bmZfiAeBA9NaRblpN_TldfOnHqTRYIiN86DgQKKLj0rI6CbtZTzPzRFuuAJhLYPrew-glw1fe8LJP_dC87C2GqPnG-Qle"/>
+<div>
+<h1 class="text-2xl font-bold text-primary dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
+<p class="text-xs text-on-surface-variant/70 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
 </div>
-<nav class="flex-1 space-y-2">
-<!-- Dashboard -->
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 scale-98 active:scale-95 transition-transform" href="dashboard.html">
+</div>
+<nav class="flex-1 flex flex-col space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="dashboard.html">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Dashboard</span>
 </a>
-<!-- Transactions (ACTIVE) -->
-<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed bg-secondary-container/30 dark:bg-primary-container rounded-lg font-label-bold active-nav-indicator scale-98 active:scale-95 transition-transform" href="transactionHistory.html">
-<span class="material-symbols-outlined" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed bg-secondary-container/30 dark:bg-primary-container rounded-lg font-bold shadow-sm transition-all" href="transactionHistory.html">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
 <span>Transactions</span>
 </a>
-<!-- Insights -->
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 scale-98 active:scale-95 transition-transform" href="financialInsight.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
 <span class="material-symbols-outlined" data-icon="insights">insights</span>
 <span>Insights</span>
 </a>
-<!-- Goals -->
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 scale-98 active:scale-95 transition-transform" href="tracking.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="tracking.html">
 <span class="material-symbols-outlined" data-icon="track_changes">track_changes</span>
 <span>Goals</span>
 </a>
-<!-- Profile -->
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 scale-98 active:scale-95 transition-transform" href="profile.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="profile.html">
 <span class="material-symbols-outlined" data-icon="person">person</span>
 <span>Profile</span>
 </a>
 </nav>
-<div class="mt-auto pt-md space-y-2">
-<button onclick="window.location.href='addTransaction.html'" class="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-label-bold flex items-center justify-center gap-2 mb-gutter shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all scale-98 active:scale-95">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-                Add Transaction
-            </button>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<div class="mt-auto border-t border-black/5 pt-6 flex flex-col space-y-1">
+<button onclick="window.location.href='addTransaction.html'" class="w-full bg-primary text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span>Add Transaction</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high transition-colors" onclick="localStorage.clear(); window.location.href='login.html';" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-error/10 hover:text-error dark:hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
 </div>
