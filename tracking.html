@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mamani | Financial Goals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#80bea6",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#0b513d",
+                        "surface-container-highest": "#dce2f7",
+                        "on-secondary-fixed-variant": "#005049",
+                        "secondary-container": "#86f2e4",
+                        "surface-variant": "#dce2f7",
+                        "on-background": "#141b2b",
+                        "surface-tint": "#2b6954",
+                        "on-surface": "#141b2b",
+                        "surface-container": "#e9edff",
+                        "on-tertiary-container": "#ff9939",
+                        "on-surface-variant": "#404944",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary-container": "#6a3700",
+                        "surface-dim": "#d3daef",
+                        "secondary-fixed": "#89f5e7",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-container-high": "#e1e8fd",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#edf0ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#006f66",
+                        "primary-fixed": "#b0f0d6",
+                        "outline-variant": "#bfc9c3",
+                        "inverse-primary": "#95d3ba",
+                        "tertiary-fixed": "#ffdcc3",
+                        "tertiary": "#4a2400",
+                        "background": "#f9f9ff",
+                        "primary-container": "#064e3b",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-primary-fixed": "#002117",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "inverse-surface": "#293040",
+                        "primary-fixed-dim": "#95d3ba",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "outline": "#707974",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#003527",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#2f1500",
+                        "surface-bright": "#f9f9ff",
+                        "secondary": "#006a61"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "xs": "4px",
+                        "xl": "80px",
+                        "sm": "12px",
+                        "lg": "48px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "numbers-lg": ["Inter"],
+                        "numbers-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "numbers-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                        "numbers-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .emerald-gradient-text {
+            background: linear-gradient(135deg, #003527 0%, #006a61 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="text-on-surface bg-surface overflow-x-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto flex flex-col border-r border-black/5 p-md bg-surface dark:bg-on-background shadow-[0px_4px_20px_rgba(0,0,0,0.03)] z-50">
+<div class="mb-lg">
+<span class="text-headline-md font-display-lg text-primary dark:text-primary-fixed tracking-tight">Mamani</span>
+<p class="text-label-sm text-on-surface-variant/70 mt-xs">Prosperity &amp; Security</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="dashboard.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="transactionHistory.html">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                Transactions
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="financialInsight.html">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+                Insights
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed bg-secondary-container/30 dark:bg-primary-container rounded-lg font-label-bold" href="tracking.html">
+<span class="material-symbols-outlined fill-icon" data-icon="track_changes" style="font-variation-settings: 'FILL' 1;">track_changes</span>
+                Goals
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-body-md hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 rounded-lg" href="profile.html">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                Profile
+            </a>
+</nav>
+<div class="mt-auto border-t border-black/5 pt-md space-y-1">
+<button onclick="window.location.href='addTransaction.html'" class="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-label-bold flex items-center justify-center gap-2 mb-4 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all scale-98 active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Add Transaction
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant font-body-md hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant font-body-md hover:bg-surface-container-high rounded-lg transition-colors" onclick="localStorage.clear(); window.location.href='login.html';" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 dark:bg-on-background/80 backdrop-blur-xl border-b border-black/5 flex justify-between items-center h-20 px-gutter">
+<div class="flex items-center gap-gutter w-1/2">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-primary/20 outline-none" placeholder="Search goals or history..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-variant rounded-full p-2 transition-all relative">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-bold text-on-surface" id="header-username">Peter Parker</p>
+<p class="text-label-sm text-on-surface-variant" id="header-useremail">Premium Member</p>
+</div>
+<div class="h-10 w-10 rounded-full overflow-hidden border border-black/5">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a sophisticated wealth manager in a light-filled, minimalist office environment. The person is smiling warmly, conveying trust and financial expertise. The background is softly blurred, showing hints of modern glass architecture and lush green plants, matching the Mamani brand's high-end, prosperous aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJRbhBXyHC-l6oxDLWVZ6Q7u26LLO_g62-BvdNi6OQUVkOHUf9iJAGdFQY52KlevdLTtXmLj8KbY4Gfzh4BTdQ3IW6PQfwtHrJM8tyxOoWx-rKLzfDctKs170vgc2wYuWApkNvAyezqWqVuzPAs26aA-eJX1R9i9u1rWA1Ss-Vb25nmdFVf_xV_-H2jCUlorQ5hCHjbFCuDW2eSh2WvMe-MwCYoa5hHS2YRceRgukq7mnZDT6HNXekOqYPc53B6sa_rThwlk7u1kh"/>
+</div>
+</div>
+</div>
+</header>
+<div class="pt-20 pb-10 px-margin-desktop space-y-lg">
+<!-- Greeting and Intro -->
+<section class="flex justify-between items-end pt-lg">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary">Your Prosperity Path</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Every dollar saved is a step toward your security. You're currently tracking 6 active goals.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-bold flex items-center gap-2 shadow-lg hover:scale-98 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                    Create Goal
+                </button>
+</section>
+<!-- Overview Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-card p-md rounded-2xl flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="text-label-bold text-on-surface-variant uppercase tracking-wider">Total Saved</span>
+<div class="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="account_balance">account_balance</span>
+</div>
+</div>
+<div>
+<div class="font-numbers-lg text-numbers-lg text-primary">$42,850.00</div>
+<p class="text-label-sm text-secondary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+                            +12% from last month
+                        </p>
+</div>
+</div>
+<div class="glass-card p-md rounded-2xl flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="text-label-bold text-on-surface-variant uppercase tracking-wider">Month's Contributions</span>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="savings">savings</span>
+</div>
+</div>
+<div>
+<div class="font-numbers-lg text-numbers-lg text-primary">$3,400.00</div>
+<p class="text-label-sm text-on-surface-variant mt-1">Automated: $2,500</p>
+</div>
+</div>
+<div class="glass-card p-md rounded-2xl border-l-4 border-secondary/50">
+<div class="flex items-center justify-between mb-4">
+<span class="text-label-bold text-on-surface-variant uppercase tracking-wider">Next Milestone</span>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="flag">flag</span>
+</div>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary">Emergency Fund</div>
+<p class="text-body-md text-on-surface-variant mt-1 italic">Expected Completion: Oct 2024</p>
+</div>
+</div>
+</section>
+<!-- Active Goals Bento Grid -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-headline-md text-headline-md text-primary">Priority Goals</h2>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full text-label-bold bg-primary text-on-primary">All</button>
+<button class="px-4 py-1.5 rounded-full text-label-bold bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Short-term</button>
+<button class="px-4 py-1.5 rounded-full text-label-bold bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Long-term</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Goal Card 1: Emergency Fund -->
+<div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A serene, high-fidelity landscape of a tranquil lake reflecting a clear blue sky, framed by misty mountains. The lighting is soft and ethereal, using a light-saturated emerald and teal color palette to evoke a sense of calm security and financial peace of mind. Minimalist aesthetic, high-end photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9LgBCqY1PP6966CzQzPt3FOU9oXRdAq7H30JmH8K47Pn6AfTTyFabwcQKLR2RNhiM99yUOENdlnaJ4kR6rYA-8y7XonKWWR0J3SHoq6ClCkEUg8Dal3ikQeaiOYfaZHjq6vYLmYLxHe0p_ag7K6JFRSN6dXvXfVUeq1j99NOmfqlEopbKZZDo8lpkudLWdiJQMFbKj-fXb3fxD2U0ozgfDnpMEGrU953c6HAPMduRzqizAB_y6jwj-njsHh9eKbDqtzP1tm2UMlxz"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary/90 text-white px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">Ahead of Schedule</span>
+</div>
+</div>
+<div class="p-md flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Emergency Fund</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+<div class="mt-auto pt-md">
+<div class="flex justify-between items-end mb-2">
+<span class="text-numbers-md text-numbers-md text-primary">$18,500 <span class="text-on-surface-variant text-body-md font-normal">/ $25k</span></span>
+<span class="text-label-bold text-secondary">74%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 74%"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+                                    Target: October 2024
+                                </p>
+</div>
+</div>
+</div>
+<!-- Goal Card 2: Japan Trip -->
+<div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="An editorial-style photograph of a minimalist Zen garden in Japan with perfectly raked white sand and a single sculptural stone. Soft morning light creates delicate shadows. The palette is dominated by off-whites and light greys with a subtle touch of moss green, capturing the high-end travel aesthetic and a mood of intentional luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6XaStfqh4nivd680_1y2a5dqTDjEUe-JhJjwY5mpIPc5viNriEJ41-6hAe03DV5cWQnFr__71CzHb09sMhou3TK905J4pPGVbHmS8Y6AtkVuxKOonAf6EtKTX-K-u3tG9UYq4znhidqiwbDJCBuH2vQH_XVmHXVA_9unvm7piHzlCWUWz74Fk6fRwYLKQIcl9HP94UCXNhONC2Wdj7L7PVzqcg6ckVFzXWSbxtXAqYcYbe2laPxClCZLEheme61NWWyOq_-rUWfC7"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary/90 text-white px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">On Track</span>
+</div>
+</div>
+<div class="p-md flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Japan Expedition</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+<div class="mt-auto pt-md">
+<div class="flex justify-between items-end mb-2">
+<span class="text-numbers-md text-numbers-md text-primary">$6,200 <span class="text-on-surface-variant text-body-md font-normal">/ $12k</span></span>
+<span class="text-label-bold text-secondary">52%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 52%"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+                                    Target: April 2025
+                                </p>
+</div>
+</div>
+</div>
+<!-- Goal Card 3: New Car -->
+<div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A close-up, high-fashion shot of a premium electric vehicle's sleek curves and polished metallic surface in a deep forest green. Reflection of modern architectural lines on the car body. The atmosphere is luxurious and sophisticated, lit by high-contrast studio lighting to emphasize precision engineering and wealth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByHZL_v5keHEqiDTey5ut1cgsD4IBVtS8cdo3T70VteU1CtpZ2y7r6O-MRnynslA6FBwUCujJcUSnw81Z5Bec7mbBrA2uj1PPhPYbct4sTykOD8QAEXF7PBfWco6Ok0RWevbl0Xf6Mi4B4kAXAKDhobzrVmllHt3KKj9Jj0Ov-e8W1jH49RXRVaVuBDvR1lsizp7cw4ku5q_XRKrLbyEzsxaroU94ZLK55IwZp5finT2UrhkmQrlIKEmCzq4XAAzedspZlIw0iybTv"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-tertiary-fixed px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">Needs Focus</span>
+</div>
+</div>
+<div class="p-md flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Luxury Sedan</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+<div class="mt-auto pt-md">
+<div class="flex justify-between items-end mb-2">
+<span class="text-numbers-md text-numbers-md text-primary">$12,000 <span class="text-on-surface-variant text-body-md font-normal">/ $55k</span></span>
+<span class="text-label-bold text-tertiary">22%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 22%"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+                                    Target: Jan 2026
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Investments Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<div class="glass-card p-lg rounded-[32px] bg-primary text-on-primary border-none overflow-hidden relative">
+<!-- Subtle background decoration -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-on-primary-container/10 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-[32px]" data-icon="auto_graph">auto_graph</span>
+<h2 class="font-headline-md text-headline-md">Investment Engine</h2>
+</div>
+<p class="font-body-lg text-body-lg text-on-primary/80 mb-8 max-w-sm">Your market-linked goals are growing at an average of 8.4% APY this quarter.</p>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="landscape">landscape</span>
+</div>
+<div>
+<p class="font-label-bold">Retirement Fund</p>
+<p class="text-label-sm opacity-70">S&amp;P 500 Index Focus</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-numbers-md text-numbers-md">$342,100</p>
+<p class="text-label-sm text-primary-fixed-dim">Target: $2.5M</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+</div>
+<div>
+<p class="font-label-bold">Venture Portfolio</p>
+<p class="text-label-sm opacity-70">Tech Equity</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-numbers-md text-numbers-md">$84,000</p>
+<p class="text-label-sm text-primary-fixed-dim">High Growth</p>
+</div>
+</div>
+</div>
+<button class="mt-10 w-full py-4 bg-on-primary text-primary rounded-xl font-label-bold hover:bg-primary-fixed transition-colors">
+                            Portfolio Analysis
+                        </button>
+</div>
+</div>
+<!-- Smart Suggestions -->
+<div class="space-y-gutter">
+<h2 class="font-headline-md text-headline-md text-primary">Smart Accelerators</h2>
+<div class="space-y-4">
+<div class="glass-card p-md rounded-2xl flex gap-4 hover:border-secondary/30 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-secondary/10 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
+</div>
+<div>
+<h4 class="font-label-bold text-primary">Shave 2 Months off Luxury Sedan</h4>
+<p class="text-body-md text-on-surface-variant mt-1">Increasing your monthly contribution by just $125 will reach your target 8 weeks earlier.</p>
+<button class="mt-3 text-secondary font-label-bold text-label-sm flex items-center gap-1 hover:gap-2 transition-all">
+                                    Apply Change <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="glass-card p-md rounded-2xl flex gap-4 hover:border-secondary/30 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary-fixed/30 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="redeem">redeem</span>
+</div>
+<div>
+<h4 class="font-label-bold text-primary">Tax Refund Opportunity</h4>
+<p class="text-body-md text-on-surface-variant mt-1">Your $2,400 refund has been detected. Allocate it to 'Emergency Fund' to hit 90% today?</p>
+<button class="mt-3 text-primary font-label-bold text-label-sm flex items-center gap-1 hover:gap-2 transition-all">
+                                    Allocate Funds <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="glass-card p-md rounded-2xl flex gap-4 opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-on-surface-variant/10 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="auto_fix_high">auto_fix_high</span>
+</div>
+<div>
+<h4 class="font-label-bold text-primary">Round-up Enrollment</h4>
+<p class="text-body-md text-on-surface-variant mt-1">Enabling merchant round-ups could add approximately $85/mo to your Japan trip.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recently Completed -->
+<section class="pb-10">
+<h2 class="font-headline-md text-headline-md text-primary mb-md">Completed Legacies</h2>
+<div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+<div class="glass-card p-md rounded-2xl min-w-[280px] flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[32px] fill-icon" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="font-label-bold text-primary">Debt Free</p>
+<p class="text-label-sm text-on-surface-variant">Cleared June 2024</p>
+<p class="font-numbers-md text-primary mt-1">$45,000</p>
+</div>
+</div>
+<div class="glass-card p-md rounded-2xl min-w-[280px] flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[32px] fill-icon" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="font-label-bold text-primary">Down Payment</p>
+<p class="text-label-sm text-on-surface-variant">Cleared Jan 2024</p>
+<p class="font-numbers-md text-primary mt-1">$120,000</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bottom-0 bg-surface-bright dark:bg-on-background border-t border-black/5 flex justify-between items-center py-6 px-gutter">
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-80">© 2024 Mamani Financial. All rights reserved.</p>
+<div class="flex gap-gutter">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Dynamically set username from session
+        async function updateUserData() {
+            let userName = localStorage.getItem('user_name') || 'Peter Parker';
+            let userEmail = localStorage.getItem('user_email') || 'Premium Member';
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                try {
+                    const res = await fetch('http://localhost:8000/users/me', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.full_name) {
+                            userName = data.full_name;
+                            localStorage.setItem('user_name', userName);
+                        }
+                        if (data.email) {
+                            userEmail = data.email;
+                            localStorage.setItem('user_email', userEmail);
+                        }
+                    }
+                } catch (e) {}
+            }
+            const headerNameEl = document.getElementById('header-username');
+            if (headerNameEl) headerNameEl.innerText = userName;
+            const headerEmailEl = document.getElementById('header-useremail');
+            if (headerEmailEl) headerEmailEl.innerText = userEmail;
+        }
+        updateUserData();
+    </script>
+</body></html>

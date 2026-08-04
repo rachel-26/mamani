@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up | Mamani Finance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#6a3700",
+                        "background": "#f9f9ff",
+                        "surface-variant": "#dce2f7",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "on-surface": "#141b2b",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#404944",
+                        "outline": "#707974",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-primary-fixed-variant": "#0b513d",
+                        "outline-variant": "#bfc9c3",
+                        "primary-container": "#064e3b",
+                        "secondary": "#006a61",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#ff9939",
+                        "surface": "#f9f9ff",
+                        "on-secondary-fixed-variant": "#005049",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#002117",
+                        "on-primary-container": "#80bea6",
+                        "primary-fixed-dim": "#95d3ba",
+                        "primary-fixed": "#b0f0d6",
+                        "tertiary-fixed": "#ffdcc3",
+                        "tertiary": "#4a2400",
+                        "secondary-container": "#86f2e4",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-container-low": "#f1f3ff",
+                        "on-background": "#141b2b",
+                        "on-secondary-container": "#006f66",
+                        "inverse-on-surface": "#edf0ff",
+                        "surface-container-highest": "#dce2f7",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e9edff",
+                        "surface-tint": "#2b6954",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary-fixed": "#00201d",
+                        "secondary-fixed": "#89f5e7",
+                        "surface-container-high": "#e1e8fd",
+                        "primary": "#003527",
+                        "inverse-surface": "#293040",
+                        "surface-dim": "#d3daef",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#95d3ba",
+                        "on-tertiary-fixed": "#2f1500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "xs": "4px",
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "md": "24px",
+                        "margin-mobile": "16px",
+                        "lg": "48px",
+                        "sm": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "numbers-lg": ["Inter"],
+                        "numbers-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "numbers-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                        "numbers-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9ff;
+            color: #141b2b;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        .primary-btn {
+            background-color: #064e3b; /* Deep Emerald */
+            transition: transform 150ms ease-in-out, opacity 150ms ease;
+        }
+        .primary-btn:active {
+            transform: scale(0.98);
+        }
+        .input-focus:focus {
+            border-color: #064e3b;
+            box-shadow: 0 0 0 4px rgba(6, 78, 59, 0.1);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 md:p-6 lg:p-12 overflow-x-hidden">
+<main class="w-full max-w-[1440px] min-h-[800px] flex flex-col md:flex-row bg-surface-container-lowest rounded-none md:rounded-xl overflow-hidden shadow-sm">
+<!-- Left Side: Financial Imagery & Value Prop -->
+<section class="hidden md:flex md:w-1/2 relative overflow-hidden group">
+<div class="absolute inset-0 z-10 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+<div class="absolute inset-0 w-full h-full transform transition-transform duration-1000 group-hover:scale-105" data-alt="A high-end, editorial photograph of a modern glass skyscraper reflecting a warm sunrise. The lighting is soft and golden, creating a sense of hope and prosperity. In the foreground, a minimalist architectural detail in brushed gold contrasts against deep emerald shadows. The overall aesthetic is one of quiet luxury, stability, and intelligent growth, matching a premium financial brand's visual identity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCgeEa_1GhNHiPHBEQrOCxyjgkYLXOeZ0xH1nvysgHT3eHMr5rvD8K86FGauqcx-j4RTGLMsWhn0YAtcqXb8NzWTAjvCj0XUK7Xc06_Z5l-xlynYFJ_Omp-W3Ea0TrXyFEi4_i27Ra33SkEJ0xMbUSodrPNaNWqwZAEyOuW7FwekizUgR-UUtLmrleehWzZN3vsQ9kbMX8gwqDfybUK8A9cu-UTvv8lEkNNbuBwJ-QJfSfExbKA6NJoZ6vFPXvU1lK8HsnXUHfI_zJy')">
+</div>
+<!-- Content Overlay -->
+<div class="relative z-20 flex flex-col justify-between h-full p-12 lg:p-16 text-white">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<span class="font-display-lg text-display-lg tracking-tight">Mamani</span>
+</div>
+<div class="max-w-md">
+<h1 class="font-display-lg text-display-lg mb-4">Prosperity &amp; Security</h1>
+<p class="font-body-lg text-body-lg text-on-primary-container opacity-90 leading-relaxed mb-8">
+                        Join thousands of others building their legacy with Mamani. Our platform transforms wealth management into a humanized, editorial experience designed for your future.
+                    </p>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary bg-surface-container" data-alt="Close up portrait of a professional woman with a warm smile, high-end studio lighting, soft focus background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB5Pkv4yKgE0QI7q3OWNanozLDsg-Gbc7vLd8rMdzfQBRPIUu1WxTrLqZ1ygajk3q0iw7Hq_6hGNnJ-_2PzMVXKqMxQ8esorIgGfPUlo6ES1UlyTuxxHPWFbsstw-2wvBzqdEJNPMDoiRGHQ5cnAKs_nkMoKZ67qryVT1Xm1odvd4nKDLOftUXCQHrdt3d19GPPJkT9ev5EOWf0SPt9fJLNQE6xACzUXOG5rp7Mfh4xADnOq77VRjOfM74KwwZigMOSxhpF5CYBFX1V')"></div>
+<div class="w-10 h-10 rounded-full border-2 border-primary bg-surface-container" data-alt="Close up portrait of a distinguished man in a suit, professional executive look, clean lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDFnf72lZU4kPwr275oCcYyplmLz8WCPO-TBL6MePYHo6t478GU0T_oZxG_RYPSo4FYvIesYhpZ3AeBKMEVq5QOxoKPLF3MK4Jd_2rvx23fbecGQPPf02IHaayYLOo07ntFYvnKbrrK0aPGihBaF7OQlL7o1m5BrgCHakRaosj-hU4EIhMwsYaok7UjFD278ReVPUMAEM0r6YJPYGW59BKBZKjmi9Upc5t90HGR76DjD2nMOq8srr3Y7prDpidjQuwM8jW2ofSUAo0p')"></div>
+<div class="w-10 h-10 rounded-full border-2 border-primary bg-surface-container" data-alt="Close up portrait of a young entrepreneur, bright and energetic lighting, modern office setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBqROuX5dxHFIWV0sL-Liz5mqWzBTmOPaZENISLOy6407bLP-S2HDX8IuzfOa1jLdrWTuCLsUT_--za7dAZ6n2k1hxo8zMiZWHqa74R10tvCjJQXSJ56_kYIrW-sSNrZZ5Ld_c3avmf2YfNg_Ear2C6Piv69wz0CABeUxozpx5Ga6qwi8-IDQuzEXPNgD82X9AxJSdmrmAr0Krh7VZR9pvqO1UXwkOONkrY7Y925F2Vo26dgxaBiGpN1Zm-0qWcHFltZ3uZW4UZi-Yt')"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary-fixed">Join 50k+ Members</span>
+</div>
+</div>
+<footer class="font-label-sm text-label-sm text-on-primary-container/60">
+                    © 2024 Mamani Wealth Management. All rights reserved.
+                </footer>
+</div>
+</section>
+<!-- Right Side: Sign Up Form -->
+<section class="flex-1 flex flex-col justify-center items-center p-8 md:p-12 lg:p-24 bg-surface-container-lowest">
+<div class="w-full max-w-md">
+<!-- Mobile Logo (Hidden on Desktop) -->
+<div class="flex md:hidden items-center gap-2 mb-12">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<span class="font-display-lg text-headline-md text-primary">Mamani</span>
+</div>
+<header class="mb-10 text-center md:text-left">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Create Account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Secure your financial future today.</p>
+</header>
+<form id="signupForm" class="space-y-6">
+<!-- Full Name -->
+<div class="space-y-2">
+<label class="font-label-bold text-label-bold text-on-surface-variant" for="name">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface input-focus transition-all" id="name" placeholder="John Doe" required="" type="text"/>
+</div>
+</div>
+<!-- Email Address -->
+<div class="space-y-2">
+<label class="font-label-bold text-label-bold text-on-surface-variant" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">mail</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface input-focus transition-all" id="email" placeholder="john@example.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<label class="font-label-bold text-label-bold text-on-surface-variant" for="password">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
+<input class="w-full pl-10 pr-12 py-3 bg-surface-container-low border border-transparent rounded-lg font-body-md text-body-md text-on-surface input-focus transition-all" id="password" placeholder="••••••••" required="" type="password"/>
+<button id="togglePasswordBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<p class="font-label-sm text-label-sm text-outline px-1">Must be at least 8 characters.</p>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-4 primary-btn text-white font-label-bold text-body-md rounded-lg shadow-sm hover:opacity-95 flex items-center justify-center gap-2" type="submit">
+                        Create Account
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-center text-label-sm">
+<span class="px-4 bg-surface-container-lowest text-outline font-label-sm">Or continue with</span>
+</div>
+</div>
+<!-- Social Sign Up -->
+<button class="w-full py-4 border border-outline-variant bg-surface-container-lowest rounded-lg font-label-bold text-body-md text-on-surface flex items-center justify-center gap-3 hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                    Sign up with Google
+                </button>
+<footer class="mt-10 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Already have an account? 
+                        <a class="text-secondary font-label-bold hover:underline ml-1" href="login.html">Log in</a>
+</p>
+</footer>
+</div>
+</section>
+</main>
+<!-- Background Decorative Elements -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 opacity-30 pointer-events-none">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-fixed-dim blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-fixed blur-[120px] rounded-full"></div>
+</div>
+<script>
+        // Simple Micro-interactions
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                const icon = input.parentElement.querySelector('.material-symbols-outlined');
+                if (icon) icon.style.color = '#003527';
+            });
+            input.addEventListener('blur', () => {
+                const icon = input.parentElement.querySelector('.material-symbols-outlined');
+                if (icon) icon.style.color = '';
+            });
+        });
+
+        // Toggle password visibility
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                const input = document.getElementById('password');
+                const icon = toggleBtn.querySelector('.material-symbols-outlined');
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                if (icon) icon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
+            });
+        }
+
+        // Sign Up Form Submission & Backend Integration
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) {
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nameInput = document.getElementById('name').value.trim();
+                const emailInput = document.getElementById('email').value.trim();
+                const passwordInput = document.getElementById('password').value;
+                const submitBtn = signupForm.querySelector('button[type="submit"]');
+
+                if (!nameInput || !emailInput || !passwordInput) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = 'Creating Account... <span class="material-symbols-outlined animate-spin text-[20px]">refresh</span>';
+                submitBtn.classList.add('opacity-80', 'pointer-events-none');
+                submitBtn.disabled = true;
+
+                try {
+                    const response = await fetch('http://localhost:8000/auth/signup', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            full_name: nameInput,
+                            email: emailInput,
+                            password: passwordInput
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('access_token', data.access_token);
+                        localStorage.setItem('user_name', nameInput);
+                        localStorage.setItem('user_email', emailInput);
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        const err = await response.json().catch(() => ({ detail: 'Failed to register account.' }));
+                        alert(err.detail || 'Sign up failed. Please try again.');
+                        submitBtn.innerHTML = originalHTML;
+                        submitBtn.classList.remove('opacity-80', 'pointer-events-none');
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    // Graceful fallback if offline/backend unreachable
+                    console.warn('Backend unavailable, falling back to local simulation:', error);
+                    localStorage.setItem('user_name', nameInput);
+                    localStorage.setItem('user_email', emailInput);
+                    window.location.href = 'dashboard.html';
+                }
+            });
+        }
+    </script>
+</body></html>
