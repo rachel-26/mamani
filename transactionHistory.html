@@ -535,6 +535,68 @@
     </div>
 </div>
 
+<!-- Avatar Resize & Crop Modal -->
+<div id="avatar-resize-modal" class="fixed inset-0 z-[150] bg-black/70 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-surface-bright dark:bg-surface border border-black/10 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.4)] rounded-3xl w-full max-w-md p-6 space-y-5 transform scale-95 transition-all duration-300 text-left">
+        <div class="flex items-center justify-between border-b border-black/5 pb-3">
+            <h3 class="font-bold text-lg text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">crop</span> Resize & Position Photo
+            </h3>
+            <button onclick="closeResizeModal()" class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-all">
+                <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+        </div>
+
+        <!-- Interactive Crop Area & Live Previews -->
+        <div class="flex flex-col items-center gap-4">
+            <!-- Viewport Container -->
+            <div id="crop-viewport" class="w-64 h-64 rounded-2xl border-2 border-primary/40 shadow-inner overflow-hidden relative bg-black/5 flex items-center justify-center cursor-move select-none group" title="Click and drag to reposition">
+                <img id="crop-image" src="" alt="To resize" class="max-w-none origin-center transform transition-transform duration-75 select-none pointer-events-none"/>
+                <div class="absolute inset-0 border-[4px] border-white/80 rounded-2xl pointer-events-none shadow-md"></div>
+                <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/50 text-white text-[10px] font-medium pointer-events-none backdrop-blur-xs flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[12px]">open_with</span> Drag to center
+                </div>
+            </div>
+
+            <!-- Live Miniature Previews -->
+            <div class="flex items-center gap-6 py-2 px-4 rounded-xl bg-surface-container-low w-full justify-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold text-on-surface-variant">Navbar Preview:</span>
+                    <div class="w-9 h-9 rounded-full overflow-hidden border border-primary/30 shadow-sm bg-white shrink-0 relative flex items-center justify-center">
+                        <canvas id="preview-canvas-circle" class="w-full h-full object-cover"></canvas>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold text-on-surface-variant">Banner Preview:</span>
+                    <div class="w-10 h-10 rounded-xl overflow-hidden border border-white shadow-sm bg-white shrink-0 relative flex items-center justify-center">
+                        <canvas id="preview-canvas-square" class="w-full h-full object-cover"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zoom / Size Slider -->
+            <div class="w-full space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-on-surface-variant">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">zoom_out</span> Smaller</span>
+                    <span>Resize Photo</span>
+                    <span class="flex items-center gap-1">Larger <span class="material-symbols-outlined text-[16px]">zoom_in</span></span>
+                </div>
+                <input type="range" id="crop-zoom-slider" min="0.5" max="3.5" step="0.05" value="1" class="w-full accent-primary bg-surface-container-high h-2 rounded-lg cursor-pointer transition-all"/>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-end gap-3 pt-2 border-t border-black/5">
+            <button onclick="closeResizeModal()" class="px-5 py-2.5 rounded-xl font-semibold bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm transition-all">
+                Cancel
+            </button>
+            <button onclick="applyResizing()" class="px-6 py-2.5 rounded-xl font-semibold bg-primary hover:bg-primary/90 text-white shadow-md text-sm transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">check_circle</span> Apply Photo
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 // Initialize avatar from storage on load
 (function initAvatar() {
@@ -545,21 +607,153 @@
     }
 })();
 
+let cropImgState = { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 };
+let activeImage = new Image();
+let cropEventsInitialized = false;
+
+function initCropEvents() {
+    if (cropEventsInitialized) return;
+    const viewport = document.getElementById('crop-viewport');
+    const slider = document.getElementById('crop-zoom-slider');
+    if (!viewport || !slider) return;
+
+    slider.addEventListener('input', function(e) {
+        cropImgState.scale = parseFloat(e.target.value);
+        updateCropTransform();
+    });
+
+    const startDrag = (e) => {
+        e.preventDefault();
+        cropImgState.isDragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        cropImgState.startX = clientX - cropImgState.x;
+        cropImgState.startY = clientY - cropImgState.y;
+    };
+
+    const doDrag = (e) => {
+        if (!cropImgState.isDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        cropImgState.x = clientX - cropImgState.startX;
+        cropImgState.y = clientY - cropImgState.startY;
+        updateCropTransform();
+    };
+
+    const endDrag = () => {
+        cropImgState.isDragging = false;
+    };
+
+    viewport.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', doDrag);
+    window.addEventListener('mouseup', endDrag);
+
+    viewport.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('touchmove', doDrag, { passive: false });
+    window.addEventListener('touchend', endDrag);
+    
+    cropEventsInitialized = true;
+}
+
+function updateCropTransform() {
+    const imgEl = document.getElementById('crop-image');
+    if (!imgEl) return;
+    imgEl.style.transform = `translate(${cropImgState.x}px, ${cropImgState.y}px) scale(${cropImgState.scale})`;
+    drawPreviews();
+}
+
+function renderToCanvas(canvas, size) {
+    if (!canvas || !activeImage.src) return;
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, size, size);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+
+    const vpSize = 256;
+    const ratio = size / vpSize;
+
+    ctx.save();
+    ctx.translate(size / 2 + (cropImgState.x * ratio), size / 2 + (cropImgState.y * ratio));
+    ctx.scale(cropImgState.scale * ratio, cropImgState.scale * ratio);
+    
+    const minSide = Math.min(activeImage.width, activeImage.height);
+    const baseScale = vpSize / minSide;
+    const drawWidth = activeImage.width * baseScale;
+    const drawHeight = activeImage.height * baseScale;
+    
+    ctx.drawImage(activeImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+    ctx.restore();
+}
+
+function drawPreviews() {
+    renderToCanvas(document.getElementById('preview-canvas-circle'), 100);
+    renderToCanvas(document.getElementById('preview-canvas-square'), 100);
+}
+
+function applyResizing() {
+    const finalCanvas = document.createElement('canvas');
+    renderToCanvas(finalCanvas, 300);
+    const dataUrl = finalCanvas.toDataURL('image/jpeg', 0.92);
+    
+    localStorage.setItem('user_avatar', dataUrl);
+    if (document.getElementById('modal-avatar-img')) {
+        document.getElementById('modal-avatar-img').src = dataUrl;
+    }
+    if (document.getElementById('header-avatar-img')) {
+        document.getElementById('header-avatar-img').src = dataUrl;
+    }
+    closeResizeModal();
+}
+
+function openResizeModal() {
+    const overlay = document.getElementById('avatar-resize-modal');
+    if (overlay) {
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.firstElementChild?.classList.remove('scale-95');
+        initCropEvents();
+        drawPreviews();
+    }
+}
+
+function closeResizeModal() {
+    const overlay = document.getElementById('avatar-resize-modal');
+    if (overlay) {
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        overlay.firstElementChild?.classList.add('scale-95');
+    }
+}
+
 function handleAvatarUpload(event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const dataUrl = e.target.result;
-            localStorage.setItem('user_avatar', dataUrl);
-            if (document.getElementById('modal-avatar-img')) {
-                document.getElementById('modal-avatar-img').src = dataUrl;
-            }
-            if (document.getElementById('header-avatar-img')) {
-                document.getElementById('header-avatar-img').src = dataUrl;
-            }
+            activeImage = new Image();
+            activeImage.onload = function() {
+                const vpSize = 256;
+                const minSide = Math.min(activeImage.width, activeImage.height);
+                const baseScale = vpSize / minSide;
+                
+                cropImgState.scale = 1;
+                cropImgState.x = 0;
+                cropImgState.y = 0;
+                
+                const imgEl = document.getElementById('crop-image');
+                imgEl.src = activeImage.src;
+                imgEl.style.width = (activeImage.width * baseScale) + 'px';
+                imgEl.style.height = (activeImage.height * baseScale) + 'px';
+                
+                document.getElementById('crop-zoom-slider').value = 1;
+                updateCropTransform();
+                openResizeModal();
+            };
+            activeImage.src = e.target.result;
         };
         reader.readAsDataURL(file);
+        event.target.value = '';
     }
 }
 
@@ -612,6 +806,12 @@ function saveModalProfile() {
 document.getElementById('profile-modal-overlay')?.addEventListener('click', function(e) {
     if (e.target === this) {
         closeProfileModal();
+    }
+});
+
+document.getElementById('avatar-resize-modal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeResizeModal();
     }
 });
 </script>
