@@ -193,26 +193,26 @@
 </a>
 </div>
 </aside>
-<!-- TopNavBar Shell -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 dark:bg-on-background/80 backdrop-blur-xl border-b border-black/5 flex justify-between items-center h-20 px-gutter ml-64">
-<div class="flex items-center gap-gutter w-full">
-<div class="relative flex-1 max-w-xl">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2.5 font-body-md focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Search transactions, merchants, or categories..." type="text"/>
+<!-- TopNavBar Shell (Shared Constant Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/90 dark:bg-on-background/90 backdrop-blur-xl border-b border-black/5 flex justify-between items-center h-20 px-8 shadow-sm transition-all">
+<div class="flex items-center w-full max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px]">search</span>
+<input class="w-full bg-surface-container-low/70 border border-black/5 rounded-full pl-11 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 focus:bg-white outline-none transition-all placeholder:text-on-surface-variant/50" placeholder="Search transactions, insights, goals..." type="text">
 </div>
-<div class="flex items-center gap-4">
-<button class="hover:bg-surface-container-low dark:hover:bg-surface-variant rounded-full p-2 transition-all relative">
-<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-variant rounded-full p-2.5 transition-all relative border border-transparent hover:border-black/5">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
 </button>
-<div class="flex items-center gap-3">
+<div class="flex items-center gap-3 border-l border-black/10 pl-5">
 <div class="text-right">
-<p class="font-label-bold text-on-surface" id="header-username">Peter Parker</p>
-<p class="text-label-sm text-on-surface-variant" id="header-useremail">Premium Member</p>
+<p class="text-label-bold text-primary dark:text-primary-fixed font-bold leading-tight" id="header-username">Peter Parker</p>
+<p class="text-xs text-on-surface-variant/80 font-medium" id="header-useremail">Premium Member</p>
 </div>
-<div class="h-10 w-10 rounded-full overflow-hidden border border-black/5">
-<img class="w-full h-full object-cover" data-alt="A professional headshot of a person with a warm, confident expression. The lighting is soft and directional, typical of a high-end editorial portrait. The background is a blurred office interior with soft teal and white tones, matching the Mamani financial brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTGIZ7BIDkDRHVPkshWtr9ko0RvGlYIsGaRczp82lkxEYz8t_9X-vZgr2cwujQvxkkeBfWXYdwyEIXnEE-ywLFie47qC2yELRh9KTLMn8dTEyTdM4q1SQPlkRbMwUs9OGGhaV1A5CZic7G_1yIGGNVLc2LOrGuascx74-EYCxAe9tm9ChQaiKsiIW47B1iPv4-zuXD4i5G1Mh793MR0ea7g-P56Xp4jhVtGc2yThjBbI1olSnZpJJf9CozzHa3Wq0BU-Vvk4oZEbiM"/>
-</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 shadow-sm shrink-0">
+<img class="w-full h-full object-cover" data-alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJRbhBXyHC-l6oxDLWVZ6Q7u26LLO_g62-BvdNi6OQUVkOHUf9iJAGdFQY52KlevdLTtXmLj8KbY4Gfzh4BTdQ3IW6PQfwtHrJM8tyxOoWx-rKLzfDctKs170vgc2wYuWApkNvAyezqWqVuzPAs26aA-eJX1R9i9u1rWA1Ss-Vb25nmdFVf_xV_-H2jCUlorQ5hCHjbFCuDW2eSh2WvMe-MwCYoa5hHS2YRceRgukq7mnZDT6HNXekOqYPc53B6sa_rThwlk7u1kh">
 </div>
 </div>
 </div>
