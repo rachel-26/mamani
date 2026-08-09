@@ -234,19 +234,19 @@ const GoalsPage: React.FC = () => {
 
           {/* Investments Section */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
-            <div className="glass-card p-lg rounded-[32px] bg-primary text-on-primary border-none overflow-hidden relative">
-              <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-on-primary-container/10 rounded-full blur-3xl"></div>
+            <div className="glass-card p-lg rounded-[32px] bg-white text-on-surface border border-black/5 overflow-hidden relative">
+              <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-primary-container/5 rounded-full blur-3xl"></div>
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
                   <span className="material-symbols-outlined text-[32px]">auto_graph</span>
                   <h2 className="font-headline-md text-headline-md">Investment Engine</h2>
                 </div>
-                <p className="font-body-lg text-body-lg text-on-primary/80 mb-8 max-w-sm">Your market-linked goals are growing at an average of 8.4% APY this quarter.</p>
+                <p className="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-sm">Your market-linked goals are growing at an average of 8.4% APY this quarter.</p>
                 <div className="space-y-6">
                   {investments.map((investment, index) => (
                     <div key={index} className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                           <span className="material-symbols-outlined">{investment.icon}</span>
                         </div>
                         <div>
@@ -261,7 +261,7 @@ const GoalsPage: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                <button className="mt-10 w-full py-4 bg-on-primary text-primary rounded-xl font-label-bold hover:bg-primary-fixed transition-colors">
+                <button className="mt-10 w-full py-4 bg-primary text-white rounded-xl font-label-bold hover:bg-primary-fixed transition-colors">
                   Portfolio Analysis
                 </button>
               </div>

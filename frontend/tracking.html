@@ -107,7 +107,7 @@
 <style>
         body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
+            background: #ffffff;
             backdrop-filter: blur(24px);
             border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
@@ -127,42 +127,42 @@
 </head>
 <body class="text-on-surface bg-surface overflow-x-hidden">
 <!-- SideNavBar (Shared Component) -->
-<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-on-background shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border-r border-black/5 flex flex-col p-6 z-50">
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#F8F9FA] dark:bg-on-background text-on-surface shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-black/10 flex flex-col p-6 z-50">
 <div class="flex items-center gap-3 mb-8 px-2">
 <img alt="Mamani Logo" class="w-10 h-10 object-contain drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDreS92pO8MxnoAUpQNjB94riDb2fM3qjYcPSMKACP3Mnd8zVMbcvx7ol7kwRuVgpPDGVxoUgwaK2cLse4zVqzZuTnJQG8QcwEDpNMYBieIzXu13BBJ46zE4IJyC6mosgLGaOayD4TZgzGHofqbZg9lZdHoUM4PCSmlIQq3LQNclsIQVD_bmZfiAeBA9NaRblpN_TldfOnHqTRYIiN86DgQKKLj0rI6CbtZTzPzRFuuAJhLYPrew-glw1fe8LJP_dC87C2GqPnG-Qle"/>
 <div>
-<h1 class="text-2xl font-bold text-primary dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
-<p class="text-xs text-on-surface-variant/70 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
+<h1 class="text-2xl font-bold text-[#003527] dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
+<p class="text-xs text-on-surface-variant/80 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
 </div>
 </div>
 <nav class="flex-1 flex flex-col space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="dashboard.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="dashboard.html">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="transactionHistory.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="transactionHistory.html">
 <span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
 <span>Transactions</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
 <span class="material-symbols-outlined" data-icon="insights">insights</span>
 <span>Insights</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed bg-secondary-container/30 dark:bg-primary-container rounded-lg font-bold shadow-sm transition-all" href="tracking.html">
-<span class="material-symbols-outlined text-primary dark:text-primary-fixed fill-icon" data-icon="track_changes" style="font-variation-settings: 'FILL' 1;">track_changes</span>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#1c745b] text-white rounded-lg font-bold shadow-md shadow-[#1c745b]/15 transition-all" href="tracking.html">
+<span class="material-symbols-outlined text-white fill-icon" data-icon="track_changes" style="font-variation-settings: 'FILL' 1;">track_changes</span>
 <span>Goals</span>
 </a>
 </nav>
-<div class="mt-auto border-t border-black/5 pt-6 flex flex-col space-y-1">
-<button onclick="window.location.href='addTransaction.html'" class="w-full bg-primary text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
+<div class="mt-auto border-t border-black/10 pt-6 flex flex-col space-y-1">
+<button onclick="window.location.href='addTransaction.html'" class="w-full bg-[#003527] text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-[#003527]/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
 <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
 <span>Add Transaction</span>
 </button>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors" href="#">
 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-error/10 hover:text-error dark:hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -347,19 +347,19 @@
 </section>
 <!-- Investments Section -->
 <section class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
-<div class="glass-card p-lg rounded-[32px] bg-primary text-on-primary border-none overflow-hidden relative">
+<div class="glass-card p-lg rounded-[32px] bg-white text-on-surface border border-black/5 overflow-hidden relative">
 <!-- Subtle background decoration -->
-<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-on-primary-container/10 rounded-full blur-3xl"></div>
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary-container/5 rounded-full blur-3xl"></div>
 <div class="relative z-10">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-[32px]" data-icon="auto_graph">auto_graph</span>
 <h3 class="text-xl font-bold">Investment Engine</h3>
 </div>
-<p class="font-body-md text-on-primary/80 mb-6 max-w-sm">Your market-linked goals are growing at an average of 8.4% APY this quarter.</p>
+<p class="font-body-md text-on-surface-variant mb-6 max-w-sm">Your market-linked goals are growing at an average of 8.4% APY this quarter.</p>
 <div class="space-y-6">
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
 <span class="material-symbols-outlined" data-icon="landscape">landscape</span>
 </div>
 <div>
@@ -374,7 +374,7 @@
 </div>
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
 <span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
 </div>
 <div>
@@ -388,7 +388,7 @@
 </div>
 </div>
 </div>
-<button class="mt-10 w-full py-4 bg-on-primary text-primary rounded-xl font-label-bold hover:bg-primary-fixed transition-colors">
+<button class="mt-10 w-full py-4 bg-primary text-white rounded-xl font-label-bold hover:bg-primary-fixed transition-colors">
                             Portfolio Analysis
                         </button>
 </div>
@@ -593,7 +593,7 @@
                         <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 bg-secondary/20 text-secondary font-bold rounded-full">Active Perks</span>
                     </div>
                     <h4 class="text-lg font-bold">Mamani Platinum</h4>
-                    <p class="text-xs text-gray-300">You receive zero-fee transfers, unlimited ATM withdrawals, and +1.5% APY yield multiplier.</p>
+                    <p class="text-xs text-on-surface-variant">You receive zero-fee transfers, unlimited ATM withdrawals, and +1.5% APY yield multiplier.</p>
                 </div>
 
                 <!-- Security Quick Summary -->

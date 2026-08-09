@@ -54,7 +54,7 @@ const GOALS: SavingsGoal[] = [
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
-  background:     "rgba(255,255,255,0.8)",
+  background: "#ffffff",
   backdropFilter: "blur(24px)",
   WebkitBackdropFilter: "blur(24px)",
   border:         "1px solid rgba(0,0,0,0.05)",
@@ -96,14 +96,11 @@ function NetWorthCard() {
 
   return (
     <div
-      className="col-span-12 lg:col-span-8 rounded-[32px] text-white relative overflow-hidden shadow-xl"
-      style={{
-        background: "linear-gradient(135deg, #064e3b 0%, #003527 100%)",
-        padding: "48px",
-      }}
+      className="col-span-12 lg:col-span-8 rounded-[32px] text-[#141b2b] relative overflow-hidden shadow-xl"
+      style={{ ...glassCard, padding: "48px" }}
     >
       {/* Decorative blobs */}
-      <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -right-20 -top-20 w-64 h-64 bg-black/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute right-10 bottom-0 w-32 h-32 rounded-full blur-2xl pointer-events-none"
         style={{ background: "rgba(134,242,228,0.2)" }} />
 
@@ -116,15 +113,15 @@ function NetWorthCard() {
         </h3>
 
         <div
-          className="grid grid-cols-2 border-t border-white/10"
+          className="grid grid-cols-2 border-t border-black/5"
           style={{ gap: "24px", paddingTop: "48px" }}
         >
           {[
-            { icon: "trending_up",   iconColor: "#89f5e7", label: "Income This Month",   value: "+$8,420.00"  },
-            { icon: "trending_down", iconColor: "#ffdad6", label: "Expenses This Month",  value: "-$3,150.24"  },
+            { icon: "trending_up",   iconColor: "#006a61", label: "Income This Month",   value: "+$8,420.00"  },
+            { icon: "trending_down", iconColor: "#ba1a1a", label: "Expenses This Month",  value: "-$3,150.24"  },
           ].map(({ icon, iconColor, label, value }) => (
             <div key={label} className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-black/5 rounded-xl flex items-center justify-center">
                 <span className="material-symbols-outlined" style={{ color: iconColor }}>{icon}</span>
               </div>
               <div>

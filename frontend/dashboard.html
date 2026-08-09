@@ -110,7 +110,7 @@
 <style>
         body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; }
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
+            background: #ffffff;
             backdrop-filter: blur(24px);
             border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
@@ -139,41 +139,42 @@
 </head>
 <body class="text-on-surface bg-surface-bright">
 <!-- SideNavBar Shell -->
-<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-on-background shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border-r border-black/5 flex flex-col p-6 z-50">
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#F8F9FA] dark:bg-on-background text-on-surface shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-black/10 flex flex-col p-6 z-50">
 <div class="flex items-center gap-3 mb-8 px-2">
 <img alt="Mamani Logo" class="w-10 h-10 object-contain drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDreS92pO8MxnoAUpQNjB94riDb2fM3qjYcPSMKACP3Mnd8zVMbcvx7ol7kwRuVgpPDGVxoUgwaK2cLse4zVqzZuTnJQG8QcwEDpNMYBieIzXu13BBJ46zE4IJyC6mosgLGaOayD4TZgzGHofqbZg9lZdHoUM4PCSmlIQq3LQNclsIQVD_bmZfiAeBA9NaRblpN_TldfOnHqTRYIiN86DgQKKLj0rI6CbtZTzPzRFuuAJhLYPrew-glw1fe8LJP_dC87C2GqPnG-Qle">
 <div>
-<h1 class="text-2xl font-bold text-primary dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
-<p class="text-xs text-on-surface-variant/70 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
+<h1 class="text-2xl font-bold text-[#003527] dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
+<p class="text-xs text-on-surface-variant/80 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
 </div>
 </div>
 <nav class="flex-1 flex flex-col space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed bg-secondary-container/30 dark:bg-primary-container rounded-lg font-bold shadow-sm transition-all" href="dashboard.html">
-<span class="material-symbols-outlined text-primary dark:text-primary-fixed" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#1c745b] text-white rounded-lg font-bold shadow-md shadow-[#1c745b]/15 transition-all" href="dashboard.html">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="transactionHistory.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="transactionHistory.html">
 <span class="material-symbols-outlined">account_balance_wallet</span>
 <span>Transactions</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
 <span class="material-symbols-outlined">insights</span>
 <span>Insights</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="tracking.html">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="tracking.html">
 <span class="material-symbols-outlined">track_changes</span>
 <span>Goals</span>
+</a>
 </nav>
-<div class="mt-auto border-t border-black/5 pt-6 flex flex-col space-y-1">
-<button onclick="window.location.href='addTransaction.html'" class="w-full bg-primary text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
+<div class="mt-auto border-t border-black/10 pt-6 flex flex-col space-y-1">
+<button onclick="window.location.href='addTransaction.html'" class="w-full bg-[#003527] text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-[#003527]/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
 <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
 <span>Add Transaction</span>
 </button>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors" href="#">
 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant dark:text-outline-variant font-medium hover:bg-error/10 hover:text-error dark:hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -235,17 +236,17 @@
 <!-- Bento Grid Dashboard -->
 <div class="grid grid-cols-12 gap-gutter">
 <!-- 1. Total Balance Card (Large) -->
-<div class="col-span-12 lg:col-span-8 p-lg rounded-[32px] bg-gradient-to-br from-[#1C4E47]/45 via-[#163D37]/45 to-[#112D29]/50 glass-card border border-primary/20 relative overflow-hidden shadow-lg">
+<div class="col-span-12 lg:col-span-8 p-lg rounded-[32px] bg-white border border-black/5 relative overflow-hidden shadow-xl text-on-surface glass-card">
 <!-- Abstract Pattern Decoration -->
-<div class="absolute -right-20 -top-20 w-64 h-64 bg-white/40 rounded-full blur-3xl pointer-events-none"></div>
-<div class="absolute right-10 bottom-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-white/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute right-10 bottom-0 w-32 h-32 bg-black/10 rounded-full blur-2xl pointer-events-none"></div>
 <div class="relative z-10">
-<p class="text-label-bold text-primary font-bold uppercase tracking-widest mb-2">Total Net Worth</p>
-<h3 class="text-3xl font-bold font-display-lg text-primary mb-6 tracking-tight">$124,592.00</h3>
-<div class="grid grid-cols-2 gap-md border-t border-primary/10 pt-lg">
+<p class="text-label-bold text-on-surface-variant font-bold uppercase tracking-widest mb-2">Total Net Worth</p>
+<h3 class="text-3xl font-bold font-display-lg text-primary mb-6 tracking-tight drop-shadow-sm">$124,592.00</h3>
+<div class="grid grid-cols-2 gap-md border-t border-black/5 pt-lg">
 <div class="flex items-center gap-4">
-<div class="w-12 h-12 bg-white/70 shadow-sm rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-secondary font-bold">trending_up</span>
+<div class="w-12 h-12 bg-surface-container-low shadow-sm rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-[#065f46] font-bold">trending_up</span>
 </div>
 <div>
 <p class="text-label-sm text-on-surface-variant font-medium">Income This Month</p>
@@ -253,19 +254,19 @@
 </div>
 </div>
 <div class="flex items-center gap-4">
-<div class="w-12 h-12 bg-white/70 shadow-sm rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-error font-bold">trending_down</span>
+<div class="w-12 h-12 bg-surface-container-low shadow-sm rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-red-600 font-bold">trending_down</span>
 </div>
 <div>
 <p class="text-label-sm text-on-surface-variant font-medium">Expenses This Month</p>
-<p class="font-numbers-md text-numbers-md text-error font-bold">-$3,150.24</p>
+<p class="font-numbers-md text-numbers-md text-red-200 font-bold">-$3,150.24</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 <!-- 5. Financial Health Score (Gauge) -->
-<div class="col-span-12 lg:col-span-4 p-md glass-card rounded-[32px] flex flex-col items-center justify-center text-center bg-[#D4AF37]/25 shadow-sm" style="--mouse-x: 299.3359375px; --mouse-y: 152px;">
+<div class="col-span-12 lg:col-span-4 p-md glass-card rounded-[32px] flex flex-col items-center justify-center text-center bg-white shadow-sm" style="--mouse-x: 299.3359375px; --mouse-y: 152px;">
 <p class="text-label-bold text-primary font-bold mb-6">Financial Health Score</p>
 <div class="relative w-48 h-48 flex items-center justify-center">
 <!-- Gauge Mockup -->
@@ -281,37 +282,37 @@
 <p class="mt-6 text-body-md text-on-surface-variant px-4">Your credit utilization and saving habits are in the top 5%.</p>
 </div>
 <!-- 2. Spending Insights (Donut Chart) -->
-<div class="col-span-12 lg:col-span-4 p-lg glass-card rounded-[32px] bg-[#1F2937] text-white shadow-lg">
+<div class="col-span-12 lg:col-span-4 p-lg glass-card rounded-[32px] bg-white text-on-surface shadow-lg">
 <div class="flex justify-between items-center mb-lg">
 <h4 class="text-lg font-bold text-white">Spending Insights</h4>
-<span class="material-symbols-outlined text-white/70 cursor-pointer hover:text-white transition-colors">more_horiz</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
 </div>
 <div class="flex flex-col gap-6">
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-3">
 <div class="w-3 h-3 rounded-full bg-accent-rose"></div>
-<span class="text-body-md text-gray-300">Housing &amp; Rent</span>
+<span class="text-body-md text-on-surface-variant">Housing &amp; Rent</span>
 </div>
 <span class="font-label-bold text-white">42%</span>
 </div>
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-3">
 <div class="w-3 h-3 rounded-full bg-accent-gold"></div>
-<span class="text-body-md text-gray-300">Food &amp; Dining</span>
+<span class="text-body-md text-on-surface-variant">Food &amp; Dining</span>
 </div>
 <span class="font-label-bold text-white">18%</span>
 </div>
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-3">
 <div class="w-3 h-3 rounded-full bg-accent-indigo"></div>
-<span class="text-body-md text-gray-300">Entertainment</span>
+<span class="text-body-md text-on-surface-variant">Entertainment</span>
 </div>
 <span class="font-label-bold text-white">12%</span>
 </div>
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-3">
 <div class="w-3 h-3 rounded-full bg-accent-amber"></div>
-<span class="text-body-md text-gray-300">Others</span>
+<span class="text-body-md text-on-surface-variant">Others</span>
 </div>
 <span class="font-label-bold text-white">28%</span>
 </div>
@@ -321,7 +322,7 @@
                 </button>
 </div>
 <!-- 3. Recent Transactions -->
-<div class="col-span-12 lg:col-span-5 p-lg glass-card rounded-[32px] bg-accent-amber/20" style="--mouse-x: 58.671875px; --mouse-y: 520px;">
+<div class="col-span-12 lg:col-span-5 p-lg glass-card rounded-[32px] bg-white dark:bg-surface shadow-lg border border-black/5" style="--mouse-x: 58.671875px; --mouse-y: 520px;">
 <div class="flex justify-between items-center mb-lg">
 <h4 class="text-lg font-bold text-primary">Recent Transactions</h4>
 <a class="text-label-bold text-secondary" href="transactionHistory.html">See All</a>
@@ -382,7 +383,7 @@
 </div>
 </div>
 <!-- 4. Savings Goals Widget -->
-<div class="col-span-12 lg:col-span-3 p-lg glass-card rounded-[32px] flex flex-col bg-accent-teal/20" style="--mouse-x: 214.0078125px; --mouse-y: 279px;">
+<div class="col-span-12 lg:col-span-3 p-lg glass-card rounded-[32px] flex flex-col bg-white" style="--mouse-x: 214.0078125px; --mouse-y: 279px;">
 <h4 class="text-lg font-bold text-primary mb-md">Savings Goals</h4>
 <div class="space-y-8 flex-1">
 <!-- Goal -->
@@ -603,7 +604,7 @@
                         <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 bg-secondary/20 text-secondary font-bold rounded-full">Active Perks</span>
                     </div>
                     <h4 class="text-lg font-bold">Mamani Platinum</h4>
-                    <p class="text-xs text-gray-300">You receive zero-fee transfers, unlimited ATM withdrawals, and +1.5% APY yield multiplier.</p>
+                    <p class="text-xs text-on-surface-variant">You receive zero-fee transfers, unlimited ATM withdrawals, and +1.5% APY yield multiplier.</p>
                 </div>
 
                 <!-- Security Quick Summary -->

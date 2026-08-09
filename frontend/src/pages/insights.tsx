@@ -242,7 +242,7 @@ const InsightsPage: React.FC = () => {
 
       <style>{`
         .glass-card {
-          background: rgba(255, 255, 255, 0.8);
+          background: #ffffff;
           backdrop-filter: blur(12px);
           border: 1px solid rgba(0, 0, 0, 0.05);
           box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);

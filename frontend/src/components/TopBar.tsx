@@ -22,7 +22,7 @@ const TopBar = ({ title = 'Dashboard' }) => {
             className="pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-700 border-none rounded-xl focus:ring-2 focus:ring-primary dark:text-white outline-none"
           />
         </div>
-        <button className="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors relative">
+        <button className="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-on-surface-variant hover:bg-primary hover:text-white transition-colors relative">
           <span className="material-symbols-outlined">notifications</span>
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
         </button>
