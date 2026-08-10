@@ -183,7 +183,7 @@
 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -224,9 +224,9 @@
 </div>
 <div class="flex items-center gap-3">
 <div class="flex bg-surface-container-low p-1 rounded-xl border border-black/5">
-<button class="px-4 py-1.5 rounded-lg text-label-bold bg-surface shadow-sm text-primary">All</button>
-<button class="px-4 py-1.5 rounded-lg text-label-bold text-on-surface-variant hover:text-primary transition-colors">Expenses</button>
-<button class="px-4 py-1.5 rounded-lg text-label-bold text-on-surface-variant hover:text-primary transition-colors">Income</button>
+<button data-filter="all" class="px-4 py-1.5 rounded-lg text-label-bold bg-surface shadow-sm text-primary">All</button>
+<button data-filter="expenses" class="px-4 py-1.5 rounded-lg text-label-bold text-on-surface-variant hover:text-primary transition-colors">Expenses</button>
+<button data-filter="income" class="px-4 py-1.5 rounded-lg text-label-bold text-on-surface-variant hover:text-primary transition-colors">Income</button>
 </div>
 <button class="flex items-center gap-2 bg-surface-container-lowest border border-black/5 px-4 py-2.5 rounded-xl text-label-bold text-on-surface-variant hover:bg-surface-container-low transition-all">
 <span class="material-symbols-outlined text-[18px]" data-icon="tune">tune</span>
@@ -239,121 +239,14 @@
 </div>
 </section>
 <!-- Transaction Groups -->
-<div class="space-y-lg">
-<!-- Today -->
-<div class="space-y-4">
-<h3 class="font-label-bold text-label-bold text-on-surface-variant/60 uppercase tracking-widest px-2">Today</h3>
-<div class="space-y-2">
-<!-- Transaction Card 1 -->
-<div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-amber-700" data-icon="restaurant">restaurant</span>
-</div>
-<div>
-<h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">Blue Bottle Coffee</h4>
-<p class="font-label-sm text-on-surface-variant/70">10:42 AM • Dining</p>
-</div>
-</div>
-<div class="text-right">
-<span class="font-numbers-md text-error">-$7.50</span>
-<p class="font-label-sm text-on-surface-variant/50">Ending in 4291</p>
-</div>
-</div>
-<!-- Transaction Card 2 -->
-<div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-emerald-700" data-icon="account_balance">account_balance</span>
-</div>
-<div>
-<h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">Stripe Payout</h4>
-<p class="font-label-sm text-on-surface-variant/70">08:15 AM • Income</p>
-</div>
-</div>
-<div class="text-right">
-<span class="font-numbers-md text-secondary">+$2,450.00</span>
-<p class="font-label-sm text-on-surface-variant/50">Business Account</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Yesterday -->
-<div class="space-y-4">
-<h3 class="font-label-bold text-label-bold text-on-surface-variant/60 uppercase tracking-widest px-2">Yesterday</h3>
-<div class="space-y-2">
-<!-- Transaction Card 3 -->
-<div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-purple-700" data-icon="shopping_bag">shopping_bag</span>
-</div>
-<div>
-<h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">Apple Store</h4>
-<p class="font-label-sm text-on-surface-variant/70">04:30 PM • Electronics</p>
-</div>
-</div>
-<div class="text-right">
-<span class="font-numbers-md text-error">-$1,299.00</span>
-<p class="font-label-sm text-on-surface-variant/50">Visa Platinum</p>
-</div>
-</div>
-<!-- Transaction Card 4 -->
-<div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-blue-700" data-icon="directions_car">directions_car</span>
-</div>
-<div>
-<h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">Uber Trip</h4>
-<p class="font-label-sm text-on-surface-variant/70">09:12 AM • Transport</p>
-</div>
-</div>
-<div class="text-right">
-<span class="font-numbers-md text-error">-$18.24</span>
-<p class="font-label-sm text-on-surface-variant/50">Ending in 4291</p>
-</div>
-</div>
-</div>
-</div>
-<!-- October 24 -->
-<div class="space-y-4">
-<h3 class="font-label-bold text-label-bold text-on-surface-variant/60 uppercase tracking-widest px-2">October 24</h3>
-<div class="space-y-2">
-<!-- Transaction Card 5 -->
-<div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-rose-700" data-icon="fitness_center">fitness_center</span>
-</div>
-<div>
-<h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">Equinox Gym</h4>
-<p class="font-label-sm text-on-surface-variant/70">07:00 AM • Health</p>
-</div>
-</div>
-<div class="text-right">
-<span class="font-numbers-md text-error">-$250.00</span>
-<p class="font-label-sm text-on-surface-variant/50">Visa Platinum</p>
-</div>
-</div>
-<!-- Transaction Card 6 -->
-<div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
-<span class="material-symbols-outlined text-orange-700" data-icon="home">home</span>
-</div>
-<div>
-<h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">Target Store</h4>
-<p class="font-label-sm text-on-surface-variant/70">06:45 PM • Household</p>
-</div>
-</div>
-<div class="text-right">
-<span class="font-numbers-md text-error">-$84.20</span>
-<p class="font-label-sm text-on-surface-variant/50">Ending in 4291</p>
-</div>
-</div>
-</div>
-</div>
+<div class="space-y-lg" id="transactions-container">
+  <div class="animate-pulse space-y-3">
+    <div class="h-16 bg-white border border-black/5 rounded-xl"></div>
+    <div class="h-16 bg-white border border-black/5 rounded-xl"></div>
+    <div class="h-16 bg-white border border-black/5 rounded-xl"></div>
+    <div class="h-16 bg-white border border-black/5 rounded-xl"></div>
+    <div class="h-16 bg-white border border-black/5 rounded-xl"></div>
+  </div>
 </div>
 <!-- Footer Shell -->
 <footer class="w-full mt-xl py-4 flex justify-between items-center border-t border-black/5 opacity-80">
@@ -377,59 +270,126 @@
 <div class="fixed top-0 right-0 -z-10 opacity-30 blur-[100px] pointer-events-none">
 <div class="w-[500px] h-[500px] bg-secondary-container rounded-full translate-x-1/2 -translate-y-1/2"></div>
 </div>
+<script src="mamani-api.js"></script>
 <script>
-        // Micro-interaction for cards
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0px)';
-            });
-        });
+        MamaniAPI.requireAuth();
 
-        // Search bar focus effect
-        const searchInput = document.querySelector('input[type="text"]');
-        const searchIcon = document.querySelector('[data-icon="search"]');
-        
-        searchInput.addEventListener('focus', () => {
-            searchIcon.classList.add('text-primary');
-            searchIcon.style.transition = 'color 0.2s ease';
-        });
+        let currentFilter = 'all';
 
-        searchInput.addEventListener('blur', () => {
-            searchIcon.classList.remove('text-primary');
-        });
+        // ── Load Transactions ────────────────────────────────────────
+        async function loadTransactions() {
+            const container = document.getElementById('transactions-container');
+            if (!container) return;
 
-        // Dynamically set username from session
-        async function updateUserData() {
-            let userName = localStorage.getItem('user_name') || 'Peter Parker';
-            let userEmail = localStorage.getItem('user_email') || 'Premium Member';
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                try {
-                    const res = await fetch('http://localhost:8000/users/me', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.full_name) {
-                            userName = data.full_name;
-                            localStorage.setItem('user_name', userName);
-                        }
-                        if (data.email) {
-                            userEmail = data.email;
-                            localStorage.setItem('user_email', userEmail);
-                        }
-                    }
-                } catch (e) {}
+            container.innerHTML = `<div class="animate-pulse space-y-3">${Array(4).fill('<div class="h-16 bg-white border border-black/5 rounded-xl"></div>').join('')}</div>`;
+
+            try {
+                const params = {};
+                if (currentFilter === 'expenses') params.is_expense = true;
+                if (currentFilter === 'income')   params.is_expense = false;
+                const allTx = await MamaniAPI.getTransactions(params);
+                const sym = MamaniAPI.getCurrencySymbol();
+
+                if (allTx.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-16">
+                          <span class="material-symbols-outlined text-5xl text-gray-300 block mb-4">receipt_long</span>
+                          <p class="text-on-surface-variant">No transactions yet.</p>
+                          <a href="addTransaction.html" class="mt-4 inline-block text-secondary font-semibold hover:underline">Add your first transaction →</a>
+                        </div>`;
+                    return;
+                }
+
+                // Group by date
+                const groups = {};
+                allTx.forEach(tx => {
+                    const date = new Date(tx.date);
+                    const now = new Date();
+                    const diffDays = Math.floor((now - date) / (1000*60*60*24));
+                    let key = diffDays === 0 ? 'Today'
+                            : diffDays === 1 ? 'Yesterday'
+                            : date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(tx);
+                });
+
+                container.innerHTML = Object.entries(groups).map(([groupName, txList]) => `
+                    <div class="space-y-4">
+                      <h3 class="font-label-bold text-label-bold text-on-surface-variant/60 uppercase tracking-widest px-2">${groupName}</h3>
+                      <div class="space-y-2">
+                        ${txList.map(tx => {
+                            const meta = MamaniAPI.getCategoryMeta(tx.category, tx.is_expense);
+                            const amtClass = tx.is_expense ? 'text-error' : 'text-secondary';
+                            const amtStr  = tx.is_expense ? `-${MamaniAPI.formatAmount(tx.amount, sym)}` : `+${MamaniAPI.formatAmount(tx.amount, sym)}`;
+                            const time = new Date(tx.date).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+                            return `
+                              <div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer" data-id="${tx.id}">
+                                <div class="flex items-center gap-4">
+                                  <div class="w-12 h-12 rounded-xl ${meta.bg} flex items-center justify-center">
+                                    <span class="material-symbols-outlined ${meta.color}">${meta.icon}</span>
+                                  </div>
+                                  <div>
+                                    <h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">${tx.title}</h4>
+                                    <p class="font-label-sm text-on-surface-variant/70">${time} · ${tx.category} · ${tx.account || ''}</p>
+                                  </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                  <span class="font-numbers-md ${amtClass}">${amtStr}</span>
+                                  <button onclick="deleteTx(${tx.id})" class="opacity-0 group-hover:opacity-100 w-8 h-8 rounded-full hover:bg-error/10 text-error flex items-center justify-center transition-all" title="Delete">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span>
+                                  </button>
+                                </div>
+                              </div>`;
+                        }).join('')}
+                      </div>
+                    </div>`).join('');
+            } catch (e) {
+                container.innerHTML = `<p class="text-center text-on-surface-variant py-8">${e.message}</p>`;
             }
-            const headerNameEl = document.getElementById('header-username');
-            if (headerNameEl) headerNameEl.innerText = userName;
-            const headerEmailEl = document.getElementById('header-useremail');
-            if (headerEmailEl) headerEmailEl.innerText = userEmail;
         }
+
+        async function deleteTx(id) {
+            if (!confirm('Delete this transaction?')) return;
+            try {
+                await MamaniAPI.deleteTransaction(id);
+                loadTransactions();
+            } catch (e) {
+                alert('Could not delete: ' + e.message);
+            }
+        }
+
+        // ── Filter buttons ───────────────────────────────────────────
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentFilter = btn.dataset.filter;
+                document.querySelectorAll('[data-filter]').forEach(b => {
+                    b.classList.toggle('bg-surface', b === btn);
+                    b.classList.toggle('shadow-sm', b === btn);
+                    b.classList.toggle('text-primary', b === btn);
+                    b.classList.toggle('text-on-surface-variant', b !== btn);
+                });
+                loadTransactions();
+            });
+        });
+
+        // ── User info ────────────────────────────────────────────────
+        async function updateUserData() {
+            try {
+                const user = await MamaniAPI.getMe();
+                localStorage.setItem('user_name', user.full_name || '');
+                localStorage.setItem('user_email', user.email || '');
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = user.full_name || '';
+                const elEmail = document.getElementById('header-useremail');
+                if (elEmail) elEmail.innerText = user.email || '';
+            } catch (e) {
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = localStorage.getItem('user_name') || 'User';
+            }
+        }
+
         updateUserData();
+        loadTransactions();
     </script>
 
 <!-- Profile Modal Pop-up -->

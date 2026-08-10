@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { signup } from '../api/auth';
 
 const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign up logic here
-    console.log('Sign up:', { name, email, password });
+    setError('');
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const data = await signup({ full_name: name, email, password });
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('access_token', data.access_token);
+      navigate('/dashboard', { replace: true });
+    } catch (err: any) {
+      const msg = err?.response?.data?.detail || 'Sign up failed. Please try again.';
+      setError(msg);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -176,12 +196,23 @@ const SignUpPage: React.FC = () => {
 
               {/* Submit Button */}
               <button
-                className="w-full py-4 primary-btn text-white font-label-bold text-body-md rounded-lg shadow-sm hover:opacity-95 flex items-center justify-center gap-2"
+                className="w-full py-4 primary-btn text-white font-label-bold text-body-md rounded-lg shadow-sm hover:opacity-95 flex items-center justify-center gap-2 disabled:opacity-60"
                 type="submit"
+                disabled={isLoading}
               >
-                Create Account
-                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                {isLoading ? 'Creating Account...' : 'Create Account'}
+                {!isLoading && <span className="material-symbols-outlined text-[20px]">arrow_forward</span>}
               </button>
+
+              {/* Error Message */}
+              {error && (
+                <div className="px-4 py-3 bg-error/10 border border-error/20 rounded-xl">
+                  <p className="text-error font-label-bold text-sm flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[16px]">error</span>
+                    {error}
+                  </p>
+                </div>
+              )}
             </form>
 
             <div className="relative my-8">
@@ -206,10 +237,10 @@ const SignUpPage: React.FC = () => {
 
             <footer className="mt-10 text-center">
               <p className="font-body-md text-body-md text-on-surface-variant">
-                Already have an account? 
-                <a className="text-secondary font-label-bold hover:underline ml-1" href="#">
+                Already have an account?
+                <Link className="text-secondary font-label-bold hover:underline ml-1" to="/signin">
                   Log in
-                </a>
+                </Link>
               </p>
             </footer>
           </div>

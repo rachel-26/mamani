@@ -143,7 +143,7 @@
 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -363,7 +363,10 @@
 </div>
 </footer>
 </main>
+<script src="mamani-api.js"></script>
 <script>
+        MamaniAPI.requireAuth();
+
         // Micro-interaction for hover effects on charts
         document.querySelectorAll('.glass-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -385,31 +388,18 @@
 
         // Dynamically set username from session
         async function updateUserData() {
-            let userName = localStorage.getItem('user_name') || 'Peter Parker';
-            let userEmail = localStorage.getItem('user_email') || 'Premium Member';
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                try {
-                    const res = await fetch('http://localhost:8000/users/me', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.full_name) {
-                            userName = data.full_name;
-                            localStorage.setItem('user_name', userName);
-                        }
-                        if (data.email) {
-                            userEmail = data.email;
-                            localStorage.setItem('user_email', userEmail);
-                        }
-                    }
-                } catch (e) {}
+            try {
+                const user = await MamaniAPI.getMe();
+                localStorage.setItem('user_name', user.full_name || '');
+                localStorage.setItem('user_email', user.email || '');
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = user.full_name || '';
+                const elEmail = document.getElementById('header-useremail');
+                if (elEmail) elEmail.innerText = user.email || '';
+            } catch (_) {
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = localStorage.getItem('user_name') || 'User';
             }
-            const headerNameEl = document.getElementById('header-username');
-            if (headerNameEl) headerNameEl.innerText = userName;
-            const headerEmailEl = document.getElementById('header-useremail');
-            if (headerEmailEl) headerEmailEl.innerText = userEmail;
         }
         updateUserData();
     </script>

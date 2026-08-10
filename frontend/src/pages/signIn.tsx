@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { login } from '../api/auth';
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setIsLoading(true);
-
-    // Simulate authentication
-    setTimeout(() => {
+    try {
+      const data = await login({ email, password });
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('access_token', data.access_token); // for HTML pages
+      navigate('/dashboard', { replace: true });
+    } catch (err: any) {
+      const msg = err?.response?.data?.detail || 'Invalid email or password.';
+      setError(msg);
+    } finally {
       setIsLoading(false);
-      alert('Authentication successful. Redirecting to your dashboard...');
-    }, 1500);
+    }
   };
 
   return (
@@ -183,13 +193,23 @@ const LoginPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Error Message */}
+            {error && (
+              <div className="mt-4 px-4 py-3 bg-error/10 border border-error/20 rounded-xl">
+                <p className="text-error font-label-bold text-sm flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[16px]">error</span>
+                  {error}
+                </p>
+              </div>
+            )}
+
             {/* Footer Link */}
             <div className="mt-12 text-center">
               <p className="font-body-md text-body-md text-on-surface-variant">
                 Don't have an account?
-                <a className="font-label-bold text-label-bold text-secondary hover:underline transition-all ml-1" href="#">
+                <Link className="font-label-bold text-label-bold text-secondary hover:underline transition-all ml-1" to="/signup">
                   Sign Up
-                </a>
+                </Link>
               </p>
             </div>
           </div>

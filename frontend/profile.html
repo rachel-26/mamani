@@ -141,7 +141,7 @@
                 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
                 <span>Support</span>
             </a>
-            <a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+            <a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
                 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
                 <span>Logout</span>
             </a>
@@ -302,11 +302,11 @@
                         </h4>
                         <div>
                             <label class="block text-xs font-bold uppercase text-on-surface-variant mb-2">Display Currency</label>
-                            <select class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-semibold text-on-surface focus:ring-0">
-                                <option>USD ($)</option>
-                                <option>TSH (TSh)</option>
-                                <option>EUR (€)</option>
-                                <option>GBP (£)</option>
+                            <select id="currency-select" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-semibold text-on-surface focus:ring-0">
+                                <option value="USD ($)">USD ($)</option>
+                                <option value="TSH (TSh)">TSH (TSh)</option>
+                                <option value="EUR (€)">EUR (€)</option>
+                                <option value="GBP (£)">GBP (£)</option>
                             </select>
                         </div>
                         <div class="pt-2">
@@ -337,43 +337,47 @@
         </footer>
     </main>
 
+    <script src="mamani-api.js"></script>
     <script>
+        MamaniAPI.requireAuth();
+
         // Dynamically load and display profile information
         async function loadProfile() {
-            let userName = localStorage.getItem('user_name') || 'Peter Parker';
-            let userEmail = localStorage.getItem('user_email') || 'peter@mamani.com';
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                try {
-                    const res = await fetch('http://localhost:8000/users/me', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.full_name) {
-                            userName = data.full_name;
-                            localStorage.setItem('user_name', userName);
-                        }
-                        if (data.email) {
-                            userEmail = data.email;
-                            localStorage.setItem('user_email', userEmail);
-                        }
-                    }
-                } catch (e) {
-                    console.log("Backend offline, using local cached session.");
-                }
+            try {
+                const user = await MamaniAPI.getMe();
+                localStorage.setItem('user_name', user.full_name || '');
+                localStorage.setItem('user_email', user.email || '');
+                
+                document.getElementById('header-username').innerText = user.full_name || '';
+                document.getElementById('header-useremail').innerText = 'Platinum Member';
+                document.getElementById('profile-display-name').innerText = user.full_name || '';
+                document.getElementById('profile-display-email').innerText = user.email || '';
+                document.getElementById('input-fullname').value = user.full_name || '';
+                document.getElementById('input-email').value = user.email || '';
+            } catch (e) {
+                const userName = localStorage.getItem('user_name') || 'Peter Parker';
+                const userEmail = localStorage.getItem('user_email') || 'peter@mamani.com';
+                document.getElementById('header-username').innerText = userName;
+                document.getElementById('header-useremail').innerText = 'Platinum Member';
+                document.getElementById('profile-display-name').innerText = userName;
+                document.getElementById('profile-display-email').innerText = userEmail;
+                document.getElementById('input-fullname').value = userName;
+                document.getElementById('input-email').value = userEmail;
             }
-
-            document.getElementById('header-username').innerText = userName;
-            document.getElementById('header-useremail').innerText = 'Platinum Member';
-            document.getElementById('profile-display-name').innerText = userName;
-            document.getElementById('profile-display-email').innerText = userEmail;
-            document.getElementById('input-fullname').value = userName;
-            document.getElementById('input-email').value = userEmail;
         }
 
         loadProfile();
 
+        // Currency Selector
+        const currencySelect = document.getElementById('currency-select');
+        if (currencySelect) {
+            const savedCurrency = localStorage.getItem('user_currency') || 'USD ($)';
+            currencySelect.value = savedCurrency;
+            currencySelect.addEventListener('change', (e) => {
+                localStorage.setItem('user_currency', e.target.value);
+            });
+        }
+    
         // Handle profile saving and dynamic updates
         document.getElementById('profile-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -384,26 +388,12 @@
             btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span> Saving...';
             btn.disabled = true;
 
-            // Save to localStorage immediately
-            localStorage.setItem('user_name', newName);
-            localStorage.setItem('user_email', newEmail);
-
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                try {
-                    await fetch('http://localhost:8000/users/me', {
-                        method: 'PUT',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}` 
-                        },
-                        body: JSON.stringify({ full_name: newName, email: newEmail })
-                    });
-                } catch (err) {}
-            }
-
-            setTimeout(() => {
+            try {
+                await MamaniAPI.updateMe({ full_name: newName, email: newEmail });
+                localStorage.setItem('user_name', newName);
+                localStorage.setItem('user_email', newEmail);
                 loadProfile();
+
                 btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> Saved!';
                 btn.classList.replace('bg-primary', 'bg-secondary');
                 setTimeout(() => {
@@ -411,7 +401,11 @@
                     btn.classList.replace('bg-secondary', 'bg-primary');
                     btn.disabled = false;
                 }, 2000);
-            }, 500);
+            } catch (err) {
+                alert("Could not update profile: " + err.message);
+                btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">save</span> Save Profile Changes';
+                btn.disabled = false;
+            }
         });
     </script>
 </body>

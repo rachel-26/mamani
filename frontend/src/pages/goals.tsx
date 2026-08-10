@@ -1,336 +1,352 @@
 import React, { useState } from 'react';
+import { useCurrency } from '../hooks/useCurrency';
+import { useApi } from '../hooks/useApi';
+import { getGoals, createGoal, depositToGoal, deleteGoal } from '../api/goals';
 
-interface Goal {
+interface GoalOut {
   id: number;
   title: string;
-  currentAmount: number;
-  targetAmount: number;
-  progress: number;
-  targetDate: string;
-  status: 'Ahead of Schedule' | 'On Track' | 'Needs Focus';
-  image: string;
-  statusColor: string;
+  saved_amount: number;
+  target_amount: number;
+  progress_percentage: number;
+  target_date: string | null;
+  is_short_term: boolean;
+  image_url: string | null;
 }
 
-interface Investment {
-  name: string;
-  description: string;
-  amount: number;
-  target: string;
-  icon: string;
-}
+const STATUS_COLORS: Record<string, string> = {
+  high:   'bg-primary/90 text-white',
+  medium: 'bg-secondary/90 text-white',
+  low:    'bg-orange-400 text-white',
+};
 
-interface CompletedGoal {
-  id: number;
-  title: string;
-  completedDate: string;
-  amount: number;
+function getStatus(pct: number): { label: string; colorClass: string } {
+  if (pct >= 70) return { label: 'Ahead of Schedule', colorClass: STATUS_COLORS.high };
+  if (pct >= 40) return { label: 'On Track',          colorClass: STATUS_COLORS.medium };
+  return           { label: 'Needs Focus',            colorClass: STATUS_COLORS.low };
 }
 
 const GoalsPage: React.FC = () => {
+  const { formatAmount, symbol } = useCurrency();
   const [activeFilter, setActiveFilter] = useState<'All' | 'Short-term' | 'Long-term'>('All');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [depositGoalId, setDepositGoalId] = useState<number | null>(null);
+  const [depositAmount, setDepositAmount] = useState('');
+  const [isDepositing, setIsDepositing] = useState(false);
+  const [newGoal, setNewGoal] = useState({ title: '', target_amount: '', target_date: '', is_short_term: true });
+  const [isCreating, setIsCreating] = useState(false);
+  const [formError, setFormError] = useState('');
 
-  const goals: Goal[] = [
-    {
-      id: 1,
-      title: 'Emergency Fund',
-      currentAmount: 18500,
-      targetAmount: 25000,
-      progress: 74,
-      targetDate: 'October 2024',
-      status: 'Ahead of Schedule',
-      statusColor: 'bg-primary/90',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD9LgBCqY1PP6966CzQzPt3FOU9oXRdAq7H30JmH8K47Pn6AfTTyFabwcQKLR2RNhiM99yUOENdlnaJ4kR6rYA-8y7XonKWWR0J3SHoq6ClCkEUg8Dal3ikQeaiOYfaZHjq6vYLmYLxHe0p_ag7K6JFRSN6dXvXfVUeq1j99NOmfqlEopbKZZDo8lpkudLWdiJQMFbKj-fXb3fxD2U0ozgfDnpMEGrU953c6HAPMduRzqizAB_y6jwj-njsHh9eKbDqtzP1tm2UMlxz'
-    },
-    {
-      id: 2,
-      title: 'Japan Expedition',
-      currentAmount: 6200,
-      targetAmount: 12000,
-      progress: 52,
-      targetDate: 'April 2025',
-      status: 'On Track',
-      statusColor: 'bg-secondary/90',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6XaStfqh4nivd680_1y2a5dqTDjEUe-JhJjwY5mpIPc5viNriEJ41-6hAe03DV5cWQnFr__71CzHb09sMhou3TK905J4pPGVbHmS8Y6AtkVuxKOonAf6EtKTX-K-u3tG9UYq4znhidqiwbDJCBuH2vQH_XVmHXVA_9unvm7piHzlCWUWz74Fk6fRwYLKQIcl9HP94UCXNhONC2Wdj7L7PVzqcg6ckVFzXWSbxtXAqYcYbe2laPxClCZLEheme61NWWyOq_-rUWfC7'
-    },
-    {
-      id: 3,
-      title: 'Luxury Sedan',
-      currentAmount: 12000,
-      targetAmount: 55000,
-      progress: 22,
-      targetDate: 'Jan 2026',
-      status: 'Needs Focus',
-      statusColor: 'bg-tertiary-container',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByHZL_v5keHEqiDTey5ut1cgsD4IBVtS8cdo3T70VteU1CtpZ2y7r6O-MRnynslA6FBwUCujJcUSnw81Z5Bec7mbBrA2uj1PPhPYbct4sTykOD8QAEXF7PBfWco6Ok0RWevbl0Xf6Mi4B4kAXAKDhobzrVmllHt3KKj9Jj0Ov-e8W1jH49RXRVaVuBDvR1lsizp7cw4ku5q_XRKrLbyEzsxaroU94ZLK55IwZp5finT2UrhkmQrlIKEmCzq4XAAzedspZlIw0iybTv'
+  const { data: goals, loading, error, refetch } = useApi<GoalOut[]>(getGoals);
+
+  const filtered = (goals ?? []).filter(g => {
+    if (activeFilter === 'Short-term') return g.is_short_term;
+    if (activeFilter === 'Long-term')  return !g.is_short_term;
+    return true;
+  });
+
+  const handleCreateGoal = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError('');
+    if (!newGoal.title || !newGoal.target_amount) {
+      setFormError('Title and target amount are required.');
+      return;
     }
-  ];
-
-  const investments: Investment[] = [
-    {
-      name: 'Retirement Fund',
-      description: 'S&P 500 Index Focus',
-      amount: 342100,
-      target: '$2.5M',
-      icon: 'landscape'
-    },
-    {
-      name: 'Venture Portfolio',
-      description: 'Tech Equity',
-      amount: 84000,
-      target: 'High Growth',
-      icon: 'query_stats'
+    setIsCreating(true);
+    try {
+      await createGoal({
+        title: newGoal.title,
+        target_amount: parseFloat(newGoal.target_amount),
+        target_date: newGoal.target_date ? new Date(newGoal.target_date).toISOString() : undefined,
+        is_short_term: newGoal.is_short_term,
+      });
+      refetch();
+      setShowCreateModal(false);
+      setNewGoal({ title: '', target_amount: '', target_date: '', is_short_term: true });
+    } catch (err: any) {
+      setFormError(err?.response?.data?.detail || 'Could not create goal.');
+    } finally {
+      setIsCreating(false);
     }
-  ];
-
-  const completedGoals: CompletedGoal[] = [
-    {
-      id: 1,
-      title: 'Debt Free',
-      completedDate: 'June 2024',
-      amount: 45000
-    },
-    {
-      id: 2,
-      title: 'Down Payment',
-      completedDate: 'Jan 2024',
-      amount: 120000
-    }
-  ];
-
-  const formatCurrency = (amount: number) => {
-    return `$${amount.toLocaleString()}`;
   };
 
-  const getProgressColor = (progress: number) => {
-    if (progress >= 75) return 'bg-primary';
-    if (progress >= 50) return 'bg-secondary';
-    return 'bg-tertiary-container';
+  const handleDeposit = async () => {
+    if (!depositGoalId || !depositAmount || parseFloat(depositAmount) <= 0) return;
+    setIsDepositing(true);
+    try {
+      await depositToGoal(depositGoalId, parseFloat(depositAmount));
+      refetch();
+      setDepositGoalId(null);
+      setDepositAmount('');
+    } catch (err: any) {
+      alert(err?.response?.data?.detail || 'Deposit failed.');
+    } finally {
+      setIsDepositing(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('Delete this goal?')) return;
+    try {
+      await deleteGoal(id);
+      refetch();
+    } catch {
+      alert('Could not delete goal.');
+    }
   };
 
   return (
     <>
-      <div className="pt-20 pb-10 px-margin-desktop space-y-lg">
-
-        <div className="pt-20 pb-10 px-margin-desktop space-y-lg">
-          {/* Greeting and Intro */}
-          <section className="flex justify-between items-end pt-lg">
-            <div>
-              <h1 className="font-display-lg text-display-lg text-primary">Your Prosperity Path</h1>
-              <p className="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Every dollar saved is a step toward your security. You're currently tracking 6 active goals.</p>
-            </div>
-            <button className="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-bold flex items-center gap-2 shadow-lg hover:scale-98 active:scale-95 transition-all">
-              <span className="material-symbols-outlined text-[20px]">add</span>
-              Create Goal
-            </button>
-          </section>
-
-          {/* Overview Stats Grid */}
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-            <div className="glass-card p-md rounded-2xl flex flex-col justify-between">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-label-bold text-on-surface-variant uppercase tracking-wider">Total Saved</span>
-                <div className="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-secondary">account_balance</span>
-                </div>
-              </div>
-              <div>
-                <div className="font-numbers-lg text-numbers-lg text-primary">$42,850.00</div>
-                <p className="text-label-sm text-secondary flex items-center gap-1 mt-1">
-                  <span className="material-symbols-outlined text-[16px]">trending_up</span>
-                  +12% from last month
-                </p>
-              </div>
-            </div>
-
-            <div className="glass-card p-md rounded-2xl flex flex-col justify-between">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-label-bold text-on-surface-variant uppercase tracking-wider">Month's Contributions</span>
-                <div className="w-10 h-10 rounded-lg bg-primary-fixed/30 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary-container">savings</span>
-                </div>
-              </div>
-              <div>
-                <div className="font-numbers-lg text-numbers-lg text-primary">$3,400.00</div>
-                <p className="text-label-sm text-on-surface-variant mt-1">Automated: $2,500</p>
-              </div>
-            </div>
-
-            <div className="glass-card p-md rounded-2xl border-l-4 border-secondary/50">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-label-bold text-on-surface-variant uppercase tracking-wider">Next Milestone</span>
-                <div className="w-10 h-10 rounded-lg bg-tertiary-fixed/30 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-on-tertiary-container">flag</span>
-                </div>
-              </div>
-              <div>
-                <div className="font-headline-md text-headline-md text-primary">Emergency Fund</div>
-                <p className="text-body-md text-on-surface-variant mt-1 italic">Expected Completion: Oct 2024</p>
-              </div>
-            </div>
-          </section>
-
-          {/* Active Goals Bento Grid */}
-          <section>
-            <div className="flex items-center justify-between mb-md">
-              <h2 className="font-headline-md text-headline-md text-primary">Priority Goals</h2>
-              <div className="flex gap-2">
-                {['All', 'Short-term', 'Long-term'].map((filter) => (
-                  <button
-                    key={filter}
-                    className={`px-4 py-1.5 rounded-full text-label-bold ${
-                      activeFilter === filter
-                        ? 'bg-primary text-on-primary'
-                        : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
-                    } transition-colors`}
-                    onClick={() => setActiveFilter(filter as any)}
-                  >
-                    {filter}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-              {goals.map((goal) => (
-                <div key={goal.id} className="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
-                  <div className="h-48 relative overflow-hidden">
-                    <img 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                      alt={`${goal.title} goal visualization`}
-                      src={goal.image}
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className={`${goal.statusColor} text-white px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md`}>
-                        {goal.status}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-md flex-1 flex flex-col">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-headline-md text-headline-md text-primary">{goal.title}</h3>
-                      <span className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
-                    </div>
-                    <div className="mt-auto pt-md">
-                      <div className="flex justify-between items-end mb-2">
-                        <span className="text-numbers-md text-numbers-md text-primary">
-                          {formatCurrency(goal.currentAmount)} <span className="text-on-surface-variant text-body-md font-normal">/ {formatCurrency(goal.targetAmount)}</span>
-                        </span>
-                        <span className="text-label-bold text-secondary">{goal.progress}%</span>
-                      </div>
-                      <div className="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-                        <div className={`h-full ${getProgressColor(goal.progress)} rounded-full`} style={{ width: `${goal.progress}%` }}></div>
-                      </div>
-                      <p className="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[16px]">calendar_today</span>
-                        Target: {goal.targetDate}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+      <div className="max-w-6xl mx-auto py-lg">
+        {/* Header */}
+        <section className="mb-gutter flex flex-col md:flex-row md:items-end justify-between gap-gutter">
+          <div>
+            <h2 className="font-headline-md text-headline-md text-primary mb-1">Financial Goals</h2>
+            <p className="font-body-md text-on-surface-variant">Track your progress and build lasting wealth.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex bg-surface-container-low p-1 rounded-xl border border-black/5">
+              {(['All', 'Short-term', 'Long-term'] as const).map(f => (
+                <button
+                  key={f}
+                  className={`px-4 py-1.5 rounded-lg text-label-bold ${activeFilter === f ? 'bg-surface shadow-sm text-primary' : 'text-on-surface-variant hover:text-primary'} transition-colors`}
+                  onClick={() => setActiveFilter(f)}
+                >
+                  {f}
+                </button>
               ))}
             </div>
-          </section>
+            <button
+              className="flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-xl font-label-bold hover:opacity-90 active:scale-95 transition-all"
+              onClick={() => setShowCreateModal(true)}
+            >
+              <span className="material-symbols-outlined text-[18px]">add</span>
+              New Goal
+            </button>
+          </div>
+        </section>
 
-          {/* Investments Section */}
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
-            <div className="glass-card p-lg rounded-[32px] bg-white text-on-surface border border-black/5 overflow-hidden relative">
-              <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-primary-container/5 rounded-full blur-3xl"></div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="material-symbols-outlined text-[32px]">auto_graph</span>
-                  <h2 className="font-headline-md text-headline-md">Investment Engine</h2>
-                </div>
-                <p className="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-sm">Your market-linked goals are growing at an average of 8.4% APY this quarter.</p>
-                <div className="space-y-6">
-                  {investments.map((investment, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                          <span className="material-symbols-outlined">{investment.icon}</span>
-                        </div>
-                        <div>
-                          <p className="font-label-bold">{investment.name}</p>
-                          <p className="text-label-sm opacity-70">{investment.description}</p>
-                        </div>
+        {/* Loading */}
+        {loading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-white rounded-2xl border border-black/5 p-6 animate-pulse space-y-4">
+                <div className="h-40 bg-gray-100 rounded-xl" />
+                <div className="h-4 bg-gray-100 rounded w-2/3" />
+                <div className="h-3 bg-gray-100 rounded w-full" />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div className="text-center py-16">
+            <span className="material-symbols-outlined text-4xl text-error mb-2 block">error</span>
+            <p className="text-on-surface-variant">{error}</p>
+            <button onClick={refetch} className="mt-4 text-primary font-label-bold hover:underline">Retry</button>
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!loading && !error && filtered.length === 0 && (
+          <div className="text-center py-20">
+            <span className="material-symbols-outlined text-6xl text-gray-300 mb-4 block">track_changes</span>
+            <h3 className="font-headline-md text-on-background mb-2">No goals yet</h3>
+            <p className="text-on-surface-variant mb-6">Create your first financial goal and start tracking progress.</p>
+            <button
+              className="px-6 py-3 bg-primary text-white rounded-xl font-label-bold hover:opacity-90 transition-all"
+              onClick={() => setShowCreateModal(true)}
+            >
+              Create your first goal
+            </button>
+          </div>
+        )}
+
+        {/* Goals grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            {filtered.map(goal => {
+              const { label, colorClass } = getStatus(goal.progress_percentage);
+              return (
+                <div key={goal.id} className="bg-white rounded-2xl border border-black/5 shadow-sm overflow-hidden group hover:shadow-md transition-shadow">
+                  {/* Image */}
+                  <div className="h-40 bg-gradient-to-br from-primary/10 to-secondary/10 relative overflow-hidden">
+                    {goal.image_url ? (
+                      <img src={goal.image_url} alt={goal.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="material-symbols-outlined text-5xl text-primary/30">savings</span>
                       </div>
-                      <div className="text-right">
-                        <p className="font-numbers-md text-numbers-md">{formatCurrency(investment.amount)}</p>
-                        <p className="text-label-sm text-primary-fixed-dim">Target: {investment.target}</p>
-                      </div>
+                    )}
+                    <span className={`absolute top-3 right-3 text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${colorClass}`}>
+                      {label}
+                    </span>
+                  </div>
+
+                  <div className="p-5">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="font-label-bold text-on-surface">{goal.title}</h3>
+                      <button
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-full hover:bg-error/10 text-error transition-all"
+                        onClick={() => handleDelete(goal.id)}
+                        title="Delete goal"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">delete</span>
+                      </button>
                     </div>
-                  ))}
+
+                    <div className="flex justify-between items-end mb-2">
+                      <span className="font-numbers-md text-numbers-md text-primary">
+                        {formatAmount(goal.saved_amount)}
+                        <span className="text-on-surface-variant text-body-md font-normal"> / {formatAmount(goal.target_amount)}</span>
+                      </span>
+                      <span className="text-label-bold text-secondary">{Math.round(goal.progress_percentage)}%</span>
+                    </div>
+
+                    <div className="w-full h-2 bg-surface-container-high rounded-full mb-4">
+                      <div
+                        className="h-full bg-secondary rounded-full transition-all duration-700"
+                        style={{ width: `${goal.progress_percentage}%` }}
+                      />
+                    </div>
+
+                    {goal.target_date && (
+                      <p className="text-label-sm text-on-surface-variant mb-4">
+                        Target: {new Date(goal.target_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                      </p>
+                    )}
+
+                    <button
+                      className="w-full py-2 bg-secondary/10 text-secondary font-label-bold rounded-lg hover:bg-secondary/20 transition-colors"
+                      onClick={() => { setDepositGoalId(goal.id); setDepositAmount(''); }}
+                    >
+                      Add Funds
+                    </button>
+                  </div>
                 </div>
-                <button className="mt-10 w-full py-4 bg-primary text-white rounded-xl font-label-bold hover:bg-primary-fixed transition-colors">
-                  Portfolio Analysis
+              );
+            })}
+          </div>
+        )}
+
+        {/* Summary stats */}
+        {!loading && !error && (goals ?? []).length > 0 && (
+          <div className="mt-xl grid grid-cols-3 gap-gutter">
+            {[
+              { label: 'Total Goals', value: String((goals ?? []).length), icon: 'flag' },
+              { label: 'Total Saved',  value: formatAmount((goals ?? []).reduce((s, g) => s + g.saved_amount, 0)), icon: 'savings' },
+              { label: 'Total Target', value: formatAmount((goals ?? []).reduce((s, g) => s + g.target_amount, 0)), icon: 'track_changes' },
+            ].map(stat => (
+              <div key={stat.label} className="bg-white border border-black/5 rounded-2xl p-6 flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary">{stat.icon}</span>
+                </div>
+                <div>
+                  <p className="text-label-sm text-on-surface-variant">{stat.label}</p>
+                  <p className="font-numbers-md text-numbers-md text-on-background">{stat.value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Create Goal Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm" onClick={e => { if (e.target === e.currentTarget) setShowCreateModal(false); }}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-headline-md text-on-surface">Create New Goal</h3>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/5" onClick={() => setShowCreateModal(false)}>
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <form onSubmit={handleCreateGoal} className="space-y-4">
+              <div>
+                <label className="font-label-bold text-on-surface-variant block mb-1">Goal Title</label>
+                <input
+                  className="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-on-surface focus:ring-2 focus:ring-primary/20"
+                  placeholder="e.g. Emergency Fund"
+                  value={newGoal.title}
+                  onChange={e => setNewGoal({ ...newGoal, title: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="font-label-bold text-on-surface-variant block mb-1">Target Amount ({symbol})</label>
+                <input
+                  className="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-on-surface focus:ring-2 focus:ring-primary/20"
+                  placeholder="10000"
+                  type="number"
+                  min="1"
+                  value={newGoal.target_amount}
+                  onChange={e => setNewGoal({ ...newGoal, target_amount: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="font-label-bold text-on-surface-variant block mb-1">Target Date (optional)</label>
+                <input
+                  className="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-on-surface focus:ring-2 focus:ring-primary/20"
+                  type="date"
+                  value={newGoal.target_date}
+                  onChange={e => setNewGoal({ ...newGoal, target_date: e.target.value })}
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <label className="font-label-bold text-on-surface-variant">Goal Type</label>
+                <div className="flex p-1 bg-surface-container-low rounded-lg">
+                  <button type="button" className={`px-4 py-1.5 rounded-md font-label-bold text-label-bold transition-all ${newGoal.is_short_term ? 'bg-primary text-white' : 'text-on-surface-variant'}`}
+                    onClick={() => setNewGoal({ ...newGoal, is_short_term: true })}>Short-term</button>
+                  <button type="button" className={`px-4 py-1.5 rounded-md font-label-bold text-label-bold transition-all ${!newGoal.is_short_term ? 'bg-primary text-white' : 'text-on-surface-variant'}`}
+                    onClick={() => setNewGoal({ ...newGoal, is_short_term: false })}>Long-term</button>
+                </div>
+              </div>
+              {formError && <p className="text-error text-label-bold text-sm">{formError}</p>}
+              <div className="flex gap-3 pt-2">
+                <button type="button" className="flex-1 py-3 border border-outline-variant rounded-lg font-label-bold text-on-surface-variant hover:bg-surface-container-low" onClick={() => setShowCreateModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" disabled={isCreating} className="flex-1 py-3 bg-primary text-white rounded-lg font-label-bold hover:opacity-90 disabled:opacity-60">
+                  {isCreating ? 'Creating...' : 'Create Goal'}
                 </button>
               </div>
-            </div>
-
-            {/* Smart Suggestions */}
-            <div className="space-y-gutter">
-              <h2 className="font-headline-md text-headline-md text-primary">Smart Accelerators</h2>
-              <div className="space-y-4">
-                <div className="glass-card p-md rounded-2xl flex gap-4 hover:border-secondary/30 transition-all cursor-pointer">
-                  <div className="w-12 h-12 rounded-full bg-secondary/10 flex-shrink-0 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-secondary">bolt</span>
-                  </div>
-                  <div>
-                    <h4 className="font-label-bold text-primary">Shave 2 Months off Luxury Sedan</h4>
-                    <p className="text-body-md text-on-surface-variant mt-1">Increasing your monthly contribution by just $125 will reach your target 8 weeks earlier.</p>
-                    <button className="mt-3 text-secondary font-label-bold text-label-sm flex items-center gap-1 hover:gap-2 transition-all">
-                      Apply Change <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="glass-card p-md rounded-2xl flex gap-4 hover:border-secondary/30 transition-all cursor-pointer">
-                  <div className="w-12 h-12 rounded-full bg-primary-fixed/30 flex-shrink-0 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary">redeem</span>
-                  </div>
-                  <div>
-                    <h4 className="font-label-bold text-primary">Tax Refund Opportunity</h4>
-                    <p className="text-body-md text-on-surface-variant mt-1">Your $2,400 refund has been detected. Allocate it to 'Emergency Fund' to hit 90% today?</p>
-                    <button className="mt-3 text-primary font-label-bold text-label-sm flex items-center gap-1 hover:gap-2 transition-all">
-                      Allocate Funds <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="glass-card p-md rounded-2xl flex gap-4 opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-                  <div className="w-12 h-12 rounded-full bg-on-surface-variant/10 flex-shrink-0 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-on-surface-variant">auto_fix_high</span>
-                  </div>
-                  <div>
-                    <h4 className="font-label-bold text-primary">Round-up Enrollment</h4>
-                    <p className="text-body-md text-on-surface-variant mt-1">Enabling merchant round-ups could add approximately $85/mo to your Japan trip.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Recently Completed */}
-          <section className="pb-10">
-            <h2 className="font-headline-md text-headline-md text-primary mb-md">Completed Legacies</h2>
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-              {completedGoals.map((goal) => (
-                <div key={goal.id} className="glass-card p-md rounded-2xl min-w-[280px] flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
-                    <span className="material-symbols-outlined text-[32px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                  </div>
-                  <div>
-                    <p className="font-label-bold text-primary">{goal.title}</p>
-                    <p className="text-label-sm text-on-surface-variant">Cleared {goal.completedDate}</p>
-                    <p className="font-numbers-md text-primary mt-1">{formatCurrency(goal.amount)}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+            </form>
+          </div>
         </div>
+      )}
 
-      </div>
+      {/* Add Funds Modal */}
+      {depositGoalId !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm" onClick={e => { if (e.target === e.currentTarget) setDepositGoalId(null); }}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <h3 className="font-headline-md text-on-surface mb-4">Add Funds</h3>
+            <p className="text-on-surface-variant mb-4">Enter amount to deposit into this goal:</p>
+            <div className="relative mb-4">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-bold">{symbol}</span>
+              <input
+                className="w-full bg-surface-container-low border-none rounded-lg pl-8 pr-4 py-3 font-body-md text-on-surface focus:ring-2 focus:ring-secondary/20"
+                placeholder="0.00"
+                type="number"
+                min="0.01"
+                step="0.01"
+                value={depositAmount}
+                onChange={e => setDepositAmount(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="flex gap-3">
+              <button className="flex-1 py-3 border border-outline-variant rounded-lg font-label-bold text-on-surface-variant" onClick={() => setDepositGoalId(null)}>Cancel</button>
+              <button
+                className="flex-1 py-3 bg-secondary text-white rounded-lg font-label-bold hover:opacity-90 disabled:opacity-60"
+                disabled={isDepositing || !depositAmount}
+                onClick={handleDeposit}
+              >
+                {isDepositing ? 'Saving...' : 'Add Funds'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

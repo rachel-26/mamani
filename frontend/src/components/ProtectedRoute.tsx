@@ -3,8 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Layout from './Layout';
 
 const ProtectedRoute = () => {
-  // TODO: Replace with real authentication logic when backend is connected
-  const isAuthenticated = true; // localStorage.getItem('token');
+  const isAuthenticated = !!localStorage.getItem('token');
 
   if (!isAuthenticated) {
     return <Navigate to="/signin" replace />;

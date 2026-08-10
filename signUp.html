@@ -249,6 +249,7 @@
 <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-fixed-dim blur-[120px] rounded-full"></div>
 <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-fixed blur-[120px] rounded-full"></div>
 </div>
+<script src="mamani-api.js"></script>
 <script>
         // Simple Micro-interactions
         document.querySelectorAll('input').forEach(input => {
@@ -295,35 +296,16 @@
                 submitBtn.disabled = true;
 
                 try {
-                    const response = await fetch('http://localhost:8000/auth/signup', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            full_name: nameInput,
-                            email: emailInput,
-                            password: passwordInput
-                        })
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        localStorage.setItem('access_token', data.access_token);
-                        localStorage.setItem('user_name', nameInput);
-                        localStorage.setItem('user_email', emailInput);
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        const err = await response.json().catch(() => ({ detail: 'Failed to register account.' }));
-                        alert(err.detail || 'Sign up failed. Please try again.');
-                        submitBtn.innerHTML = originalHTML;
-                        submitBtn.classList.remove('opacity-80', 'pointer-events-none');
-                        submitBtn.disabled = false;
-                    }
-                } catch (error) {
-                    // Graceful fallback if offline/backend unreachable
-                    console.warn('Backend unavailable, falling back to local simulation:', error);
+                    const data = await MamaniAPI.signup(nameInput, emailInput, passwordInput);
+                    localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('user_name', nameInput);
                     localStorage.setItem('user_email', emailInput);
                     window.location.href = 'dashboard.html';
+                } catch (error) {
+                    alert(error.message || 'Sign up failed. Please try again.');
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.classList.remove('opacity-80', 'pointer-events-none');
+                    submitBtn.disabled = false;
                 }
             });
         }

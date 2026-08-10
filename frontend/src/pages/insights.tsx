@@ -1,36 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useCurrency } from '../hooks/useCurrency';
+import { useApi } from '../hooks/useApi';
+import { getTransactions } from '../api/transactions';
 
-interface CategoryData {
-  name: string;
-  percentage: number;
-  change: number;
-  color: string;
-}
-
-interface WeeklySpending {
-  day: string;
-  amount: number;
-  isMax: boolean;
-}
 
 const InsightsPage: React.FC = () => {
+  const { formatAmount } = useCurrency();
   const [timeRange, _setTimeRange] = useState('Last 6 Months');
+  const { data: transactions } = useApi(getTransactions);
 
-  const categories: CategoryData[] = [
-    { name: 'Housing', percentage: 45, change: 2, color: 'bg-primary-container' },
-    { name: 'Dining', percentage: 25, change: -15, color: 'bg-on-tertiary-container' },
-    { name: 'Health', percentage: 15, change: 0, color: 'bg-secondary' }
-  ];
+  // Compute category breakdown from real transactions
+  const categoryBreakdown = useMemo(() => {
+    if (!transactions) return [];
+    const expenses = transactions.filter((t: any) => t.is_expense);
+    const total = expenses.reduce((s: number, t: any) => s + t.amount, 0);
+    const byCategory = expenses.reduce((acc: any, t: any) => {
+      acc[t.category] = (acc[t.category] || 0) + t.amount;
+      return acc;
+    }, {} as Record<string, number>);
+    const COLORS = ['bg-primary-container', 'bg-on-tertiary-container', 'bg-secondary'];
+    return Object.entries(byCategory)
+      .sort(([, a], [, b]) => (b as number) - (a as number))
+      .slice(0, 3)
+      .map(([name, amount], i) => ({
+        name,
+        percentage: total ? Math.round(((amount as number) / total) * 100) : 0,
+        change: 0,
+        color: COLORS[i] || 'bg-surface-container-high',
+        amount: amount as number,
+      }));
+  }, [transactions]);
 
-  const weeklyData: WeeklySpending[] = [
-    { day: 'Mon', amount: 12, isMax: false },
-    { day: 'Tue', amount: 20, isMax: false },
-    { day: 'Wed', amount: 32, isMax: false },
-    { day: 'Thu', amount: 16, isMax: false },
-    { day: 'Fri', amount: 44, isMax: true },
-    { day: 'Sat', amount: 36, isMax: false },
-    { day: 'Sun', amount: 14, isMax: false }
-  ];
+  const totalExpenses = useMemo(() => {
+    if (!transactions) return 0;
+    return transactions.filter((t: any) => t.is_expense).reduce((s: number, t: any) => s + t.amount, 0);
+  }, [transactions]);
+
+  const totalIncome = useMemo(() => {
+    if (!transactions) return 0;
+    return transactions.filter((t: any) => !t.is_expense).reduce((s: number, t: any) => s + t.amount, 0);
+  }, [transactions]);
+
+  const weeklyData = useMemo(() => {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const amounts = [0, 0, 0, 0, 0, 0, 0];
+    if (transactions) {
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      transactions
+        .filter((t: any) => t.is_expense && new Date(t.date) >= oneWeekAgo)
+        .forEach((t: any) => { amounts[new Date(t.date).getDay()] += t.amount; });
+    }
+    const max = Math.max(...amounts, 1);
+    return days.map((day, i) => ({ day, amount: amounts[i], isMax: amounts[i] === max && max > 0 }));
+  }, [transactions]);
 
   const getBarHeight = (amount: number) => {
     const maxAmount = Math.max(...weeklyData.map(d => d.amount));
@@ -127,13 +150,13 @@ const InsightsPage: React.FC = () => {
                     <circle cx="18" cy="18" fill="none" r="16" stroke="#ff9939" strokeDasharray="25, 100" strokeDashoffset="-45" strokeLinecap="round" strokeWidth="4"></circle>
                     <circle cx="18" cy="18" fill="none" r="16" stroke="#006f66" strokeDasharray="15, 100" strokeDashoffset="-70" strokeLinecap="round" strokeWidth="4"></circle>
                   </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-label-bold text-primary">$4,280</span>
-                    <span className="text-[10px] text-outline uppercase tracking-wider">Total</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-label-bold text-primary">{formatAmount(totalExpenses)}</span>
+                    <span className="text-[10px] text-outline uppercase tracking-wider">Spent</span>
                   </div>
                 </div>
                 <div className="w-full space-y-2">
-                  {categories.map((category) => (
+                  {(categoryBreakdown.length > 0 ? categoryBreakdown : [{name:'No data',percentage:0,change:0,color:'bg-surface-container-high'}]).map((category) => (
                     <div key={category.name} className="flex justify-between items-center text-label-sm">
                       <div className="flex items-center gap-2">
                         <div className={`w-2 h-2 rounded-full ${category.color}`}></div>
@@ -182,7 +205,9 @@ const InsightsPage: React.FC = () => {
                 ))}
               </div>
               <p className="text-label-sm text-on-surface-variant mt-md">
-                You spend <span className="font-bold text-primary">32% more</span> on Fridays compared to other weekdays.
+                {totalIncome > 0
+                  ? <>You save <span className="font-bold text-primary">{Math.round((totalIncome - totalExpenses) / totalIncome * 100)}%</span> of your income on average.</>
+                  : 'Add transactions to see your spending patterns.'}
               </p>
             </div>
 
@@ -194,7 +219,9 @@ const InsightsPage: React.FC = () => {
               </div>
               <div className="circular-progress relative mb-md" style={{ '--percentage': 68 } as React.CSSProperties}>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="font-display-lg text-headline-md text-primary">68%</span>
+                  <span className="font-display-lg text-headline-md text-primary">
+                    {totalIncome > 0 ? `${Math.min(Math.round((totalIncome - totalExpenses) / totalIncome * 100), 100)}%` : '--'}
+                  </span>
                 </div>
               </div>
               <div className="space-y-1">

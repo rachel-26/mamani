@@ -39,10 +39,12 @@ class Transaction(Base):
     amount = Column(Float, nullable=False)
     is_expense = Column(Boolean, default=True)
     notes = Column(String, nullable=True)
+    account = Column(String, nullable=True, default="Main Savings")
     date = Column(DateTime, default=datetime.utcnow)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="transactions")
+
 
 
 class Goal(Base):

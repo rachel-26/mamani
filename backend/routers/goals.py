@@ -1,10 +1,10 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database import get_db, Goal, User
-from models.schemas import GoalCreate, GoalOut, GoalUpdate
+from models.schemas import GoalCreate, GoalOut, GoalUpdate, DepositPayload
 from dependencies import get_current_user
 
 router = APIRouter(prefix="/goals", tags=["goals"])
@@ -17,7 +17,7 @@ def _to_out(goal: Goal) -> GoalOut:
     return data
 
 
-@router.get("/", response_model=List[GoalOut])
+@router.get("", response_model=List[GoalOut])
 def list_goals(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -26,7 +26,7 @@ def list_goals(
     return [_to_out(g) for g in goals]
 
 
-@router.post("/", response_model=GoalOut, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=GoalOut, status_code=status.HTTP_201_CREATED)
 def create_goal(
     payload: GoalCreate,
     current_user: User = Depends(get_current_user),
@@ -54,6 +54,28 @@ def update_goal(
 
     for field, value in payload.model_dump(exclude_unset=True).items():
         setattr(goal, field, value)
+    db.commit()
+    db.refresh(goal)
+    return _to_out(goal)
+
+
+@router.patch("/{goal_id}/deposit", response_model=GoalOut)
+def deposit_to_goal(
+    goal_id: int,
+    payload: DepositPayload,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Add funds to an existing goal's saved_amount."""
+    goal = db.query(Goal).filter(
+        Goal.id == goal_id, Goal.owner_id == current_user.id
+    ).first()
+    if not goal:
+        raise HTTPException(status_code=404, detail="Goal not found")
+    if payload.amount <= 0:
+        raise HTTPException(status_code=400, detail="Amount must be positive")
+
+    goal.saved_amount = min(goal.saved_amount + payload.amount, goal.target_amount)
     db.commit()
     db.refresh(goal)
     return _to_out(goal)

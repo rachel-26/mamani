@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 
 # ── Auth ─────────────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ class UserOut(BaseModel):
     full_name: str
     email: str
     phone: Optional[str] = None
-    currency: str = "USD"
+    currency: str = "USD ($)"
     avatar_url: Optional[str] = None
     created_at: datetime
 
@@ -51,6 +51,7 @@ class TransactionCreate(BaseModel):
     amount: float
     is_expense: bool = True
     notes: Optional[str] = None
+    account: Optional[str] = "Main Savings"
     date: Optional[datetime] = None
 
 
@@ -61,6 +62,30 @@ class TransactionOut(TransactionCreate):
 
     class Config:
         from_attributes = True
+
+
+# ── Dashboard Summary ─────────────────────────────────────────────────────────
+
+class RecentTransaction(BaseModel):
+    id: int
+    title: str
+    category: str
+    amount: float
+    is_expense: bool
+    account: Optional[str] = "Main Savings"
+    date: datetime
+    notes: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class TransactionSummary(BaseModel):
+    net_worth: float
+    total_income: float
+    total_expenses: float
+    savings_rate: float
+    recent_transactions: List[RecentTransaction]
 
 
 # ── Goal ──────────────────────────────────────────────────────────────────────
@@ -80,6 +105,10 @@ class GoalUpdate(BaseModel):
     title: Optional[str] = None
     target_amount: Optional[float] = None
     target_date: Optional[datetime] = None
+
+
+class DepositPayload(BaseModel):
+    amount: float
 
 
 class GoalOut(GoalCreate):

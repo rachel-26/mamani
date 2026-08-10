@@ -186,7 +186,7 @@
 <div class="text-center w-full">
 <div class="relative group">
 <span class="absolute left-1/2 -translate-x-[110%] top-1/2 -translate-y-1/2 font-numbers-lg text-numbers-lg text-secondary opacity-50">$</span>
-<input class="w-full bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00"/>
+<input id="transaction-amount" class="w-full bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00"/>
 <div class="h-0.5 w-32 bg-secondary/20 group-focus-within:bg-secondary mx-auto transition-colors mt-1 rounded-full"></div>
 </div>
 </div>
@@ -234,26 +234,24 @@
 <div class="space-y-2">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Date</label>
 <div class="relative">
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all" type="text" value="Today, 24 May"/>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">calendar_today</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer" type="date" id="transaction-date" onclick="this.showPicker()"/>
 </div>
 </div>
 <div class="space-y-2">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Account</label>
 <div class="relative">
-<select class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 appearance-none transition-all">
+<select id="transaction-account" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer">
 <option>Main Savings</option>
 <option>Credit Card</option>
 <option>Investment Wallet</option>
 </select>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
 </div>
 </div>
 </div>
 <!-- Description Field -->
 <div class="space-y-2">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Note / Description</label>
-<textarea class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all resize-none" placeholder="What was this for?" rows="2"></textarea>
+<textarea id="transaction-note" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all resize-none" placeholder="What was this for?" rows="2"></textarea>
 </div>
 <!-- Attachment -->
 <div class="space-y-2">
@@ -279,7 +277,14 @@
 </div>
 </div>
 </div>
+<script src="mamani-api.js"></script>
 <script>
+        // Try requireAuth but ignore if not found
+        if (typeof MamaniAPI !== 'undefined') MamaniAPI.requireAuth();
+
+        let activeCategory = 'Housing';
+        let isExpense = true;
+
         // Micro-interactions for Category Chips
         const chips = document.querySelectorAll('.category-chip');
         chips.forEach(chip => {
@@ -297,7 +302,11 @@
                 const icon = chip.querySelector('.material-symbols-outlined');
                 if(icon) icon.classList.replace('text-secondary', 'text-white');
                 const text = chip.querySelector('span:last-child');
-                if(text) text.classList.replace('text-on-surface-variant', 'text-white');
+                if(text) {
+                    text.classList.replace('text-on-surface-variant', 'text-white');
+                    activeCategory = text.innerText.trim();
+                    activeCategory = activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1).toLowerCase();
+                }
             });
         });
 
@@ -306,11 +315,13 @@
         const btnIncome = document.getElementById('btn-income');
         
         btnExpense.addEventListener('click', () => {
+            isExpense = true;
             btnExpense.className = "px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200";
             btnIncome.className = "px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200";
         });
 
         btnIncome.addEventListener('click', () => {
+            isExpense = false;
             btnIncome.className = "px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200";
             btnExpense.className = "px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200";
         });
@@ -325,7 +336,11 @@
             const dialog = modalContainer.querySelector('div[role="dialog"]');
             if(dialog) dialog.classList.add('scale-95');
             setTimeout(() => {
-                window.location.href = 'transactionHistory.html';
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'transactionHistory.html';
+                }
             }, 250);
         }
 
@@ -341,35 +356,45 @@
         const saveBtn = document.getElementById('save-transaction-btn');
         if (saveBtn) {
             saveBtn.addEventListener('click', async () => {
+                const amountVal = document.getElementById('transaction-amount').value;
+                const amount = parseFloat(amountVal);
+                if (isNaN(amount) || amount <= 0) {
+                    alert("Please enter a valid amount.");
+                    return;
+                }
+
+                const title = document.getElementById('transaction-note').value.trim() || 'New Transaction';
+                const account = document.getElementById('transaction-account').value;
+                const dateVal = document.getElementById('transaction-date').value;
+
                 saveBtn.innerText = "Saving...";
                 saveBtn.disabled = true;
                 
-                // Optional: send to backend if running
-                const token = localStorage.getItem('access_token');
-                if (token) {
-                    try {
-                        await fetch('http://localhost:8000/transactions/', {
-                            method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}` 
-                            },
-                            body: JSON.stringify({
-                                amount: 84.20,
-                                category: "Housing",
-                                merchant_or_sender: "Main Savings",
-                                date_time: new Date().toISOString()
-                            })
+                try {
+                    if (typeof MamaniAPI !== 'undefined') {
+                        await MamaniAPI.createTransaction({
+                            amount: amount,
+                            title: title,
+                            category: activeCategory,
+                            account: account,
+                            is_expense: isExpense,
+                            date: new Date(dateVal).toISOString()
                         });
-                    } catch (e) {
-                        console.log("Backend offline, saving locally.");
                     }
-                }
-
-                setTimeout(() => {
                     closeModal();
-                }, 400);
+                } catch (e) {
+                    alert("Failed to save: " + e.message);
+                    saveBtn.innerText = "Save Transaction";
+                    saveBtn.disabled = false;
+                }
             });
         }
+    
+        // Set today's date for the date input
+        const dateInput = document.getElementById('transaction-date');
+        if (dateInput) {
+            dateInput.value = new Date().toISOString().split('T')[0];
+        }
+
     </script>
 </body></html>

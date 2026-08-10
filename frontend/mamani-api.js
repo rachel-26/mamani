@@ -1,0 +1,200 @@
+/**
+ * mamani-api.js
+ * Shared API helper for all Mamani HTML pages.
+ * Drop-in: <script src="mamani-api.js"></script>
+ */
+
+const API_BASE = 'http://localhost:8000';
+
+const MamaniAPI = {
+  // ── Auth ─────────────────────────────────────────────────────────
+  getToken() {
+    return localStorage.getItem('access_token');
+  },
+
+  isLoggedIn() {
+    return !!this.getToken();
+  },
+
+  logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_currency');
+    window.location.href = 'login.html';
+  },
+
+  requireAuth() {
+    if (!this.isLoggedIn()) {
+      window.location.replace('login.html');
+    }
+  },
+
+  _authHeaders() {
+    return {
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json',
+    };
+  },
+
+  async _handleResponse(res) {
+    if (res.status === 401) {
+      this.logout();
+      throw new Error('Unauthorized');
+    }
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'Request failed' }));
+      throw new Error(err.detail || 'Request failed');
+    }
+    if (res.status === 204) return null;
+    return res.json();
+  },
+
+  // ── Login ─────────────────────────────────────────────────────────
+  async login(email, password) {
+    // FastAPI OAuth2PasswordRequestForm requires form data
+    const formData = new URLSearchParams();
+    formData.append('username', email);
+    formData.append('password', password);
+
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData,
+    });
+    return this._handleResponse(res);
+  },
+
+  async signup(fullName, email, password) {
+    const res = await fetch(`${API_BASE}/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ full_name: fullName, email, password }),
+    });
+    return this._handleResponse(res);
+  },
+
+  // ── User ──────────────────────────────────────────────────────────
+  async getMe() {
+    const res = await fetch(`${API_BASE}/users/me`, { headers: this._authHeaders() });
+    return this._handleResponse(res);
+  },
+
+  async updateMe(payload) {
+    const res = await fetch(`${API_BASE}/users/me`, {
+      method: 'PUT',
+      headers: this._authHeaders(),
+      body: JSON.stringify(payload),
+    });
+    return this._handleResponse(res);
+  },
+
+  // ── Transactions ──────────────────────────────────────────────────
+  async getTransactions({ skip = 0, limit = 50, is_expense, category } = {}) {
+    const params = new URLSearchParams({ skip, limit });
+    if (is_expense !== undefined) params.append('is_expense', is_expense);
+    if (category) params.append('category', category);
+    const res = await fetch(`${API_BASE}/transactions?${params}`, { headers: this._authHeaders() });
+    return this._handleResponse(res);
+  },
+
+  async getTransactionSummary() {
+    const res = await fetch(`${API_BASE}/transactions/summary`, { headers: this._authHeaders() });
+    return this._handleResponse(res);
+  },
+
+  async createTransaction(payload) {
+    const res = await fetch(`${API_BASE}/transactions`, {
+      method: 'POST',
+      headers: this._authHeaders(),
+      body: JSON.stringify(payload),
+    });
+    return this._handleResponse(res);
+  },
+
+  async deleteTransaction(id) {
+    const res = await fetch(`${API_BASE}/transactions/${id}`, {
+      method: 'DELETE',
+      headers: this._authHeaders(),
+    });
+    return this._handleResponse(res);
+  },
+
+  // ── Goals ─────────────────────────────────────────────────────────
+  async getGoals() {
+    const res = await fetch(`${API_BASE}/goals`, { headers: this._authHeaders() });
+    return this._handleResponse(res);
+  },
+
+  async createGoal(payload) {
+    const res = await fetch(`${API_BASE}/goals`, {
+      method: 'POST',
+      headers: this._authHeaders(),
+      body: JSON.stringify(payload),
+    });
+    return this._handleResponse(res);
+  },
+
+  async depositToGoal(id, amount) {
+    const res = await fetch(`${API_BASE}/goals/${id}/deposit`, {
+      method: 'PATCH',
+      headers: this._authHeaders(),
+      body: JSON.stringify({ amount }),
+    });
+    return this._handleResponse(res);
+  },
+
+  async deleteGoal(id) {
+    const res = await fetch(`${API_BASE}/goals/${id}`, {
+      method: 'DELETE',
+      headers: this._authHeaders(),
+    });
+    return this._handleResponse(res);
+  },
+
+  // ── Helpers ───────────────────────────────────────────────────────
+  getCurrencySymbol() {
+    const saved = localStorage.getItem('user_currency') || 'USD ($)';
+    if (saved.includes('TSh')) return 'TSh';
+    if (saved.includes('€'))   return '€';
+    if (saved.includes('£'))   return '£';
+    if (saved.includes('¥'))   return '¥';
+    if (saved.includes('CA$')) return 'CA$';
+    return '$';
+  },
+
+  formatAmount(amount, symbol) {
+    const sym = symbol || this.getCurrencySymbol();
+    const num = Math.abs(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `${sym}${num}`;
+  },
+
+  formatRelativeDate(dateStr) {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return `Today, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    if (diffDays === 1) return 'Yesterday';
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  },
+
+  CATEGORY_ICONS: {
+    Housing:       { icon: 'home',             bg: 'bg-orange-100', color: 'text-orange-700'   },
+    Food:          { icon: 'restaurant',        bg: 'bg-amber-100',  color: 'text-amber-700'    },
+    Transport:     { icon: 'directions_car',    bg: 'bg-blue-100',   color: 'text-blue-700'     },
+    Utilities:     { icon: 'bolt',              bg: 'bg-yellow-100', color: 'text-yellow-700'   },
+    Health:        { icon: 'medical_services',  bg: 'bg-rose-100',   color: 'text-rose-700'     },
+    Shopping:      { icon: 'shopping_bag',      bg: 'bg-purple-100', color: 'text-purple-700'   },
+    Entertainment: { icon: 'movie',             bg: 'bg-pink-100',   color: 'text-pink-700'     },
+    Dining:        { icon: 'restaurant',        bg: 'bg-amber-100',  color: 'text-amber-700'    },
+    Electronics:   { icon: 'devices',           bg: 'bg-indigo-100', color: 'text-indigo-700'   },
+    Income:        { icon: 'account_balance',   bg: 'bg-emerald-100',color: 'text-emerald-700'  },
+    Others:        { icon: 'category',          bg: 'bg-gray-100',   color: 'text-gray-700'     },
+  },
+
+  getCategoryMeta(category, isExpense) {
+    if (!isExpense) return this.CATEGORY_ICONS['Income'];
+    return this.CATEGORY_ICONS[category] || this.CATEGORY_ICONS['Others'];
+  },
+};

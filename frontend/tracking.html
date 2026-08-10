@@ -162,7 +162,7 @@
 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -258,91 +258,10 @@
 <button class="px-4 py-1.5 rounded-full text-label-bold bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Long-term</button>
 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-<!-- Goal Card 1: Emergency Fund -->
-<div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
-<div class="h-48 relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A serene, high-fidelity landscape of a tranquil lake reflecting a clear blue sky, framed by misty mountains. The lighting is soft and ethereal, using a light-saturated emerald and teal color palette to evoke a sense of calm security and financial peace of mind. Minimalist aesthetic, high-end photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9LgBCqY1PP6966CzQzPt3FOU9oXRdAq7H30JmH8K47Pn6AfTTyFabwcQKLR2RNhiM99yUOENdlnaJ4kR6rYA-8y7XonKWWR0J3SHoq6ClCkEUg8Dal3ikQeaiOYfaZHjq6vYLmYLxHe0p_ag7K6JFRSN6dXvXfVUeq1j99NOmfqlEopbKZZDo8lpkudLWdiJQMFbKj-fXb3fxD2U0ozgfDnpMEGrU953c6HAPMduRzqizAB_y6jwj-njsHh9eKbDqtzP1tm2UMlxz"/>
-<div class="absolute top-4 left-4">
-<span class="bg-primary/90 text-white px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">Ahead of Schedule</span>
-</div>
-</div>
-<div class="p-md flex-1 flex flex-col">
-<div class="flex justify-between items-start mb-2">
-<h4 class="text-lg font-bold text-primary">Emergency Fund</h4>
-<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
-</div>
-<div class="mt-auto pt-md">
-<div class="flex justify-between items-end mb-2">
-<span class="text-numbers-md text-numbers-md text-primary">$18,500 <span class="text-on-surface-variant text-body-md font-normal">/ $25k</span></span>
-<span class="text-label-bold text-secondary">74%</span>
-</div>
-<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 74%"></div>
-</div>
-<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
-                                    Target: October 2024
-                                </p>
-</div>
-</div>
-</div>
-<!-- Goal Card 2: Japan Trip -->
-<div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
-<div class="h-48 relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="An editorial-style photograph of a minimalist Zen garden in Japan with perfectly raked white sand and a single sculptural stone. Soft morning light creates delicate shadows. The palette is dominated by off-whites and light greys with a subtle touch of moss green, capturing the high-end travel aesthetic and a mood of intentional luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6XaStfqh4nivd680_1y2a5dqTDjEUe-JhJjwY5mpIPc5viNriEJ41-6hAe03DV5cWQnFr__71CzHb09sMhou3TK905J4pPGVbHmS8Y6AtkVuxKOonAf6EtKTX-K-u3tG9UYq4znhidqiwbDJCBuH2vQH_XVmHXVA_9unvm7piHzlCWUWz74Fk6fRwYLKQIcl9HP94UCXNhONC2Wdj7L7PVzqcg6ckVFzXWSbxtXAqYcYbe2laPxClCZLEheme61NWWyOq_-rUWfC7"/>
-<div class="absolute top-4 left-4">
-<span class="bg-secondary/90 text-white px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">On Track</span>
-</div>
-</div>
-<div class="p-md flex-1 flex flex-col">
-<div class="flex justify-between items-start mb-2">
-<h4 class="text-lg font-bold text-primary">Japan Expedition</h4>
-<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
-</div>
-<div class="mt-auto pt-md">
-<div class="flex justify-between items-end mb-2">
-<span class="text-numbers-md text-numbers-md text-primary">$6,200 <span class="text-on-surface-variant text-body-md font-normal">/ $12k</span></span>
-<span class="text-label-bold text-secondary">52%</span>
-</div>
-<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-secondary rounded-full" style="width: 52%"></div>
-</div>
-<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
-                                    Target: April 2025
-                                </p>
-</div>
-</div>
-</div>
-<!-- Goal Card 3: New Car -->
-<div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
-<div class="h-48 relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A close-up, high-fashion shot of a premium electric vehicle's sleek curves and polished metallic surface in a deep forest green. Reflection of modern architectural lines on the car body. The atmosphere is luxurious and sophisticated, lit by high-contrast studio lighting to emphasize precision engineering and wealth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByHZL_v5keHEqiDTey5ut1cgsD4IBVtS8cdo3T70VteU1CtpZ2y7r6O-MRnynslA6FBwUCujJcUSnw81Z5Bec7mbBrA2uj1PPhPYbct4sTykOD8QAEXF7PBfWco6Ok0RWevbl0Xf6Mi4B4kAXAKDhobzrVmllHt3KKj9Jj0Ov-e8W1jH49RXRVaVuBDvR1lsizp7cw4ku5q_XRKrLbyEzsxaroU94ZLK55IwZp5finT2UrhkmQrlIKEmCzq4XAAzedspZlIw0iybTv"/>
-<div class="absolute top-4 left-4">
-<span class="bg-tertiary-container text-tertiary-fixed px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">Needs Focus</span>
-</div>
-</div>
-<div class="p-md flex-1 flex flex-col">
-<div class="flex justify-between items-start mb-2">
-<h4 class="text-lg font-bold text-primary">Luxury Sedan</h4>
-<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
-</div>
-<div class="mt-auto pt-md">
-<div class="flex justify-between items-end mb-2">
-<span class="text-numbers-md text-numbers-md text-primary">$12,000 <span class="text-on-surface-variant text-body-md font-normal">/ $55k</span></span>
-<span class="text-label-bold text-tertiary">22%</span>
-</div>
-<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-tertiary-container rounded-full" style="width: 22%"></div>
-</div>
-<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
-                                    Target: Jan 2026
-                                </p>
-</div>
-</div>
-</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="goals-grid">
+  <div class="col-span-3 animate-pulse space-y-4">
+    <div class="h-64 bg-white border border-black/5 rounded-[32px]"></div>
+  </div>
 </div>
 </section>
 <!-- Investments Section -->
@@ -470,44 +389,127 @@
 </div>
 </footer>
 </main>
+<script src="mamani-api.js"></script>
 <script>
-        // Micro-interactions
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-4px)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-            });
-        });
+        MamaniAPI.requireAuth();
 
-        // Dynamically set username from session
-        async function updateUserData() {
-            let userName = localStorage.getItem('user_name') || 'Peter Parker';
-            let userEmail = localStorage.getItem('user_email') || 'Premium Member';
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                try {
-                    const res = await fetch('http://localhost:8000/users/me', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.full_name) {
-                            userName = data.full_name;
-                            localStorage.setItem('user_name', userName);
-                        }
-                        if (data.email) {
-                            userEmail = data.email;
-                            localStorage.setItem('user_email', userEmail);
-                        }
-                    }
-                } catch (e) {}
+        // ── Load Goals ────────────────────────────────────────────
+        async function loadGoals() {
+            const grid = document.getElementById('goals-grid');
+            if (!grid) return;
+            try {
+                const goals = await MamaniAPI.getGoals();
+                const sym = MamaniAPI.getCurrencySymbol();
+
+                if (goals.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-3 text-center py-16">
+                          <span class="material-symbols-outlined text-6xl text-gray-300 block mb-4">track_changes</span>
+                          <p class="text-on-surface-variant">No goals yet. Create your first goal!</p>
+                        </div>`;
+                    return;
+                }
+
+                const STATUS = [
+                    { min: 70, label: 'Ahead of Schedule', cls: 'bg-primary/90 text-white' },
+                    { min: 40, label: 'On Track',          cls: 'bg-secondary/90 text-white' },
+                    { min: 0,  label: 'Needs Focus',       cls: 'bg-orange-400 text-white' },
+                ];
+
+                grid.innerHTML = goals.map(g => {
+                    const pct = Math.round(g.progress_percentage);
+                    const status = STATUS.find(s => pct >= s.min) || STATUS[2];
+                    const targetDate = g.target_date
+                        ? new Date(g.target_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+                        : null;
+                    return `
+                        <div class="glass-card rounded-[32px] overflow-hidden group hover:shadow-xl transition-all duration-500 flex flex-col">
+                          <div class="h-48 relative overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+                            ${g.image_url
+                                ? `<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${g.image_url}" alt="${g.title}"/>`
+                                : `<span class="material-symbols-outlined text-6xl text-primary/20">savings</span>`}
+                            <div class="absolute top-4 left-4">
+                              <span class="${status.cls} px-3 py-1 rounded-full text-label-sm font-label-bold backdrop-blur-md">${status.label}</span>
+                            </div>
+                            <button onclick="deleteGoal(${g.id})" class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center text-error hover:bg-error hover:text-white transition-all">
+                              <span class="material-symbols-outlined text-[16px]">delete</span>
+                            </button>
+                          </div>
+                          <div class="p-md flex-1 flex flex-col">
+                            <h4 class="text-lg font-bold text-primary mb-2">${g.title}</h4>
+                            <div class="mt-auto pt-md">
+                              <div class="flex justify-between items-end mb-2">
+                                <span class="text-numbers-md text-primary">${MamaniAPI.formatAmount(g.saved_amount, sym)} <span class="text-on-surface-variant text-body-md font-normal">/ ${MamaniAPI.formatAmount(g.target_amount, sym)}</span></span>
+                                <span class="text-label-bold text-secondary">${pct}%</span>
+                              </div>
+                              <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-secondary rounded-full" style="width:${pct}%"></div>
+                              </div>
+                              ${targetDate ? `<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">calendar_today</span>Target: ${targetDate}</p>` : ''}
+                              <button onclick="openAddFunds(${g.id})" class="mt-4 w-full py-2 bg-secondary/10 text-secondary font-label-bold rounded-xl hover:bg-secondary/20 transition-colors text-sm">
+                                Add Funds
+                              </button>
+                            </div>
+                          </div>
+                        </div>`;
+                }).join('');
+            } catch (e) {
+                document.getElementById('goals-grid').innerHTML = `<p class="col-span-3 text-center text-on-surface-variant py-8">${e.message}</p>`;
             }
-            const headerNameEl = document.getElementById('header-username');
-            if (headerNameEl) headerNameEl.innerText = userName;
-            const headerEmailEl = document.getElementById('header-useremail');
-            if (headerEmailEl) headerEmailEl.innerText = userEmail;
+        }
+
+        let addFundsGoalId = null;
+
+        function openAddFunds(id) {
+            addFundsGoalId = id;
+            const modal = document.getElementById('add-funds-modal');
+            if (modal) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                document.getElementById('add-funds-input').value = '';
+                document.getElementById('add-funds-input').focus();
+            }
+        }
+
+        async function submitAddFunds() {
+            const amount = parseFloat(document.getElementById('add-funds-input')?.value);
+            if (!amount || amount <= 0) return;
+            try {
+                await MamaniAPI.depositToGoal(addFundsGoalId, amount);
+                document.getElementById('add-funds-modal').classList.add('opacity-0', 'pointer-events-none');
+                loadGoals();
+            } catch (e) {
+                alert('Deposit failed: ' + e.message);
+            }
+        }
+
+        async function deleteGoal(id) {
+            if (!confirm('Delete this goal?')) return;
+            try {
+                await MamaniAPI.deleteGoal(id);
+                loadGoals();
+            } catch (e) {
+                alert('Could not delete: ' + e.message);
+            }
+        }
+
+        // ── User info ───────────────────────────────────────────────
+        async function updateUserData() {
+            try {
+                const user = await MamaniAPI.getMe();
+                localStorage.setItem('user_name', user.full_name || '');
+                localStorage.setItem('user_email', user.email || '');
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = user.full_name || '';
+                const elEmail = document.getElementById('header-useremail');
+                if (elEmail) elEmail.innerText = user.email || '';
+            } catch (_) {
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = localStorage.getItem('user_name') || 'User';
+            }
+        }
+
+        updateUserData();
+        loadGoals();
         }
         updateUserData();
     </script>
@@ -583,10 +585,6 @@
                     </div>
                 </form>
             </div>
-
-            <!-- Right Column: Security & Preferences -->
-            <div class="md:col-span-5 space-y-6">
-                <!-- Perks Card -->
                 <div class="p-6 rounded-2xl bg-gradient-to-br from-[#1F2937] to-slate-900 text-white shadow-md space-y-3">
                     <div class="flex items-center justify-between">
                         <span class="material-symbols-outlined text-secondary text-2xl">workspace_premium</span>

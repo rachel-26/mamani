@@ -174,7 +174,7 @@
 <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
 <span>Support</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="localStorage.clear(); window.location.href='login.html';">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
 <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
 <span>Logout</span>
 </a>
@@ -327,104 +327,21 @@
 <h4 class="text-lg font-bold text-primary">Recent Transactions</h4>
 <a class="text-label-bold text-secondary" href="transactionHistory.html">See All</a>
 </div>
-<div class="space-y-6">
-<!-- Transaction Item -->
-<div class="flex items-center justify-between group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-2xl bg-accent-amber/20 flex items-center justify-center text-accent-amber">
-<span class="material-symbols-outlined">restaurant</span>
-</div>
-<div>
-<p class="font-label-bold text-on-surface">Whole Foods Market</p>
-<p class="text-label-sm text-on-surface-variant">Today, 10:45 AM</p>
-</div>
-</div>
-<p class="font-numbers-md text-on-surface">-$152.00</p>
-</div>
-<!-- Transaction Item -->
-<div class="flex items-center justify-between group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-2xl bg-accent-indigo/20 flex items-center justify-center text-accent-indigo">
-<span class="material-symbols-outlined">commute</span>
-</div>
-<div>
-<p class="font-label-bold text-on-surface">Uber Trip</p>
-<p class="text-label-sm text-on-surface-variant">Yesterday</p>
-</div>
-</div>
-<p class="font-numbers-md text-on-surface">-$24.50</p>
-</div>
-<!-- Transaction Item -->
-<div class="flex items-center justify-between group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-600">
-<span class="material-symbols-outlined">payments</span>
-</div>
-<div>
-<p class="font-label-bold text-on-surface">Salary Deposit</p>
-<p class="text-label-sm text-on-surface-variant">Nov 25, 2024</p>
-</div>
-</div>
-<p class="font-numbers-md text-secondary">+$5,200.00</p>
-</div>
-<!-- Transaction Item -->
-<div class="flex items-center justify-between group cursor-pointer">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-2xl bg-accent-gold/20 flex items-center justify-center text-accent-gold">
-<span class="material-symbols-outlined">shopping_bag</span>
-</div>
-<div>
-<p class="font-label-bold text-on-surface">Apple Store</p>
-<p class="text-label-sm text-on-surface-variant">Nov 24, 2024</p>
-</div>
-</div>
-<p class="font-numbers-md text-on-surface">-$1,299.00</p>
-</div>
+<div class="space-y-6" id="recent-transactions-list">
+  <div class="animate-pulse space-y-4">
+    <div class="h-12 bg-gray-100 rounded-xl"></div>
+    <div class="h-12 bg-gray-100 rounded-xl"></div>
+    <div class="h-12 bg-gray-100 rounded-xl"></div>
+  </div>
 </div>
 </div>
 <!-- 4. Savings Goals Widget -->
 <div class="col-span-12 lg:col-span-3 p-lg glass-card rounded-[32px] flex flex-col bg-white" style="--mouse-x: 214.0078125px; --mouse-y: 279px;">
-<h4 class="text-lg font-bold text-primary mb-md">Savings Goals</h4>
-<div class="space-y-8 flex-1">
-<!-- Goal -->
-<div>
-<div class="flex justify-between items-end mb-2">
-<div>
-<p class="font-label-bold text-on-surface">New Car</p>
-<p class="text-label-sm text-on-surface-variant">$25,000 / $40,000</p>
-</div>
-<span class="text-label-bold text-accent-teal">62%</span>
-</div>
-<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-accent-teal rounded-full progress-bar-glow" style="width: 62.5%"></div>
-</div>
-</div>
-<!-- Goal -->
-<div>
-<div class="flex justify-between items-end mb-2">
-<div>
-<p class="font-label-bold text-on-surface">Emergency Fund</p>
-<p class="text-label-sm text-on-surface-variant">$12,000 / $15,000</p>
-</div>
-<span class="text-label-bold text-accent-gold">80%</span>
-</div>
-<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-accent-gold rounded-full progress-bar-glow" style="width: 80%"></div>
-</div>
-</div>
-<!-- Goal -->
-<div>
-<div class="flex justify-between items-end mb-2">
-<div>
-<p class="font-label-bold text-on-surface">Japan Trip 2025</p>
-<p class="text-label-sm text-on-surface-variant">$2,400 / $6,000</p>
-</div>
-<span class="text-label-bold text-secondary">40%</span>
-</div>
-<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-secondary rounded-full progress-bar-glow" style="width: 40%"></div>
-</div>
-</div>
+<h4 class="text-lg font-bold text-primary mb-md">Savings Goals</h4><div class="space-y-8 flex-1" id="goals-list">
+  <div class="animate-pulse space-y-4">
+    <div class="h-10 bg-gray-100 rounded-xl"></div>
+    <div class="h-10 bg-gray-100 rounded-xl"></div>
+  </div>
 </div>
 <button onclick="window.location.href='tracking.html'" class="mt-8 flex items-center justify-center gap-2 text-on-surface-variant hover:text-primary transition-colors py-2">
 <span class="material-symbols-outlined">add_circle</span>
@@ -442,85 +359,121 @@
 </div>
 </footer>
 </main>
+<script src="mamani-api.js"></script>
 <script>
-        // Dynamically set username from login/signup session or server
+        MamaniAPI.requireAuth();
+
+        // ── Load user info ──────────────────────────────────────────
         async function updateUserData() {
-            let userName = localStorage.getItem('user_name') || 'Peter Parker';
-            let userEmail = localStorage.getItem('user_email') || 'Premium Member';
-            const token = localStorage.getItem('access_token');
-            
-            // Try fetching latest user info from FastAPI backend if token exists
-            if (token) {
-                try {
-                    const res = await fetch('http://localhost:8000/users/me', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.full_name) {
-                            userName = data.full_name;
-                            localStorage.setItem('user_name', userName);
-                        }
-                        if (data.email) {
-                            userEmail = data.email;
-                            localStorage.setItem('user_email', userEmail);
-                        }
-                    }
-                } catch (e) {
-                    console.warn('Using local cached session data:', e);
-                }
-            }
+            try {
+                const user = await MamaniAPI.getMe();
+                const userName = user.full_name || 'User';
+                const userEmail = user.email || '';
+                localStorage.setItem('user_name', userName);
+                localStorage.setItem('user_email', userEmail);
+                if (user.currency) localStorage.setItem('user_currency', user.currency);
 
-            // Update UI elements
-            const headerNameEl = document.getElementById('header-username');
-            if (headerNameEl) headerNameEl.innerText = userName;
+                const headerNameEl = document.getElementById('header-username');
+                if (headerNameEl) headerNameEl.innerText = userName;
 
-            const greetingEl = document.getElementById('welcome-greeting');
-            if (greetingEl) {
-                const firstName = userName.split(' ')[0];
-                const hour = new Date().getHours();
-                let timeGreeting = "Good morning";
-                if (hour >= 5 && hour < 12) {
-                    timeGreeting = "Good morning";
-                } else if (hour >= 12 && hour < 17) {
-                    timeGreeting = "Good afternoon";
-                } else if (hour >= 17 && hour < 21) {
-                    timeGreeting = "Good evening";
-                } else {
-                    timeGreeting = "Good night";
+                const greetingEl = document.getElementById('welcome-greeting');
+                if (greetingEl) {
+                    const firstName = userName.split(' ')[0];
+                    const hour = new Date().getHours();
+                    const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+                    greetingEl.innerText = `${greeting}, ${firstName}.`;
                 }
-                greetingEl.innerText = `${timeGreeting}, ${firstName}.`;
+            } catch (e) {
+                // Use cached values if API call fails
+                const userName = localStorage.getItem('user_name') || 'User';
+                const el = document.getElementById('header-username');
+                if (el) el.innerText = userName;
             }
         }
-        updateUserData();
 
-        // Micro-interaction for hover effects on cards
+        // ── Load recent transactions ────────────────────────────────
+        async function loadRecentTransactions() {
+            const container = document.getElementById('recent-transactions-list');
+            if (!container) return;
+            try {
+                const summary = await MamaniAPI.getTransactionSummary();
+                const sym = MamaniAPI.getCurrencySymbol();
+                const txs = summary.recent_transactions || [];
+
+                if (txs.length === 0) {
+                    container.innerHTML = `<p class="text-center text-on-surface-variant py-6 text-sm">No transactions yet. <a href="addTransaction.html" class="text-secondary font-semibold">Add one →</a></p>`;
+                    return;
+                }
+
+                container.innerHTML = txs.map(tx => {
+                    const meta = MamaniAPI.getCategoryMeta(tx.category, tx.is_expense);
+                    const amountStr = tx.is_expense
+                        ? `<span class="font-numbers-md text-on-surface">-${MamaniAPI.formatAmount(tx.amount, sym)}</span>`
+                        : `<span class="font-numbers-md text-secondary">+${MamaniAPI.formatAmount(tx.amount, sym)}</span>`;
+                    return `
+                        <div class="flex items-center justify-between group cursor-pointer">
+                          <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl ${meta.bg} flex items-center justify-center ${meta.color}">
+                              <span class="material-symbols-outlined">${meta.icon}</span>
+                            </div>
+                            <div>
+                              <p class="font-label-bold text-on-surface group-hover:text-primary transition-colors">${tx.title}</p>
+                              <p class="text-label-sm text-on-surface-variant">${MamaniAPI.formatRelativeDate(tx.date)} · ${tx.category}</p>
+                            </div>
+                          </div>
+                          ${amountStr}
+                        </div>`;
+                }).join('');
+            } catch (e) {
+                container.innerHTML = `<p class="text-sm text-on-surface-variant text-center py-4">Could not load transactions.</p>`;
+            }
+        }
+
+        // ── Load goals ──────────────────────────────────────────────
+        async function loadGoals() {
+            const container = document.getElementById('goals-list');
+            if (!container) return;
+            try {
+                const goals = await MamaniAPI.getGoals();
+                const sym = MamaniAPI.getCurrencySymbol();
+                const display = goals.slice(0, 3);
+
+                if (display.length === 0) {
+                    container.innerHTML = `<p class="text-center text-on-surface-variant py-4 text-sm">No goals yet.</p>`;
+                    return;
+                }
+
+                container.innerHTML = display.map(g => `
+                    <div>
+                      <div class="flex justify-between items-end mb-2">
+                        <div>
+                          <p class="font-label-bold text-on-surface">${g.title}</p>
+                          <p class="text-label-sm text-on-surface-variant">${MamaniAPI.formatAmount(g.saved_amount, sym)} / ${MamaniAPI.formatAmount(g.target_amount, sym)}</p>
+                        </div>
+                        <span class="text-label-bold text-secondary">${Math.round(g.progress_percentage)}%</span>
+                      </div>
+                      <div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-secondary rounded-full" style="width:${g.progress_percentage}%; box-shadow:0 0 8px rgba(134,242,228,0.4)"></div>
+                      </div>
+                    </div>`).join('');
+            } catch (e) {
+                container.innerHTML = `<p class="text-sm text-on-surface-variant text-center py-4">Could not load goals.</p>`;
+            }
+        }
+
+        // ── Init ────────────────────────────────────────────────────
+        updateUserData();
+        loadRecentTransactions();
+        loadGoals();
+
+        // Micro-interaction hover on cards
         document.querySelectorAll('.glass-card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
             });
         });
-
-        // Simple animation for numbers (counter effect)
-        function animateValue(obj, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                });
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
     </script>
 
 <!-- Profile Modal Pop-up -->
