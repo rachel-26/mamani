@@ -423,7 +423,12 @@
                 if (el) el.innerText = user.full_name || '';
                 const elEmail = document.getElementById('header-useremail');
                 if (elEmail) elEmail.innerText = user.email || '';
-            } catch (e) {
+                
+                if (user.avatar_url) {
+                    const headerAvatar = document.getElementById('header-avatar-img');
+                    if (headerAvatar) headerAvatar.src = user.avatar_url;
+                }
+            } catch (_) {
                 const el = document.getElementById('header-username');
                 if (el) el.innerText = localStorage.getItem('user_name') || 'User';
             }

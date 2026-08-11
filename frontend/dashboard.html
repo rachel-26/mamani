@@ -375,6 +375,11 @@
 
                 const headerNameEl = document.getElementById('header-username');
                 if (headerNameEl) headerNameEl.innerText = userName;
+                
+                if (user.avatar_url) {
+                    const headerAvatar = document.getElementById('header-avatar-img');
+                    if (headerAvatar) headerAvatar.src = user.avatar_url;
+                }
 
                 const greetingEl = document.getElementById('welcome-greeting');
                 if (greetingEl) {

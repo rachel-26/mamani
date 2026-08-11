@@ -184,7 +184,7 @@
 <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
 </button>
 <div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary-container">
-<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a friendly young man named Peter Parker, featuring clean lighting, a minimalist background, and a sharp, high-fidelity look that conveys confidence and modern intelligence. He is wearing a dark emerald casual shirt, matching the Mamani brand color palette. The aesthetic is polished, editorial, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU_3GAD-t94lWhx8ELLi5cJ1kWPAXskwfPy6za_0m1XSzhHh5FKj0YIWL9nJ6t9GYpxqYWQXrY3Xj4AOQW2OzBMxEGohwOAhjdx8g_IfGpFBlFoDiGiwnuw1glPzaawYI4JWq9H8hSpDsyZXU70Ra_dAqmqzpQauYliOErwJ9JuKNvxto1NP0R6iGq-CiMKxNeU3mIeYAj7TrIhVbsgLH4V6JI7wjZhE_SIPeqPUw-hn_TwU5YFMh99Sjc1JIVGADPAKv6A3ifIBUD">
+<img id="header-avatar-img" class="w-full h-full object-cover" data-alt="A professional studio portrait of a friendly young man named Peter Parker, featuring clean lighting, a minimalist background, and a sharp, high-fidelity look that conveys confidence and modern intelligence. He is wearing a dark emerald casual shirt, matching the Mamani brand color palette. The aesthetic is polished, editorial, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU_3GAD-t94lWhx8ELLi5cJ1kWPAXskwfPy6za_0m1XSzhHh5FKj0YIWL9nJ6t9GYpxqYWQXrY3Xj4AOQW2OzBMxEGohwOAhjdx8g_IfGpFBlFoDiGiwnuw1glPzaawYI4JWq9H8hSpDsyZXU70Ra_dAqmqzpQauYliOErwJ9JuKNvxto1NP0R6iGq-CiMKxNeU3mIeYAj7TrIhVbsgLH4V6JI7wjZhE_SIPeqPUw-hn_TwU5YFMh99Sjc1JIVGADPAKv6A3ifIBUD">
 </div>
 </div>
 </header>
@@ -455,6 +455,9 @@
                 if (user.avatar_url) {
                     const avatar = document.getElementById('profile-avatar-preview');
                     if(avatar) avatar.src = user.avatar_url;
+                    
+                    const headerAvatar = document.getElementById('header-avatar-img');
+                    if (headerAvatar) headerAvatar.src = user.avatar_url;
                 }
                 
                 if (user.phone) {
