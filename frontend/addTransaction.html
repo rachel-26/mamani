@@ -359,10 +359,11 @@
             const dialog = modalContainer.querySelector('div[role="dialog"]');
             if(dialog) dialog.classList.add('scale-95');
             setTimeout(() => {
-                if (window.history.length > 1) {
-                    window.history.back();
+                const ref = document.referrer;
+                if (ref && !ref.includes('addTransaction')) {
+                    window.location.href = ref;
                 } else {
-                    window.location.href = 'transactionHistory.html';
+                    window.location.href = 'dashboard.html';
                 }
             }, 250);
         }
