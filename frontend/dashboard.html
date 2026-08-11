@@ -242,7 +242,7 @@
 <div class="absolute right-10 bottom-0 w-32 h-32 bg-black/10 rounded-full blur-2xl pointer-events-none"></div>
 <div class="relative z-10">
 <p class="text-label-bold text-on-surface-variant font-bold uppercase tracking-widest mb-2">Total Net Worth</p>
-<h3 class="text-3xl font-bold font-display-lg text-primary mb-6 tracking-tight drop-shadow-sm">$124,592.00</h3>
+<h3 class="text-3xl font-bold font-display-lg text-primary mb-6 tracking-tight drop-shadow-sm" id="total-net-worth">$0.00</h3>
 <div class="grid grid-cols-2 gap-md border-t border-black/5 pt-lg">
 <div class="flex items-center gap-4">
 <div class="w-12 h-12 bg-surface-container-low shadow-sm rounded-xl flex items-center justify-center">
@@ -250,7 +250,7 @@
 </div>
 <div>
 <p class="text-label-sm text-on-surface-variant font-medium">Income This Month</p>
-<p class="font-numbers-md text-numbers-md text-primary font-bold">+$8,420.00</p>
+<p class="font-numbers-md text-numbers-md text-primary font-bold" id="total-income">+$0.00</p>
 </div>
 </div>
 <div class="flex items-center gap-4">
@@ -259,7 +259,7 @@
 </div>
 <div>
 <p class="text-label-sm text-on-surface-variant font-medium">Expenses This Month</p>
-<p class="font-numbers-md text-numbers-md text-red-200 font-bold">-$3,150.24</p>
+<p class="font-numbers-md text-numbers-md text-red-200 font-bold" id="total-expenses">-$0.00</p>
 </div>
 </div>
 </div>
@@ -398,6 +398,15 @@
             try {
                 const summary = await MamaniAPI.getTransactionSummary();
                 const sym = MamaniAPI.getCurrencySymbol();
+                
+                const netWorthEl = document.getElementById('total-net-worth');
+                const incomeEl = document.getElementById('total-income');
+                const expensesEl = document.getElementById('total-expenses');
+                
+                if (netWorthEl) netWorthEl.innerText = MamaniAPI.formatAmount(summary.net_worth, sym);
+                if (incomeEl) incomeEl.innerText = `+${MamaniAPI.formatAmount(summary.total_income, sym)}`;
+                if (expensesEl) expensesEl.innerText = `-${MamaniAPI.formatAmount(summary.total_expenses, sym)}`;
+
                 const txs = summary.recent_transactions || [];
 
                 if (txs.length === 0) {

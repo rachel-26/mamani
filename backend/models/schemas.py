@@ -53,6 +53,7 @@ class TransactionCreate(BaseModel):
     notes: Optional[str] = None
     account: Optional[str] = "Main Savings"
     date: Optional[datetime] = None
+    receipt_url: Optional[str] = None
 
 
 class TransactionOut(TransactionCreate):

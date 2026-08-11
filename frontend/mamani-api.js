@@ -113,10 +113,22 @@ const MamaniAPI = {
     return this._handleResponse(res);
   },
 
-  async deleteTransaction(id) {
-    const res = await fetch(`${API_BASE}/transactions/${id}`, {
+  async deleteTransaction(txId) {
+    const res = await fetch(`${API_BASE}/transactions/${txId}`, {
       method: 'DELETE',
-      headers: this._authHeaders(),
+      headers: { 'Authorization': `Bearer ${this.getToken()}` },
+    });
+    if (res.status === 204) return true;
+    return this._handleResponse(res);
+  },
+
+  async uploadReceipt(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch(`${API_BASE}/transactions/upload`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${this.getToken()}` },
+      body: formData
     });
     return this._handleResponse(res);
   },

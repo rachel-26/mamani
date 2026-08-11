@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Mamani - Add Transaction</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <!-- Tailwind Theme Configuration -->
 <script id="tailwind-config">
       tailwind.config = {
@@ -134,7 +132,7 @@
 <!-- Top App Bar Mock -->
 <header class="flex justify-between items-center h-20 px-8 bg-surface/80">
 <div class="flex items-center gap-4">
-<img alt="Mamani Logo" class="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida/AP1WRLugpjLuCLTGpp1lUW5gV0sJOJKgaQAgEQpiHY1JQuui6ySDvbnO4YZ0QHSRVhVd-hG-OwwggYfMsTrsrSd2KQuFrvRqxoWJmOt8gjKGA-No_W3HEumS22mhK9ClqYkVJUG_sa5Zly_4zQopwZf6KkXokO5PRHADSQ8XZf-xKApq4UdCcEwuIRf2imQ-NC2epY037chqC7-oJRJJNdq6K2E9u6Xqq76x2WiibwzE46E3-R8846YmKx-wYrSr"/>
+<img alt="Mamani Logo" class="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida/AP1WRLugpjLuCLTGpp1lUW5gV0sJOJKgaQAgEQpiHY1JQuui6ySDvbnO4YZ0QHSRVhVd-hG-OwwggYfMsTrsrSd2KQuFrvRqxoWJmOt8gjKGA-No_W3HEumS22mhK9ClqYkVJUG_sa5Zly_4zQopwZf6KkXokO5PRHADSQ8XZf-xKApq4UdCcEwuIRf2imQ-NC2epY037chqC7-oJRJJNdq6K2E9u6Xqq76x2WiibwzE46E3-R8846YmKx-wYrSr">
 <span class="font-display-lg text-display-lg text-primary">Mamani</span>
 </div>
 <div class="flex gap-4">
@@ -179,14 +177,11 @@
 <!-- Amount Input Section -->
 <div class="flex flex-col items-center justify-center py-4 space-y-4">
 <!-- Income/Expense Toggle -->
-<div class="flex p-1 bg-surface-container-low rounded-lg w-fit">
-<button class="px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200" id="btn-expense">Expense</button>
-<button class="px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200" id="btn-income">Income</button>
-</div>
+<div class="flex p-1 bg-surface-container-low rounded-lg w-fit"><button class="px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200" id="btn-expense">Expense</button><button class="px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200" id="btn-income">Income</button></div>
 <div class="text-center w-full">
 <div class="relative group">
-<span class="absolute left-1/2 -translate-x-[110%] top-1/2 -translate-y-1/2 font-numbers-lg text-numbers-lg text-secondary opacity-50">$</span>
-<input id="transaction-amount" class="w-full bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00"/>
+
+<input id="transaction-amount" class="w-full bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00">
 <div class="h-0.5 w-32 bg-secondary/20 group-focus-within:bg-secondary mx-auto transition-colors mt-1 rounded-full"></div>
 </div>
 </div>
@@ -194,47 +189,37 @@
 <!-- Category Grid -->
 <div class="space-y-4">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Category</label>
-<div class="grid grid-cols-4 gap-3">
-<button class="category-chip category-chip-active group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px]">home</span>
-<span class="text-[11px] font-medium uppercase tracking-wider">Housing</span>
+<div class="grid grid-cols-4 gap-3"><button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-emerald-50 hover:border-emerald-200">
+<span class="material-symbols-outlined text-[24px] text-emerald-600">payments</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-emerald-900">Salary</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">restaurant</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Food</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-amber-50 hover:border-amber-200">
+<span class="material-symbols-outlined text-[24px] text-amber-600">account_balance_wallet</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-amber-900">Petty Cash</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">directions_car</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Transport</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-indigo-50 hover:border-indigo-200">
+<span class="material-symbols-outlined text-[24px] text-indigo-600">price_check</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-indigo-900">Overpayment</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">bolt</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Utilities</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-violet-50 hover:border-violet-200">
+<span class="material-symbols-outlined text-[24px] text-violet-600">trending_up</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-violet-900">Investment</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">movie</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Movies</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-rose-50 hover:border-rose-200">
+<span class="material-symbols-outlined text-[24px] text-rose-600">card_giftcard</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-rose-900">Gift</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">medical_services</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Health</span>
-</button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">shopping_bag</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Shopping</span>
-</button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">more_horiz</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Others</span>
-</button>
-</div>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-slate-50 hover:border-slate-200">
+<span class="material-symbols-outlined text-[24px] text-slate-600">more_horiz</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-slate-900">Others</span>
+</button></div>
 </div>
 <!-- Fields Grid -->
 <div class="grid grid-cols-2 gap-4">
 <div class="space-y-2">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Date</label>
 <div class="relative">
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer" type="date" id="transaction-date" onclick="this.showPicker()"/>
+<input id="transaction-date" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer" type="date" onclick="this.showPicker()">
 </div>
 </div>
 <div class="space-y-2">
@@ -277,7 +262,7 @@
                     Cancel
                 </button>
 <div class="flex items-center gap-4">
-<img alt="Mamani Logo" class="h-6 w-6 opacity-20 hidden sm:block" src="https://lh3.googleusercontent.com/aida/AP1WRLugpjLuCLTGpp1lUW5gV0sJOJKgaQAgEQpiHY1JQuui6ySDvbnO4YZ0QHSRVhVd-hG-OwwggYfMsTrsrSd2KQuFrvRqxoWJmOt8gjKGA-No_W3HEumS22mhK9ClqYkVJUG_sa5Zly_4zQopwZf6KkXokO5PRHADSQ8XZf-xKApq4UdCcEwuIRf2imQ-NC2epY037chqC7-oJRJJNdq6K2E9u6Xqq76x2WiibwzE46E3-R8846YmKx-wYrSr"/>
+<img alt="Mamani Logo" class="h-6 w-6 opacity-20 hidden sm:block" src="https://lh3.googleusercontent.com/aida/AP1WRLugpjLuCLTGpp1lUW5gV0sJOJKgaQAgEQpiHY1JQuui6ySDvbnO4YZ0QHSRVhVd-hG-OwwggYfMsTrsrSd2KQuFrvRqxoWJmOt8gjKGA-No_W3HEumS22mhK9ClqYkVJUG_sa5Zly_4zQopwZf6KkXokO5PRHADSQ8XZf-xKApq4UdCcEwuIRf2imQ-NC2epY037chqC7-oJRJJNdq6K2E9u6Xqq76x2WiibwzE46E3-R8846YmKx-wYrSr">
 <button id="save-transaction-btn" class="px-8 py-3 bg-secondary text-white rounded-lg font-label-bold text-label-bold hover:opacity-90 active:scale-95 transition-all ambient-shadow">
                         Save Transaction
                     </button>
@@ -290,8 +275,8 @@
         // Try requireAuth but ignore if not found
         if (typeof MamaniAPI !== 'undefined') MamaniAPI.requireAuth();
 
-        let activeCategory = 'Housing';
-        let isExpense = true;
+        let activeCategory = 'Salary';
+        let isExpense = false;
 
         // Micro-interactions for Category Chips
         const chips = document.querySelectorAll('.category-chip');
@@ -351,11 +336,11 @@
         const btnIncome = document.getElementById('btn-income');
         
         btnExpense.addEventListener('click', () => {
-            // Already in Expense, do nothing or just ensure it's set
+            window.location.href = 'addTransaction.html';
         });
 
         btnIncome.addEventListener('click', () => {
-            window.location.href = 'addTransactionIncome.html';
+            // Already in Income, do nothing
         });
 
         // Simple Close Logic
@@ -429,7 +414,7 @@
                 }
             });
         }
-    
-
     </script>
+
+
 </body></html>

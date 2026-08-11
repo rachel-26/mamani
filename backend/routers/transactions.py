@@ -1,14 +1,31 @@
 from datetime import datetime
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, UploadFile, File
 from sqlalchemy.orm import Session
+import os
+import shutil
+from uuid import uuid4
 
 from database import get_db, Transaction, User
 from models.schemas import TransactionCreate, TransactionOut, TransactionSummary, RecentTransaction
 from dependencies import get_current_user
 
 router = APIRouter(prefix="/transactions", tags=["transactions"])
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+@router.post("/upload")
+def upload_receipt(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user)
+):
+    ext = file.filename.split(".")[-1] if "." in file.filename else "jpg"
+    filename = f"{uuid4()}.{ext}"
+    path = os.path.join(UPLOAD_DIR, filename)
+    with open(path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return {"url": f"http://localhost:8000/uploads/{filename}"}
 
 
 @router.get("/summary", response_model=TransactionSummary)

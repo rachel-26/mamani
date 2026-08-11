@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from database import Base, engine
 from routers import auth, users, transactions, goals
@@ -12,6 +13,8 @@ app = FastAPI(
     description="Custom backend for Mamani – Prosperity & Security",
     version="1.0.0",
 )
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Allow the React dev server (port 5173) to call this API
 app.add_middleware(
