@@ -120,9 +120,12 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 10px; }
         .category-chip:hover { transform: translateY(-2px); }
         .category-chip-active { 
-            background: #006a61; 
-            color: white; 
-            box-shadow: 0 4px 12px rgba(0, 106, 97, 0.2);
+            background: #006a61 !important; 
+            box-shadow: 0 4px 12px rgba(0, 106, 97, 0.2) !important;
+            border-color: transparent !important;
+        }
+        .category-chip-active span {
+            color: white !important;
         }
     </style>
 </head>
@@ -189,7 +192,7 @@
 <!-- Category Grid -->
 <div class="space-y-4">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Category</label>
-<div class="grid grid-cols-4 gap-3"><button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-emerald-50 hover:border-emerald-200">
+<div class="grid grid-cols-4 gap-3"><button class="category-chip category-chip-active group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-emerald-50 hover:border-emerald-200">
 <span class="material-symbols-outlined text-[24px] text-emerald-600">payments</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-emerald-900">Salary</span>
 </button>
@@ -282,21 +285,10 @@
         const chips = document.querySelectorAll('.category-chip');
         chips.forEach(chip => {
             chip.addEventListener('click', () => {
-                chips.forEach(c => {
-                    c.classList.remove('category-chip-active');
-                    c.classList.add('bg-white/50');
-                    const icon = c.querySelector('.material-symbols-outlined');
-                    if(icon) icon.classList.replace('text-white', 'text-secondary');
-                    const text = c.querySelector('span:last-child');
-                    if(text) text.classList.replace('text-white', 'text-on-surface-variant');
-                });
+                chips.forEach(c => c.classList.remove('category-chip-active'));
                 chip.classList.add('category-chip-active');
-                chip.classList.remove('bg-white/50');
-                const icon = chip.querySelector('.material-symbols-outlined');
-                if(icon) icon.classList.replace('text-secondary', 'text-white');
                 const text = chip.querySelector('span:last-child');
                 if(text) {
-                    text.classList.replace('text-on-surface-variant', 'text-white');
                     activeCategory = text.innerText.trim();
                     activeCategory = activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1).toLowerCase();
                 }

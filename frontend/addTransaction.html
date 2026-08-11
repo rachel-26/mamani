@@ -122,9 +122,12 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 10px; }
         .category-chip:hover { transform: translateY(-2px); }
         .category-chip-active { 
-            background: #006a61; 
-            color: white; 
-            box-shadow: 0 4px 12px rgba(0, 106, 97, 0.2);
+            background: #006a61 !important; 
+            box-shadow: 0 4px 12px rgba(0, 106, 97, 0.2) !important;
+            border-color: transparent !important;
+        }
+        .category-chip-active span {
+            color: white !important;
         }
     </style>
 </head>
@@ -194,37 +197,37 @@
 <div class="space-y-4">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Category</label>
 <div class="grid grid-cols-4 gap-3">
-<button class="category-chip category-chip-active group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px]">home</span>
-<span class="text-[11px] font-medium uppercase tracking-wider">Housing</span>
+<button class="category-chip category-chip-active group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-blue-50 hover:border-blue-200">
+<span class="material-symbols-outlined text-[24px] text-blue-600">home</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-blue-900">Housing</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">restaurant</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Food</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-orange-50 hover:border-orange-200">
+<span class="material-symbols-outlined text-[24px] text-orange-600">restaurant</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-orange-900">Food</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">directions_car</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Transport</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-teal-50 hover:border-teal-200">
+<span class="material-symbols-outlined text-[24px] text-teal-600">directions_car</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-teal-900">Transport</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">bolt</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Utilities</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-yellow-50 hover:border-yellow-200">
+<span class="material-symbols-outlined text-[24px] text-yellow-600">bolt</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-yellow-900">Utilities</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">movie</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Movies</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-fuchsia-50 hover:border-fuchsia-200">
+<span class="material-symbols-outlined text-[24px] text-fuchsia-600">movie</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-fuchsia-900">Movies</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">medical_services</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Health</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-rose-50 hover:border-rose-200">
+<span class="material-symbols-outlined text-[24px] text-rose-600">medical_services</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-rose-900">Health</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">shopping_bag</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Shopping</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-purple-50 hover:border-purple-200">
+<span class="material-symbols-outlined text-[24px] text-purple-600">shopping_bag</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-purple-900">Shopping</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 hover:border-secondary/30 bg-white/50 transition-all duration-200">
-<span class="material-symbols-outlined text-[24px] text-secondary">more_horiz</span>
-<span class="text-[11px] font-medium uppercase tracking-wider text-on-surface-variant">Others</span>
+<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-slate-50 hover:border-slate-200">
+<span class="material-symbols-outlined text-[24px] text-slate-600">more_horiz</span>
+<span class="text-[11px] font-medium uppercase tracking-wider text-slate-900">Others</span>
 </button>
 </div>
 </div>
@@ -296,21 +299,10 @@
         const chips = document.querySelectorAll('.category-chip');
         chips.forEach(chip => {
             chip.addEventListener('click', () => {
-                chips.forEach(c => {
-                    c.classList.remove('category-chip-active');
-                    c.classList.add('bg-white/50');
-                    const icon = c.querySelector('.material-symbols-outlined');
-                    if(icon) icon.classList.replace('text-white', 'text-secondary');
-                    const text = c.querySelector('span:last-child');
-                    if(text) text.classList.replace('text-white', 'text-on-surface-variant');
-                });
+                chips.forEach(c => c.classList.remove('category-chip-active'));
                 chip.classList.add('category-chip-active');
-                chip.classList.remove('bg-white/50');
-                const icon = chip.querySelector('.material-symbols-outlined');
-                if(icon) icon.classList.replace('text-secondary', 'text-white');
                 const text = chip.querySelector('span:last-child');
                 if(text) {
-                    text.classList.replace('text-on-surface-variant', 'text-white');
                     activeCategory = text.innerText.trim();
                     activeCategory = activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1).toLowerCase();
                 }
