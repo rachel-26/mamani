@@ -380,7 +380,8 @@
                     return;
                 }
 
-                const title = document.getElementById('transaction-note').value.trim() || 'New Transaction';
+                const notes = document.getElementById('transaction-note').value.trim();
+                const title = activeCategory;
                 const account = document.getElementById('transaction-account').value;
                 const dateVal = document.getElementById('transaction-date').value;
 
@@ -403,6 +404,7 @@
                             account: account,
                             is_expense: isExpense,
                             date: new Date(dateVal).toISOString(),
+                            notes: notes || null,
                             receipt_url: receiptUrl
                         });
                     }
