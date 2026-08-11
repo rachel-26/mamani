@@ -1,342 +1,437 @@
-<!DOCTYPE html>
-<html class="light" lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Mamani | User Profile & Settings</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-primary-container": "#80bea6",
-                        "on-error-container": "#93000a",
-                        "on-primary-fixed-variant": "#0b513d",
-                        "surface-container-highest": "#dce2f7",
-                        "on-secondary-fixed-variant": "#005049",
-                        "secondary-container": "#86f2e4",
-                        "surface-variant": "#dce2f7",
-                        "on-background": "#141b2b",
-                        "surface-tint": "#2b6954",
-                        "on-surface": "#141b2b",
-                        "surface-container": "#e9edff",
-                        "on-tertiary-container": "#ff9939",
-                        "on-surface-variant": "#404944",
-                        "on-secondary-fixed": "#00201d",
-                        "tertiary-container": "#6a3700",
-                        "surface-dim": "#d3daef",
-                        "secondary-fixed": "#89f5e7",
-                        "on-tertiary-fixed-variant": "#6e3900",
-                        "surface-container-high": "#e1e8fd",
-                        "error-container": "#ffdad6",
-                        "inverse-on-surface": "#edf0ff",
-                        "error": "#ba1a1a",
-                        "on-secondary-container": "#006f66",
-                        "primary-fixed": "#b0f0d6",
-                        "outline-variant": "#bfc9c3",
-                        "inverse-primary": "#95d3ba",
-                        "tertiary-fixed": "#ffdcc3",
-                        "tertiary": "#4a2400",
-                        "background": "#f9f9ff",
-                        "primary-container": "#064e3b",
-                        "tertiary-fixed-dim": "#ffb77d",
-                        "on-primary-fixed": "#002117",
-                        "on-primary": "#ffffff",
-                        "on-secondary": "#ffffff",
-                        "surface-container-lowest": "#ffffff",
-                        "surface": "#f9f9ff",
-                        "inverse-surface": "#293040",
-                        "primary-fixed-dim": "#95d3ba",
-                        "surface-container-low": "#f1f3ff",
-                        "secondary-fixed-dim": "#6bd8cb",
-                        "outline": "#707974",
-                        "on-tertiary": "#ffffff",
-                        "primary": "#003527",
-                        "on-error": "#ffffff",
-                        "on-tertiary-fixed": "#2f1500",
-                        "surface-bright": "#f9f9ff",
-                        "secondary": "#006a61"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "md": "24px",
-                        "xs": "4px",
-                        "xl": "80px",
-                        "sm": "12px",
-                        "lg": "48px",
-                        "base": "8px",
-                        "margin-mobile": "16px",
-                        "gutter": "24px",
-                        "margin-desktop": "64px"
-                    },
-                    "fontFamily": {
-                        "display-lg": ["Inter"],
-                        "label-bold": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "numbers-lg": ["Inter"],
-                        "numbers-md": ["Inter"],
-                        "label-sm": ["Inter"],
-                        "body-md": ["Inter"],
-                        "body-lg": ["Inter"]
-                    }
-                },
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Mamani - Profile &amp; Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "outline-variant": "#bfc9c3",
+                    "surface-dim": "#d3daef",
+                    "on-background": "#141b2b",
+                    "surface-container-low": "#f1f3ff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-primary-fixed-variant": "#0b513d",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#80bea6",
+                    "secondary": "#006a61",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#4a2400",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#2b6954",
+                    "on-primary-fixed": "#002117",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "inverse-surface": "#293040",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-fixed-variant": "#005049",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#ff9939",
+                    "surface": "#f9f9ff",
+                    "inverse-on-surface": "#edf0ff",
+                    "surface-container-high": "#e1e8fd",
+                    "secondary-container": "#86f2e4",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-primary": "#ffffff",
+                    "background": "#f9f9ff",
+                    "on-secondary-fixed": "#00201d",
+                    "secondary-fixed": "#89f5e7",
+                    "inverse-primary": "#95d3ba",
+                    "on-surface": "#141b2b",
+                    "tertiary-container": "#6a3700",
+                    "primary-fixed": "#b0f0d6",
+                    "on-surface-variant": "#404944",
+                    "primary-container": "#064e3b",
+                    "on-error": "#ffffff",
+                    "outline": "#707974",
+                    "on-secondary-container": "#006f66",
+                    "surface-container": "#e9edff",
+                    "primary-fixed-dim": "#95d3ba",
+                    "primary": "#003527",
+                    "surface-variant": "#dce2f7",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#dce2f7",
+                    "tertiary-fixed": "#ffdcc3"
             },
-        }
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "sm": "12px",
+                    "margin-desktop": "64px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "gutter": "24px",
+                    "xl": "80px",
+                    "lg": "48px"
+            },
+            "fontFamily": {
+                    "numbers-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "numbers-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "numbers-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "numbers-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
     </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-dot::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background-color: #003527;
+            border-radius: 50%;
+        }
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(24px);
             border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
         }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .fill-icon { font-variation-settings: 'FILL' 1; }
+        input:focus {
+            box-shadow: 0 0 0 4px rgba(0, 53, 39, 0.1);
+        }
     </style>
 </head>
-<body class="text-on-surface bg-surface overflow-x-hidden">
-    <!-- SideNavBar (Shared Component) -->
-    <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#F8F9FA] dark:bg-on-background text-on-surface shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-black/10 flex flex-col p-6 z-50">
-        <div class="flex items-center gap-3 mb-8 px-2">
-            <img alt="Mamani Logo" class="w-10 h-10 object-contain drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDreS92pO8MxnoAUpQNjB94riDb2fM3qjYcPSMKACP3Mnd8zVMbcvx7ol7kwRuVgpPDGVxoUgwaK2cLse4zVqzZuTnJQG8QcwEDpNMYBieIzXu13BBJ46zE4IJyC6mosgLGaOayD4TZgzGHofqbZg9lZdHoUM4PCSmlIQq3LQNclsIQVD_bmZfiAeBA9NaRblpN_TldfOnHqTRYIiN86DgQKKLj0rI6CbtZTzPzRFuuAJhLYPrew-glw1fe8LJP_dC87C2GqPnG-Qle"/>
-            <div>
-                <h1 class="text-2xl font-bold text-[#003527] dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
-                <p class="text-xs text-on-surface-variant/80 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
-            </div>
-        </div>
-        <nav class="flex-1 flex flex-col space-y-1">
-            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="dashboard.html">
-                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                <span>Dashboard</span>
-            </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="transactionHistory.html">
-                <span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
-                <span>Transactions</span>
-            </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
-                <span class="material-symbols-outlined" data-icon="insights">insights</span>
-                <span>Insights</span>
-            </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="tracking.html">
-                <span class="material-symbols-outlined" data-icon="track_changes">track_changes</span>
-                <span>Goals</span>
-            </a>
-        </nav>
-        <div class="mt-auto border-t border-black/10 pt-6 flex flex-col space-y-1">
-            <button onclick="window.location.href='addTransaction.html'" class="w-full bg-[#003527] text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-[#003527]/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
-                <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
-                <span>Add Transaction</span>
-            </button>
-            <a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors" href="#">
-                <span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
-                <span>Support</span>
-            </a>
-            <a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
-                <span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main class="ml-64 min-h-screen">
-        <!-- TopNavBar (Shared Component) -->
-        <header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/90 dark:bg-on-background/90 backdrop-blur-xl border-b border-black/5 flex justify-between items-center h-20 px-8 shadow-sm transition-all">
-            <div class="flex items-center w-full max-w-md">
-                <div class="relative w-full">
-                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px]">search</span>
-                    <input class="w-full bg-surface-container-low/70 border border-black/5 rounded-full pl-11 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 focus:bg-white outline-none transition-all placeholder:text-on-surface-variant/50" placeholder="Search transactions, insights, goals..." type="text">
-                </div>
-            </div>
-            <div class="flex items-center gap-6">
-                <button class="hover:bg-surface-container-low dark:hover:bg-surface-variant rounded-full p-2.5 transition-all relative border border-transparent hover:border-black/5">
-                    <span class="material-symbols-outlined text-primary dark:text-primary-fixed">notifications</span>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
-                </button>
-                <div class="flex items-center gap-3 border-l border-black/10 pl-5">
-                    <div class="text-right">
-                        <p class="text-label-bold text-primary dark:text-primary-fixed font-bold leading-tight" id="header-username">Peter Parker</p>
-                        <p class="text-xs text-on-surface-variant/80 font-medium" id="header-useremail">Premium Member</p>
-                    </div>
-                    <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 shadow-sm shrink-0">
-                        <img class="w-full h-full object-cover" data-alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJRbhBXyHC-l6oxDLWVZ6Q7u26LLO_g62-BvdNi6OQUVkOHUf9iJAGdFQY52KlevdLTtXmLj8KbY4Gfzh4BTdQ3IW6PQfwtHrJM8tyxOoWx-rKLzfDctKs170vgc2wYuWApkNvAyezqWqVuzPAs26aA-eJX1R9i9u1rWA1Ss-Vb25nmdFVf_xV_-H2jCUlorQ5hCHjbFCuDW2eSh2WvMe-MwCYoa5hHS2YRceRgukq7mnZDT6HNXekOqYPc53B6sa_rThwlk7u1kh">
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <div class="pt-24 pb-16 px-gutter max-w-6xl mx-auto space-y-md">
-            <!-- Profile Banner -->
-            <div class="glass-card rounded-[32px] p-8 overflow-hidden relative border border-black/5 bg-gradient-to-r from-primary-container/20 to-surface-container-high/50">
-                <div class="absolute right-0 top-0 w-96 h-96 bg-secondary-container/20 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div class="flex items-center gap-6">
-                        <div class="w-24 h-24 rounded-2xl overflow-hidden border-4 border-white shadow-lg relative group cursor-pointer">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJRbhBXyHC-l6oxDLWVZ6Q7u26LLO_g62-BvdNi6OQUVkOHUf9iJAGdFQY52KlevdLTtXmLj8KbY4Gfzh4BTdQ3IW6PQfwtHrJM8tyxOoWx-rKLzfDctKs170vgc2wYuWApkNvAyezqWqVuzPAs26aA-eJX1R9i9u1rWA1Ss-Vb25nmdFVf_xV_-H2jCUlorQ5hCHjbFCuDW2eSh2WvMe-MwCYoa5hHS2YRceRgukq7mnZDT6HNXekOqYPc53B6sa_rThwlk7u1kh" alt="Avatar" class="w-full h-full object-cover"/>
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="material-symbols-outlined text-white">photo_camera</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-3">
-                                <h1 class="text-2xl md:text-3xl font-bold text-primary" id="profile-display-name">Peter Parker</h1>
-                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-white shadow-sm">Platinum Tier</span>
-                            </div>
-                            <p class="text-on-surface-variant mt-1" id="profile-display-email">peter@mamani.com</p>
-                            <p class="text-label-sm text-secondary mt-2 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">verified</span>
-                                Verified Identity • Member since January 2024
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 w-full md:w-auto">
-                        <button onclick="localStorage.clear(); window.location.href='login.html';" class="flex-1 md:flex-none px-6 py-3 rounded-xl bg-error/10 hover:bg-error text-error hover:text-white font-label-bold transition-all flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-[20px]">logout</span>
-                            Sign Out
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bento Settings Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-md">
-                <!-- Left Column: Personal Info & Account Form -->
-                <div class="lg:col-span-8 space-y-md">
-                    <div class="glass-card rounded-2xl p-6">
-                        <div class="flex items-center justify-between mb-6 border-b border-black/5 pb-4">
-                            <div>
-                                <h3 class="font-bold text-lg text-on-surface flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">manage_accounts</span>
-                                    Personal Information
-                                </h3>
-                                <p class="text-sm text-on-surface-variant">Update your identification and communication preferences</p>
-                            </div>
-                        </div>
-                        <form id="profile-form" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-semibold text-on-surface-variant mb-2">Full Name</label>
-                                    <input type="text" id="input-fullname" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-on-surface font-body-md focus:ring-2 focus:ring-primary/20 transition-all" value="Peter Parker"/>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-on-surface-variant mb-2">Email Address</label>
-                                    <input type="email" id="input-email" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-on-surface font-body-md focus:ring-2 focus:ring-primary/20 transition-all" value="peter@mamani.com"/>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-on-surface-variant mb-2">Phone Number</label>
-                                    <input type="tel" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-on-surface font-body-md focus:ring-2 focus:ring-primary/20 transition-all" value="+1 (555) 019-2834"/>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-on-surface-variant mb-2">Primary Account Type</label>
-                                    <input type="text" disabled class="w-full bg-surface-container-highest/50 border-none rounded-xl px-4 py-3 text-on-surface-variant font-body-md cursor-not-allowed" value="Individual Wealth Account"/>
-                                </div>
-                            </div>
-                            <div class="flex justify-end pt-4 border-t border-black/5">
-                                <button type="submit" id="save-profile-btn" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-container transition-all shadow-md flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[20px]">save</span>
-                                    Save Profile Changes
+<body class="bg-surface-container-low font-body-md text-on-surface antialiased">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#F8F9FA] dark:bg-on-background text-on-surface shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-black/10 flex flex-col p-6 z-50">
+<div class="flex items-center gap-3 mb-8 px-2">
+<img alt="Mamani Logo" class="w-10 h-10 object-contain drop-shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDreS92pO8MxnoAUpQNjB94riDb2fM3qjYcPSMKACP3Mnd8zVMbcvx7ol7kwRuVgpPDGVxoUgwaK2cLse4zVqzZuTnJQG8QcwEDpNMYBieIzXu13BBJ46zE4IJyC6mosgLGaOayD4TZgzGHofqbZg9lZdHoUM4PCSmlIQq3LQNclsIQVD_bmZfiAeBA9NaRblpN_TldfOnHqTRYIiN86DgQKKLj0rI6CbtZTzPzRFuuAJhLYPrew-glw1fe8LJP_dC87C2GqPnG-Qle">
+<div>
+<h1 class="text-2xl font-bold text-[#003527] dark:text-primary-fixed tracking-tight font-display-lg">Mamani</h1>
+<p class="text-xs text-on-surface-variant/80 uppercase tracking-wider font-semibold">Prosperity &amp; Security</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="dashboard.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="transactionHistory.html">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="financialInsight.html">
+<span class="material-symbols-outlined">insights</span>
+<span>Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors hover:translate-x-0.5 active:scale-98" href="tracking.html">
+<span class="material-symbols-outlined">track_changes</span>
+<span>Goals</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-black/10 pt-6 flex flex-col space-y-1">
+<button onclick="window.location.href='addTransaction.html'" class="w-full bg-[#003527] text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-[#003527]/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span>Add Transaction</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-black/5 hover:text-on-surface rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant font-medium hover:bg-error/10 hover:text-error rounded-lg transition-colors cursor-pointer" onclick="MamaniAPI.logout()">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top AppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 dark:bg-on-background/80 backdrop-blur-xl flex justify-between items-center h-20 px-gutter ml-64 border-b border-black/5">
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-surface-container-low px-4 py-2 rounded-full w-80 group transition-all focus-within:ring-2 focus-within:ring-primary/20">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder:text-on-surface-variant/60" placeholder="Search settings..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-variant rounded-full p-2 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a friendly young man named Peter Parker, featuring clean lighting, a minimalist background, and a sharp, high-fidelity look that conveys confidence and modern intelligence. He is wearing a dark emerald casual shirt, matching the Mamani brand color palette. The aesthetic is polished, editorial, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU_3GAD-t94lWhx8ELLi5cJ1kWPAXskwfPy6za_0m1XSzhHh5FKj0YIWL9nJ6t9GYpxqYWQXrY3Xj4AOQW2OzBMxEGohwOAhjdx8g_IfGpFBlFoDiGiwnuw1glPzaawYI4JWq9H8hSpDsyZXU70Ra_dAqmqzpQauYliOErwJ9JuKNvxto1NP0R6iGq-CiMKxNeU3mIeYAj7TrIhVbsgLH4V6JI7wjZhE_SIPeqPUw-hn_TwU5YFMh99Sjc1JIVGADPAKv6A3ifIBUD">
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-20 pb-20 px-gutter min-h-screen">
+<div class="max-w-6xl mx-auto py-lg">
+<!-- Profile Header Card -->
+<section class="mb-lg">
+<div class="bg-surface shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-black/5 rounded-xl p-lg flex flex-col md:flex-row items-center gap-lg">
+<div class="relative">
+<div class="h-32 w-32 rounded-full overflow-hidden ring-4 ring-primary-container/20">
+<img id="profile-avatar-preview" class="w-full h-full object-cover" data-alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_wvbCTDowqPyuFTs9-QwjFPYM7KzCYFB6eiFckkZ7IxxbEhms4pPAdJj2gDYJA97ofWrjqrI11mC3OsabQSfUIPvkzRCDHH-VOMWtClUQB2IryeKyClnRWT1tiFnn2Edcty-qcUQoNNgcOquTv9raXyIROE8BR_KOA8fU-d5D9DySS_JmWZvQ1-pAe3qcc5qPg4yhcdgtDoNg3gjNOeNAn70NAfLGK6cVk9vpRHrDCJUt-mwEfvFo3xQ0CyF3kWdb6KjZ050jnekC">
+</div>
+<button id="avatar-upload-btn" class="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+<input type="file" id="avatar-input" accept="image/*" class="hidden">
+</div>
+<div class="text-center md:text-left flex-1">
+<h2 id="profile-display-name" class="font-headline-md text-headline-md text-on-background mb-1">Peter Parker</h2>
+<div class="flex flex-wrap justify-center md:justify-start gap-2 items-center">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-label-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
+                                Premium Member
+                            </span>
+<span class="text-on-surface-variant font-label-sm">Joined June 2023</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 bg-primary text-white font-label-bold rounded-lg shadow-sm hover:opacity-90 active:scale-98 transition-all">Edit Profile</button>
+<button class="px-4 py-2.5 border border-outline-variant text-on-surface font-label-bold rounded-lg hover:bg-surface-container transition-colors">Share</button>
+</div>
+</div>
+</section>
+<!-- Settings Layout: Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Sub-Navigation Sidebar -->
+<nav class="md:col-span-3 space-y-2">
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 bg-white shadow-sm border border-black/5 rounded-lg text-primary font-label-bold transition-all relative after:absolute after:right-4 after:w-1.5 after:h-1.5 after:bg-primary after:rounded-full">
+<span class="material-symbols-outlined">badge</span>
+                        Personal Info
+                    </button>
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md hover:bg-white hover:shadow-sm rounded-lg transition-all">
+<span class="material-symbols-outlined">security</span>
+                        Security
+                    </button>
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md hover:bg-white hover:shadow-sm rounded-lg transition-all">
+<span class="material-symbols-outlined">tune</span>
+                        Preferences
+                    </button>
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md hover:bg-white hover:shadow-sm rounded-lg transition-all">
+<span class="material-symbols-outlined">card_membership</span>
+                        Subscription
+                    </button>
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md hover:bg-white hover:shadow-sm rounded-lg transition-all">
+<span class="material-symbols-outlined">help</span>
+                        Help &amp; Support
+                    </button>
+</nav>
+<!-- Settings Panels Content -->
+<div class="md:col-span-9 space-y-gutter">
+<!-- Personal Info Section -->
+<div class="bg-white shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-black/5 rounded-xl p-lg">
+<h3 class="font-headline-md text-numbers-md text-on-background mb-lg">Personal Information</h3>
+<form id="profile-form">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-1.5">
+<label class="font-label-bold text-on-surface-variant ml-1">Full Name</label>
+<input id="input-fullname" class="w-full bg-[#F3F4F6] border-none rounded-lg px-4 py-3 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-body-md" type="text" value="Peter Parker">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-bold text-on-surface-variant ml-1">Email Address</label>
+<input id="input-email" class="w-full bg-[#F3F4F6] border-none rounded-lg px-4 py-3 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-body-md" type="email" value="peter.parker@dailybugle.com">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-bold text-on-surface-variant ml-1">Phone Number</label>
+<div class="flex">
+<select id="input-country-code" class="w-1/3 bg-[#F3F4F6] border-none rounded-l-lg px-2 py-3 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-body-md appearance-none border-r border-black/10">
+</select>
+<input id="input-phone" class="w-2/3 bg-[#F3F4F6] border-none rounded-r-lg px-4 py-3 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-body-md" type="tel" value="555 012-3456">
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-bold text-on-surface-variant ml-1">Preferred Currency</label>
+<select id="currency-select" class="w-full bg-[#F3F4F6] border-none rounded-lg px-4 py-3 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-body-md appearance-none">
+</select>
+</div>
+</div>
+<div class="mt-8 flex justify-end">
+<button type="submit" id="save-profile-btn" class="bg-primary text-white px-6 py-2.5 rounded-lg font-label-bold hover:bg-primary-container transition-all shadow-sm flex items-center gap-2">
+    <span class="material-symbols-outlined text-[18px]">save</span>
+    Save Changes
+</button>
+</div>
+</form>
+</div>
+<!-- Security Section -->
+<div class="bg-white shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-black/5 rounded-xl p-lg">
+<h3 class="font-headline-md text-numbers-md text-on-background mb-lg">Security &amp; Privacy</h3>
+<div class="space-y-md">
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="font-label-bold text-on-background">Two-Factor Authentication</p>
+<p class="text-label-sm text-on-surface-variant">Add an extra layer of security to your account.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-2 border-t border-black/5">
+<div>
+<p class="font-label-bold text-on-background">Biometric Login</p>
+<p class="text-label-sm text-on-surface-variant">Use FaceID or Fingerprint to unlock.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="pt-2">
+<button class="text-primary font-label-bold flex items-center gap-2 hover:underline">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+                                    Change Password
                                 </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Security & Authentication -->
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-lg text-on-surface mb-1 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-secondary">security</span>
-                            Security & Protection
-                        </h3>
-                        <p class="text-sm text-on-surface-variant mb-6">Manage your passwords, device sessions, and authentication security</p>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low">
-                                <div>
-                                    <p class="font-semibold text-on-surface">Two-Factor Authentication (2FA)</p>
-                                    <p class="text-sm text-on-surface-variant">Secure your login via biometric or mobile token verification</p>
+</div>
+</div>
+</div>
+<!-- Preferences Section -->
+<div class="bg-white shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-black/5 rounded-xl p-lg">
+<h3 class="font-headline-md text-numbers-md text-on-background mb-lg">Preferences</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-md">
+<div class="flex items-center justify-between">
+<p class="font-label-bold text-on-background">Dark Mode</p>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="dark-mode-toggle" type="checkbox">
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<p class="font-label-bold text-on-background">Push Notifications</p>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="space-y-1.5 col-span-1 md:col-span-2 mt-2">
+<label class="font-label-bold text-on-surface-variant ml-1">Language</label>
+<select class="w-full bg-[#F3F4F6] border-none rounded-lg px-4 py-3 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-body-md appearance-none">
+<option selected="">English (US)</option>
+<option>Spanish (ES)</option>
+<option>French (FR)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Subscription Plan Card -->
+<div class="bg-gradient-to-br from-primary to-on-primary-container text-white shadow-xl rounded-xl p-lg relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md mb-1 text-white">Prosperity Plan</h3>
+<p class="text-white/80 font-label-sm">Active since July 2023</p>
+</div>
+<span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-label-bold uppercase tracking-wider text-[11px]">Premium</span>
+</div>
+<div class="flex items-end gap-2 mb-8">
+<span class="text-numbers-lg font-numbers-lg">$19.99</span>
+<span class="text-white/60 font-body-md pb-1">/ month</span>
+</div>
+<div class="flex items-center gap-4 text-white/90 mb-8 text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">event</span>
+                                    Next Billing: Oct 12, 2024
                                 </div>
-                                <span class="px-3 py-1 bg-secondary-container text-on-secondary-fixed text-xs font-semibold rounded-full">Enabled</span>
-                            </div>
-                            
-                            <div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low">
-                                <div>
-                                    <p class="font-semibold text-on-surface">Password Protection</p>
-                                    <p class="text-sm text-on-surface-variant">Last changed 45 days ago</p>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+                                    Ending in 4242
                                 </div>
-                                <button class="px-4 py-2 rounded-lg border border-outline-variant text-sm font-semibold hover:bg-white transition-all">Change Password</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 bg-white text-primary font-label-bold rounded-lg hover:bg-surface-bright transition-colors shadow-lg">Manage Plan</button>
+<button class="px-6 py-2.5 bg-white/10 border border-white/20 text-white font-label-bold rounded-lg hover:bg-white/20 transition-colors">Compare Plans</button>
+</div>
+</div>
+</div>
+<!-- Danger Zone / Actions -->
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-md">
+<button class="w-full md:w-auto px-10 py-3 bg-error text-white font-label-bold rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+                            Log Out
+                        </button>
+<button class="text-error font-label-sm hover:underline opacity-60 hover:opacity-100 transition-opacity">Delete Account Permanently</button>
+</div>
+</div>
+</div>
+</div>
+</main>
 
-                <!-- Right Column: Quick Stats & Preferences -->
-                <div class="lg:col-span-4 space-y-md">
-                    <!-- Membership Perks Card -->
-                    <div class="glass-card rounded-2xl p-6 bg-gradient-to-br from-primary to-secondary text-white">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="material-symbols-outlined text-3xl">workspace_premium</span>
-                            <span class="text-xs uppercase tracking-widest px-2 py-1 bg-white/20 rounded-full font-bold">Active</span>
-                        </div>
-                        <h4 class="text-xl font-bold mb-1">Mamani Platinum</h4>
-                        <p class="text-sm text-white/80 mb-6">You are receiving zero-fee overseas transfers and dedicated advisory assistance.</p>
-                        <div class="space-y-2 text-xs font-semibold text-white/90 border-t border-black/5 pt-4">
-                            <div class="flex justify-between"><span>Free ATM Withdrawals</span><span>Unlimited</span></div>
-                            <div class="flex justify-between"><span>Yield Multiplier</span><span>+1.5% APY</span></div>
-                        </div>
-                    </div>
-
-                    <!-- App Preferences -->
-                    <div class="glass-card rounded-2xl p-6 space-y-4">
-                        <h4 class="font-bold text-lg text-on-surface mb-2 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-on-tertiary-container">tune</span>
-                            Preferences
-                        </h4>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-on-surface-variant mb-2">Display Currency</label>
-                            <select id="currency-select" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-semibold text-on-surface focus:ring-0">
-                                <option value="USD ($)">USD ($)</option>
-                                <option value="TSH (TSh)">TSH (TSh)</option>
-                                <option value="EUR (€)">EUR (€)</option>
-                                <option value="GBP (£)">GBP (£)</option>
-                            </select>
-                        </div>
-                        <div class="pt-2">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" checked class="w-5 h-5 text-primary rounded border-outline-variant focus:ring-0"/>
-                                <span class="text-sm font-semibold text-on-surface">Monthly AI Insight Digest</span>
-                            </label>
-                        </div>
-                        <div>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" checked class="w-5 h-5 text-primary rounded border-outline-variant focus:ring-0"/>
-                                <span class="text-sm font-semibold text-on-surface">Unusual Spending Notifications</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Crop Modal -->
+<div id="crop-modal" class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-surface border border-black/10 rounded-2xl w-full max-w-lg p-6 shadow-2xl transform scale-95 transition-all duration-300" id="crop-modal-content">
+        <h3 class="font-headline-md text-on-background mb-4">Resize Profile Picture</h3>
+        <div class="w-full h-80 bg-black/5 rounded-lg overflow-hidden mb-6 relative flex justify-center items-center">
+            <img id="crop-image" src="" class="max-w-full max-h-full block">
         </div>
+        <div class="flex justify-end gap-3">
+            <button type="button" id="crop-cancel-btn" class="px-5 py-2.5 rounded-lg font-label-bold text-on-surface-variant hover:bg-black/5 transition-colors">Cancel</button>
+            <button type="button" id="crop-save-btn" class="px-5 py-2.5 bg-primary text-white font-label-bold rounded-lg shadow-md hover:opacity-90 active:scale-95 transition-all">Apply & Save</button>
+        </div>
+    </div>
+</div>
 
-        <!-- Footer -->
-        <footer class="w-full bg-surface-bright border-t border-black/5 flex justify-between items-center py-6 px-gutter">
-            <span class="font-label-sm text-label-sm text-on-surface-variant opacity-80">© 2024 Mamani Financial. All rights reserved.</span>
-            <div class="flex gap-gutter">
-                <a href="#" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">Privacy Policy</a>
-                <a href="#" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">Terms of Service</a>
-                <a href="#" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">Security</a>
-            </div>
-        </footer>
-    </main>
+<!-- Footer Shell -->
+<footer class="w-[calc(100%-16rem)] ml-64 bg-surface-bright dark:bg-on-background border-t border-black/5 flex justify-between items-center py-4 px-gutter">
+<p class="font-label-sm text-label-sm text-secondary dark:text-secondary-fixed opacity-80">© 2024 Mamani Financial. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+</div>
+</footer>
+<script>
+        // Micro-interactions for toggles
+        document.getElementById('dark-mode-toggle').addEventListener('change', function(e) {
+            if(e.target.checked) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
 
+        // Form focus effects logic (handled by Tailwind focus: classes mostly)
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('active-focus');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('active-focus');
+            });
+        });
+    </script>
+
+
+</body></html>
     <script src="mamani-api.js"></script>
     <script>
         MamaniAPI.requireAuth();
@@ -345,24 +440,47 @@
         async function loadProfile() {
             try {
                 const user = await MamaniAPI.getMe();
-                localStorage.setItem('user_name', user.full_name || '');
-                localStorage.setItem('user_email', user.email || '');
+                const displayNameEl = document.getElementById('profile-display-name');
+                if(displayNameEl) displayNameEl.innerText = user.full_name || '';
                 
-                document.getElementById('header-username').innerText = user.full_name || '';
-                document.getElementById('header-useremail').innerText = 'Platinum Member';
-                document.getElementById('profile-display-name').innerText = user.full_name || '';
-                document.getElementById('profile-display-email').innerText = user.email || '';
-                document.getElementById('input-fullname').value = user.full_name || '';
-                document.getElementById('input-email').value = user.email || '';
+                const emailEl = document.getElementById('profile-display-email');
+                if(emailEl) emailEl.innerText = user.email || '';
+                
+                const inputNameEl = document.getElementById('input-fullname');
+                if(inputNameEl) inputNameEl.value = user.full_name || '';
+                
+                const inputEmailEl = document.getElementById('input-email');
+                if(inputEmailEl) inputEmailEl.value = user.email || '';
+                
+                if (user.avatar_url) {
+                    const avatar = document.getElementById('profile-avatar-preview');
+                    if(avatar) avatar.src = user.avatar_url;
+                }
+                
+                if (user.phone) {
+                    const phoneParts = user.phone.split(' ');
+                    if (phoneParts.length > 1) {
+                        document.getElementById('input-country-code').value = phoneParts[0];
+                        document.getElementById('input-phone').value = phoneParts.slice(1).join(' ');
+                    } else {
+                        document.getElementById('input-phone').value = user.phone;
+                    }
+                }
             } catch (e) {
                 const userName = localStorage.getItem('user_name') || 'Peter Parker';
                 const userEmail = localStorage.getItem('user_email') || 'peter@mamani.com';
-                document.getElementById('header-username').innerText = userName;
-                document.getElementById('header-useremail').innerText = 'Platinum Member';
-                document.getElementById('profile-display-name').innerText = userName;
-                document.getElementById('profile-display-email').innerText = userEmail;
-                document.getElementById('input-fullname').value = userName;
-                document.getElementById('input-email').value = userEmail;
+                
+                const displayNameEl = document.getElementById('profile-display-name');
+                if(displayNameEl) displayNameEl.innerText = userName;
+                
+                const emailEl = document.getElementById('profile-display-email');
+                if(emailEl) emailEl.innerText = userEmail;
+                
+                const inputNameEl = document.getElementById('input-fullname');
+                if(inputNameEl) inputNameEl.value = userName;
+                
+                const inputEmailEl = document.getElementById('input-email');
+                if(inputEmailEl) inputEmailEl.value = userEmail;
             }
         }
 
@@ -384,12 +502,15 @@
             const btn = document.getElementById('save-profile-btn');
             const newName = document.getElementById('input-fullname').value;
             const newEmail = document.getElementById('input-email').value;
+            const countryCode = document.getElementById('input-country-code').value;
+            const phone = document.getElementById('input-phone').value;
+            const fullPhone = phone ? `${countryCode} ${phone}` : '';
             
             btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span> Saving...';
             btn.disabled = true;
 
             try {
-                await MamaniAPI.updateMe({ full_name: newName, email: newEmail });
+                await MamaniAPI.updateMe({ full_name: newName, email: newEmail, phone: fullPhone });
                 localStorage.setItem('user_name', newName);
                 localStorage.setItem('user_email', newEmail);
                 loadProfile();
@@ -397,16 +518,133 @@
                 btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> Saved!';
                 btn.classList.replace('bg-primary', 'bg-secondary');
                 setTimeout(() => {
-                    btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">save</span> Save Profile Changes';
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">save</span> Save Changes';
                     btn.classList.replace('bg-secondary', 'bg-primary');
                     btn.disabled = false;
                 }, 2000);
             } catch (err) {
                 alert("Could not update profile: " + err.message);
-                btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">save</span> Save Profile Changes';
+                btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">save</span> Save Changes';
                 btn.disabled = false;
             }
         });
+
+        // Cropper Logic
+        let cropper = null;
+        const uploadBtn = document.getElementById('avatar-upload-btn');
+        const fileInput = document.getElementById('avatar-input');
+        const cropModal = document.getElementById('crop-modal');
+        const cropContent = document.getElementById('crop-modal-content');
+        const cropImage = document.getElementById('crop-image');
+        const cancelCropBtn = document.getElementById('crop-cancel-btn');
+        const saveCropBtn = document.getElementById('crop-save-btn');
+        const profilePreview = document.getElementById('profile-avatar-preview');
+
+        if(uploadBtn && fileInput) {
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', (e) => {
+                const files = e.target.files;
+                if(files && files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        cropImage.src = e.target.result;
+                        cropModal.classList.remove('opacity-0', 'pointer-events-none');
+                        cropContent.classList.remove('scale-95');
+                        
+                        if(cropper) cropper.destroy();
+                        cropper = new Cropper(cropImage, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            background: false,
+                        });
+                    };
+                    reader.readAsDataURL(files[0]);
+                }
+                fileInput.value = ''; // reset
+            });
+
+            cancelCropBtn.addEventListener('click', () => {
+                cropModal.classList.add('opacity-0', 'pointer-events-none');
+                cropContent.classList.add('scale-95');
+                if(cropper) cropper.destroy();
+            });
+
+            saveCropBtn.addEventListener('click', async () => {
+                if(!cropper) return;
+                const canvas = cropper.getCroppedCanvas({ width: 400, height: 400 });
+                saveCropBtn.innerHTML = "Uploading...";
+                saveCropBtn.disabled = true;
+
+                canvas.toBlob(async (blob) => {
+                    try {
+                        const formData = new FormData();
+                        // fake file object for the endpoint which expects "file"
+                        const file = new File([blob], "avatar.png", { type: "image/png" });
+                        const res = await MamaniAPI.uploadReceipt(file); // reuse this to upload to server
+                        
+                        // Update UI
+                        profilePreview.src = res.url;
+                        
+                        // Update Backend
+                        await MamaniAPI.updateMe({ avatar_url: res.url });
+                        
+                        // Close Modal
+                        cancelCropBtn.click();
+                    } catch (err) {
+                        alert("Failed to upload avatar: " + err.message);
+                    } finally {
+                        saveCropBtn.innerHTML = "Apply & Save";
+                        saveCropBtn.disabled = false;
+                    }
+                }, 'image/png');
+            });
+        }
+        // Populate Countries and Currencies
+        const COUNTRY_CODES = [
+            { code: "+1", name: "US/Canada" }, { code: "+7", name: "Russia/Kazakhstan" }, { code: "+20", name: "Egypt" }, { code: "+27", name: "South Africa" },
+            { code: "+30", name: "Greece" }, { code: "+31", name: "Netherlands" }, { code: "+32", name: "Belgium" }, { code: "+33", name: "France" },
+            { code: "+34", name: "Spain" }, { code: "+36", name: "Hungary" }, { code: "+39", name: "Italy" }, { code: "+40", name: "Romania" },
+            { code: "+41", name: "Switzerland" }, { code: "+43", name: "Austria" }, { code: "+44", name: "United Kingdom" }, { code: "+45", name: "Denmark" },
+            { code: "+46", name: "Sweden" }, { code: "+47", name: "Norway" }, { code: "+48", name: "Poland" }, { code: "+49", name: "Germany" },
+            { code: "+51", name: "Peru" }, { code: "+52", name: "Mexico" }, { code: "+53", name: "Cuba" }, { code: "+54", name: "Argentina" },
+            { code: "+55", name: "Brazil" }, { code: "+56", name: "Chile" }, { code: "+57", name: "Colombia" }, { code: "+58", name: "Venezuela" },
+            { code: "+60", name: "Malaysia" }, { code: "+61", name: "Australia" }, { code: "+62", name: "Indonesia" }, { code: "+63", name: "Philippines" },
+            { code: "+64", name: "New Zealand" }, { code: "+65", name: "Singapore" }, { code: "+66", name: "Thailand" }, { code: "+81", name: "Japan" },
+            { code: "+82", name: "South Korea" }, { code: "+84", name: "Vietnam" }, { code: "+86", name: "China" }, { code: "+90", name: "Turkey" },
+            { code: "+91", name: "India" }, { code: "+92", name: "Pakistan" }, { code: "+93", name: "Afghanistan" }, { code: "+94", name: "Sri Lanka" },
+            { code: "+95", name: "Myanmar" }, { code: "+98", name: "Iran" }, { code: "+212", name: "Morocco" }, { code: "+213", name: "Algeria" },
+            { code: "+216", name: "Tunisia" }, { code: "+218", name: "Libya" }, { code: "+220", name: "Gambia" }, { code: "+221", name: "Senegal" },
+            { code: "+233", name: "Ghana" }, { code: "+234", name: "Nigeria" }, { code: "+244", name: "Angola" }, { code: "+249", name: "Sudan" },
+            { code: "+250", name: "Rwanda" }, { code: "+254", name: "Kenya" }, { code: "+255", name: "Tanzania" }, { code: "+256", name: "Uganda" },
+            { code: "+257", name: "Burundi" }, { code: "+260", name: "Zambia" }, { code: "+263", name: "Zimbabwe" }, { code: "+264", name: "Namibia" },
+            { code: "+267", name: "Botswana" }, { code: "+351", name: "Portugal" }, { code: "+353", name: "Ireland" }, { code: "+358", name: "Finland" },
+            { code: "+971", name: "UAE" }, { code: "+972", name: "Israel" }, { code: "+966", name: "Saudi Arabia" }
+        ];
+
+        const CURRENCIES = [
+            { code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "GBP", symbol: "£" }, { code: "JPY", symbol: "¥" },
+            { code: "AUD", symbol: "A$" }, { code: "CAD", symbol: "C$" }, { code: "CHF", symbol: "CHF" }, { code: "CNY", symbol: "¥" },
+            { code: "SEK", symbol: "kr" }, { code: "NZD", symbol: "NZ$" }, { code: "MXN", symbol: "$" }, { code: "SGD", symbol: "S$" },
+            { code: "HKD", symbol: "HK$" }, { code: "NOK", symbol: "kr" }, { code: "KRW", symbol: "₩" }, { code: "TRY", symbol: "₺" },
+            { code: "RUB", symbol: "₽" }, { code: "INR", symbol: "₹" }, { code: "BRL", symbol: "R$" }, { code: "ZAR", symbol: "R" },
+            { code: "TZS", symbol: "TSh" }, { code: "KES", symbol: "KSh" }, { code: "UGX", symbol: "USh" }, { code: "NGN", symbol: "₦" },
+            { code: "GHS", symbol: "GH₵" }, { code: "RWF", symbol: "FRw" }, { code: "ZMW", symbol: "ZK" }, { code: "AED", symbol: "د.إ" },
+            { code: "SAR", symbol: "﷼" }, { code: "THB", symbol: "฿" }, { code: "MYR", symbol: "RM" }, { code: "PHP", symbol: "₱" },
+            { code: "IDR", symbol: "Rp" }, { code: "VND", symbol: "₫" }, { code: "PLN", symbol: "zł" }, { code: "DKK", symbol: "kr" }
+        ];
+
+        const countrySelectEl = document.getElementById('input-country-code');
+        if (countrySelectEl) {
+            countrySelectEl.innerHTML = COUNTRY_CODES.map(c => `<option value="${c.code}">${c.code} (${c.name})</option>`).join('');
+            countrySelectEl.value = '+1'; // default
+        }
+
+        const currSelectEl = document.getElementById('currency-select');
+        if (currSelectEl) {
+            currSelectEl.innerHTML = CURRENCIES.map(c => `<option value="${c.code} (${c.symbol})">${c.code} (${c.symbol})</option>`).join('');
+            // Overridden by loadProfile/localStorage if available
+        }
     </script>
 </body>
 </html>
