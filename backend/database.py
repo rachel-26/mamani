@@ -41,6 +41,7 @@ class Transaction(Base):
     notes = Column(String, nullable=True)
     account = Column(String, nullable=True, default="Main Savings")
     date = Column(DateTime, default=datetime.utcnow)
+    receipt_url = Column(String, nullable=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="transactions")
