@@ -116,77 +116,61 @@
 <!-- Main Content Area -->
 <main class="flex-1 lg:ml-64 flex flex-col min-h-screen relative">
 <!-- TopNavBar (Web) -->
-<header class="bg-surface-bright/80 backdrop-blur-md shadow-sm docked full-width top-0 hidden md:flex fixed top-0 left-0 w-full z-40 justify-between items-center px-margin-desktop h-16 transition-all duration-200 active:scale-95 pl-[calc(16rem+64px)]">
-<div class="flex-1 flex justify-center">
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none" placeholder="Search goals, transactions..." type="text">
-</div>
-</div>
-<div class="flex items-center gap-sm">
-<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
-<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined" data-icon="help">help</span></button>
-<img alt="User profile" class="w-8 h-8 rounded-full ml-sm object-cover border border-outline-variant/20 cursor-pointer" data-alt="A professional headshot of a person, used as a user profile image in a luxury finance application. The lighting is soft and flattering, exuding confidence and prosperity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD42bN6Z86C3VW5raUnPTvZBLW3OWU2pTE9dapVN_ty4fTClQAwNJv_qtpDaS4iT7HYvnPB3be9FEzlnGBGW9zIMDl-JjkcRfi0e3PmuZlGGDC6NEmV5O5Tv7MB5Et_gzTuUMx9wxzDSTsazSb-1Q8_BaViGkdY5O4wJ1A5EPQLjhVUKwIKZBoN1lMV7pYZ6kClrqWGBF3fIjxBdDf-LtES1DTnrJ_vZvHMLtMNkCNXJzgIqjqOxSoFMg">
-</div>
-</header>
-<!-- Content Canvas -->
-<div class="fixed inset-0 z-0 overflow-hidden bg-surface">
-  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuwl6TQGNX2sfT1h8TwFIR1kDsidCNU3NYlFSI0HYbg-Q2o28beqyIRFBQ4Hv_XQK-JziTkE5AGuvnWOrXcbJNbGl-D6GMUEJNGNF5YyB2UedbdmXlRmR6xtgxX8N1xtUOgJdlcgQfgmGuiZ6EGW17bZvMPpq5-OBsSpKUOZBx7IA1dh59UHixuW0S71Sp4KlaXNAzNIYHzoPtty6vzg6W82QoEwdolgG9oSofCqrz3KjFrCikR1y2Mg" alt="Background" class="w-full h-full object-cover blur-2xl scale-110 opacity-60">
-  <div class="absolute inset-0 bg-surface/40"></div>
-</div>
 
-<div class="flex-1 px-margin-mobile md:px-margin-desktop pt-24 pb-32 max-w-[1440px] mx-auto w-full relative z-10 flex items-center justify-center min-h-[calc(100vh-64px)]">
-  
-<div class="relative w-full max-w-2xl bg-white/90 backdrop-blur-xl rounded-3xl p-lg shadow-2xl border border-white/40">
-  <button onclick="window.location.href='tracking.html'" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors z-20 bg-surface/50 backdrop-blur-sm">
-    <span class="material-symbols-outlined">close</span>
-  </button>
-  
-  <div class="w-full h-[200px] overflow-hidden rounded-t-3xl -mt-lg -mx-lg mb-lg relative">
-    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuwl6TQGNX2sfT1h8TwFIR1kDsidCNU3NYlFSI0HYbg-Q2o28beqyIRFBQ4Hv_XQK-JziTkE5AGuvnWOrXcbJNbGl-D6GMUEJNGNF5YyB2UedbdmXlRmR6xtgxX8N1xtUOgJdlcgQfgmGuiZ6EGW17bZvMPpq5-OBsSpKUOZBx7IA1dh59UHixuW0S71Sp4KlaXNAzNIYHzoPtty6vzg6W82QoEwdolgG9oSofCqrz3KjFrCikR1y2Mg" alt="Goal Image" class="w-full h-full object-cover">
-    <button class="absolute bottom-4 right-4 flex items-center gap-xs px-4 py-2 bg-white/80 backdrop-blur-md border border-white/40 rounded-full text-on-surface font-label-bold hover:bg-white transition-all active:scale-95 shadow-lg z-10">
-      <span class="material-symbols-outlined text-[18px]">add_a_photo</span>
-      <span class="">Change Photo</span>
-    </button>
-  </div>
-  
-  <div class="mb-lg">
-    <h3 class="font-headline-md text-headline-md text-primary mb-xs">Create Your Prosperity Goal</h3>
-    <p class="font-body-md text-on-surface-variant">Define your vision and set the parameters for your next financial milestone.</p>
-  </div>
-  
-  <form id="create-goal-form" class="flex flex-col gap-md">
-    <div class="flex flex-col gap-xs">
-      <label class="font-label-bold text-label-bold text-on-surface ml-xs">Goal Name</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">edit_note</span>
-        <input id="goal-title" required class="w-full bg-surface-container-lowest/80 backdrop-blur-sm border border-black/5 rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none shadow-sm" placeholder="e.g., Buying a house" type="text">
-      </div>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-      <div class="flex flex-col gap-xs">
-        <label class="font-label-bold text-label-bold text-on-surface ml-xs">Target Date</label>
-        <div class="relative">
-          <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">calendar_today</span>
-          <input id="goal-target-date" required class="w-full bg-surface-container-lowest/80 backdrop-blur-sm border border-black/5 rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none shadow-sm" type="date">
-        </div>
-      </div>
-      
-      <div class="flex flex-col gap-xs">
-        <label class="font-label-bold text-label-bold text-on-surface ml-xs">Budget</label>
-        <div class="relative">
-          <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">payments</span>
-          <input id="goal-amount" required min="1" step="0.01" class="w-full bg-surface-container-lowest/80 backdrop-blur-sm border border-black/5 rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none shadow-sm" placeholder="50000" type="number">
-        </div>
-      </div>
-    </div>
-    
-    <button id="create-goal-btn" class="mt-md w-full bg-primary text-white font-label-bold text-label-bold py-3.5 rounded-xl hover:brightness-110 transition-all active:scale-95 shadow-xl shadow-primary/20 flex items-center justify-center gap-sm" type="submit">
-      <span class="material-symbols-outlined">rocket_launch</span>
-      Set Goal
-    </button>
-  </form>
+<!-- Content Canvas -->
+<div class="flex-1 px-margin-mobile md:px-margin-desktop pt-24 pb-32 max-w-[1440px] mx-auto w-full relative z-10">
+<!-- Hero Section -->
+<section class="relative rounded-2xl overflow-hidden mb-xl p-lg flex flex-col justify-end min-h-[280px] ambient-shadow">
+<div class="absolute inset-0 mesh-gradient opacity-20"></div>
+<div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" data-alt="A subtle, high-end architectural watermark pattern serving as a background texture. It features delicate intersecting lines forming geometric shapes reminiscent of modern skyscraper frameworks, rendered in a very pale, almost translucent silver." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuC0RJN81ECrX0IVqlRS6bHXv9h2FG6-r4M3badsUcWYX2X3OQ6tkyb6jfkc_32moTRxKjlNRXJNxnvOklEYPLwdiHQsXmwbSi6fAo1iBy8Po_kS9twIQEFkMVFgSTNmnZMZNQf8TWjvDB6b79hxsvi62DEzaZ1QaDoi2T7qzyulilmxvoDkQ0M3-5W4sg9NbObPlfgihl9W97J8vDsy5scDPpQRqoiXIqr3AsONBXRbx1vBpPfezRXFSA&quot;);"></div>
+<div class="relative z-10 max-w-2xl">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-sm">Set Your Prosperity Path</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Choose a template or create a custom goal to start your journey towards intelligent growth.</p>
+</div>
+</section>
+<!-- Goals Grid -->
+<div id="goal-bg-preview" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm" style="background-image: linear-gradient(rgba(20, 27, 43, 0.6), rgba(20, 27, 43, 0.6)), url(&quot;https://lh3.googleusercontent.com/aida/AP1WRLtxCzHzUnscxOEkUoTTXhcrSsgaMtsiLg40kVchOXBVE2QASv8UrP8VleOytAUqUn5f0NiC-vX69IozRTLy6Ma__T52RxjJYzbWWqtXnAlsrM-n6a2Pxu-Bn_phhzL0TAB2TQG6ioBb6dZJQHULt86ioiAuY75R0E3evqG9BTGz9wEgAaf0rEf9iBZ2UBCHErAQiiQWcfOLAQwUZZECMUoQMQrHLg3aPR97jcI9NAkdoBTPh0Rf9cEED3U8&quot;); background-size: cover; background-position: center center; backdrop-filter: blur(20px);">
+<div class="relative w-full max-w-2xl bg-white rounded-2xl p-lg shadow-lg border border-outline-variant/10"><div class="w-full h-[240px] overflow-hidden rounded-t-2xl mb-lg relative"><div class="relative w-full h-full flex items-center justify-center p-4"><img id="goal-image-preview" src="https://lh3.googleusercontent.com/aida/AP1WRLtxCzHzUnscxOEkUoTTXhcrSsgaMtsiLg40kVchOXBVE2QASv8UrP8VleOytAUqUn5f0NiC-vX69IozRTLy6Ma__T52RxjJYzbWWqtXnAlsrM-n6a2Pxu-Bn_phhzL0TAB2TQG6ioBb6dZJQHULt86ioiAuY75R0E3evqG9BTGz9wEgAaf0rEf9iBZ2UBCHErAQiiQWcfOLAQwUZZECMUoQMQrHLg3aPR97jcI9NAkdoBTPh0Rf9cEED3U8" alt="Prosperity Goal" class="w-full h-full object-cover rounded-xl shadow-sm">
+<button type="button" onclick="document.getElementById('goal-image-upload').click()" class="absolute bottom-8 right-8 flex items-center gap-xs px-4 py-2 bg-white/80 backdrop-blur-md border border-white/40 rounded-full text-on-surface font-label-bold hover:bg-white transition-all active:scale-95 shadow-lg z-10"><span class="material-symbols-outlined text-[18px]">add_a_photo</span><span class="">Add Photo</span></button>
+<input type="file" id="goal-image-upload" class="hidden" accept="image/*" onchange="handleGoalImageChange(event)">
+</div></div>
+<button onclick="window.location.href='tracking.html'" class="absolute top-4 right-4 p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors z-10 bg-white/50 backdrop-blur-sm">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Create Your Prosperity Goal</h3>
+<p class="font-body-md text-on-surface-variant">Define your vision and set the parameters for your next financial milestone.</p>
+</div>
+<form id="create-goal-form" class="flex flex-col gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-bold text-label-bold text-on-surface ml-xs">Goal Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">edit_note</span>
+<input id="goal-title" required class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none" placeholder="e.g., Buying a house" type="text">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-bold text-label-bold text-on-surface ml-xs">Target Date</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">calendar_today</span>
+<input id="goal-target-date" required class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none" type="date">
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-bold text-label-bold text-on-surface ml-xs">Budget</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">payments</span>
+<input id="goal-amount" required min="1" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary/50 transition-all outline-none" placeholder="50000" type="number">
+</div>
+</div>
+</div>
+<button id="create-goal-btn" class="mt-md w-full bg-primary-container text-on-primary-container font-label-bold text-label-bold py-md rounded-xl hover:bg-primary hover:text-on-primary transition-all active:scale-98 shadow-sm flex items-center justify-center gap-sm" type="submit">
+<span class="material-symbols-outlined">rocket_launch</span>
+        Set Goal
+      </button>
+</form>
+</div>
 </div>
 </div>
 </main>
@@ -212,11 +196,28 @@
 <script src="mamani-api.js"></script>
 <script>
         MamaniAPI.requireAuth();
-        
-        // Handle bottom nav safe area on iOS
+
+        let selectedImageFile = null;
+        let selectedImageUrl = 'https://lh3.googleusercontent.com/aida/AP1WRLtxCzHzUnscxOEkUoTTXhcrSsgaMtsiLg40kVchOXBVE2QASv8UrP8VleOytAUqUn5f0NiC-vX69IozRTLy6Ma__T52RxjJYzbWWqtXnAlsrM-n6a2Pxu-Bn_phhzL0TAB2TQG6ioBb6dZJQHULt86ioiAuY75R0E3evqG9BTGz9wEgAaf0rEf9iBZ2UBCHErAQiiQWcfOLAQwUZZECMUoQMQrHLg3aPR97jcI9NAkdoBTPh0Rf9cEED3U8';
+
+        function handleGoalImageChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedImageFile = file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    document.getElementById('goal-image-preview').src = dataUrl;
+                    document.getElementById('goal-bg-preview').style.backgroundImage = `linear-gradient(rgba(20, 27, 43, 0.6), rgba(20, 27, 43, 0.6)), url("${dataUrl}")`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Simple script to handle bottom nav safe area on iOS
         if (CSS.supports('padding-bottom: env(safe-area-inset-bottom)')) {
             document.documentElement.style.setProperty('--sat', 'env(safe-area-inset-top)');
-            document.documentElement.style.setProperty('--sab', 'env(safe-area-bottom)');
+            document.documentElement.style.setProperty('--sab', 'env(safe-area-inset-bottom)');
         }
         
         const form = document.getElementById('create-goal-form');
@@ -234,13 +235,21 @@
                 btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Saving...';
                 btn.disabled = true;
                 
+                let finalImageUrl = selectedImageUrl;
+                if (selectedImageFile) {
+                    const uploadRes = await MamaniAPI.uploadReceipt(selectedImageFile);
+                    if (uploadRes && uploadRes.url) {
+                        finalImageUrl = uploadRes.url;
+                    }
+                }
+                
                 await MamaniAPI.createGoal({
                     title: title,
                     target_amount: target_amount,
                     target_date: new Date(target_date).toISOString(),
                     is_short_term: true,
                     color_index: Math.floor(Math.random() * 4), // Assign a random color index
-                    image_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBuwl6TQGNX2sfT1h8TwFIR1kDsidCNU3NYlFSI0HYbg-Q2o28beqyIRFBQ4Hv_XQK-JziTkE5AGuvnWOrXcbJNbGl-D6GMUEJNGNF5YyB2UedbdmXlRmR6xtgxX8N1xtUOgJdlcgQfgmGuiZ6EGW17bZvMPpq5-OBsSpKUOZBx7IA1dh59UHixuW0S71Sp4KlaXNAzNIYHzoPtty6vzg6W82QoEwdolgG9oSofCqrz3KjFrCikR1y2Mg'
+                    image_url: finalImageUrl
                 });
                 
                 window.location.href = 'tracking.html';
