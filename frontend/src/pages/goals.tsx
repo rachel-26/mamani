@@ -336,7 +336,6 @@ const GoalsPage: React.FC = () => {
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">{symbol}</span>
                 <input
                   className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 font-numbers-md text-primary font-bold focus:ring-2 focus:ring-secondary/20 outline-none"
-                  placeholder="0.00"
                   type="number"
                   min="0.01"
                   step="0.01"
