@@ -119,11 +119,11 @@ const InsightsPage: React.FC = () => {
               </svg>
               {/* Y-Axis Labels */}
               <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-outline p-2">
-                <span>$12,000</span>
-                <span>$9,000</span>
-                <span>$6,000</span>
-                <span>$3,000</span>
-                <span>$0</span>
+                <span>{formatAmount(12000)}</span>
+                <span>{formatAmount(9000)}</span>
+                <span>{formatAmount(6000)}</span>
+                <span>{formatAmount(3000)}</span>
+                <span>{formatAmount(0)}</span>
               </div>
               {/* X-Axis Labels */}
               <div className="flex justify-between w-full pt-4 border-t border-black/5">
@@ -226,7 +226,7 @@ const InsightsPage: React.FC = () => {
               </div>
               <div className="space-y-1">
                 <p className="text-label-bold text-secondary">Target Met!</p>
-                <p className="text-label-sm text-on-surface-variant">You've reached your monthly savings goal of $2,500.</p>
+                <p className="text-label-sm text-on-surface-variant">You've reached your monthly savings goal of {formatAmount(2500)}.</p>
               </div>
             </div>
           </div>
@@ -244,7 +244,7 @@ const InsightsPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-label-bold text-on-surface">Dining Efficiency</h4>
-                  <p className="text-body-md text-on-surface-variant mt-1">You spent 15% less on dining out this week! Redirecting those $120 to your "Vacation" goal could shorten your timeline by 2 months.</p>
+                  <p className="text-body-md text-on-surface-variant mt-1">You spent 15% less on dining out this week! Redirecting those {formatAmount(120)} to your "Vacation" goal could shorten your timeline by 2 months.</p>
                   <button className="mt-2 text-primary font-label-bold flex items-center hover:gap-2 transition-all">
                     Move to Savings <span className="material-symbols-outlined text-sm ml-1">chevron_right</span>
                   </button>
@@ -256,7 +256,7 @@ const InsightsPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-label-bold text-on-surface">Subscription Audit</h4>
-                  <p className="text-body-md text-on-surface-variant mt-1">We found 3 overlapping media subscriptions costing $45/mo. Canceling 2 could save you $540 annually.</p>
+                  <p className="text-body-md text-on-surface-variant mt-1">We found 3 overlapping media subscriptions costing {formatAmount(45)}/mo. Canceling 2 could save you {formatAmount(540)} annually.</p>
                   <button className="mt-2 text-primary font-label-bold flex items-center hover:gap-2 transition-all">
                     Review Subscriptions <span className="material-symbols-outlined text-sm ml-1">chevron_right</span>
                   </button>

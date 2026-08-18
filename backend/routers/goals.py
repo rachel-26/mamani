@@ -11,8 +11,11 @@ router = APIRouter(prefix="/goals", tags=["goals"])
 
 
 def _to_out(goal: Goal) -> GoalOut:
-    pct = (goal.saved_amount / goal.target_amount * 100) if goal.target_amount else 0
+    saved = goal.saved_amount if goal.saved_amount is not None else 0.0
+    target = goal.target_amount if goal.target_amount is not None else 0.0
+    pct = (saved / target * 100) if target > 0 else 0.0
     data = GoalOut.model_validate(goal)
+    data.saved_amount = saved
     data.progress_percentage = round(pct, 1)
     return data
 
@@ -32,7 +35,10 @@ def create_goal(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    goal = Goal(**payload.model_dump(), owner_id=current_user.id)
+    goal_dict = payload.model_dump()
+    if goal_dict.get("saved_amount") is None:
+        goal_dict["saved_amount"] = 0.0
+    goal = Goal(**goal_dict, owner_id=current_user.id)
     db.add(goal)
     db.commit()
     db.refresh(goal)
@@ -75,7 +81,8 @@ def deposit_to_goal(
     if payload.amount <= 0:
         raise HTTPException(status_code=400, detail="Amount must be positive")
 
-    goal.saved_amount = min(goal.saved_amount + payload.amount, goal.target_amount)
+    current_saved = goal.saved_amount if goal.saved_amount is not None else 0.0
+    goal.saved_amount = round(current_saved + payload.amount, 2)
     db.commit()
     db.refresh(goal)
     return _to_out(goal)

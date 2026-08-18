@@ -1,11 +1,26 @@
 import { useState, useEffect } from 'react';
 
+export const CURRENCIES = [
+  { code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "GBP", symbol: "£" }, { code: "JPY", symbol: "¥" },
+  { code: "AUD", symbol: "A$" }, { code: "CAD", symbol: "C$" }, { code: "CHF", symbol: "CHF" }, { code: "CNY", symbol: "¥" },
+  { code: "SEK", symbol: "kr" }, { code: "NZD", symbol: "NZ$" }, { code: "MXN", symbol: "$" }, { code: "SGD", symbol: "S$" },
+  { code: "HKD", symbol: "HK$" }, { code: "NOK", symbol: "kr" }, { code: "KRW", symbol: "₩" }, { code: "TRY", symbol: "₺" },
+  { code: "RUB", symbol: "₽" }, { code: "INR", symbol: "₹" }, { code: "BRL", symbol: "R$" }, { code: "ZAR", symbol: "R" },
+  { code: "TZS", symbol: "TSh" }, { code: "KES", symbol: "KSh" }, { code: "UGX", symbol: "USh" }, { code: "NGN", symbol: "₦" },
+  { code: "GHS", symbol: "GH₵" }, { code: "RWF", symbol: "FRw" }, { code: "ZMW", symbol: "ZK" }, { code: "AED", symbol: "د.إ" },
+  { code: "SAR", symbol: "﷼" }, { code: "THB", symbol: "฿" }, { code: "MYR", symbol: "RM" }, { code: "PHP", symbol: "₱" },
+  { code: "IDR", symbol: "Rp" }, { code: "VND", symbol: "₫" }, { code: "PLN", symbol: "zł" }, { code: "DKK", symbol: "kr" }
+];
+
 export const getCurrencySymbol = (currencyString: string) => {
-  if (currencyString.includes('$')) return '$';
-  if (currencyString.includes('€')) return '€';
-  if (currencyString.includes('£')) return '£';
-  if (currencyString.includes('TSh')) return 'TSh ';
-  return '$';
+  if (!currencyString) return '$';
+  const match = currencyString.match(/\(([^)]+)\)/);
+  if (match && match[1]) {
+    return match[1].trim();
+  }
+  const found = CURRENCIES.find(c => c.code.toUpperCase() === currencyString.trim().toUpperCase());
+  if (found) return found.symbol;
+  return currencyString.trim() || '$';
 };
 
 export const useCurrency = () => {
@@ -32,20 +47,18 @@ export const useCurrency = () => {
   const updateCurrency = (newCurrency: string) => {
     localStorage.setItem('user_currency', newCurrency);
     setCurrency(newCurrency);
-    window.dispatchEvent(new Event('currencyChange'));
+    window.dispatchEvent(new CustomEvent('currencyChange', { detail: { currency: newCurrency } }));
   };
 
   const symbol = getCurrencySymbol(currency);
   
   const formatAmount = (amount: number) => {
-    const formatted = Math.abs(amount).toLocaleString();
+    const formatted = Math.abs(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const isNegative = amount < 0;
-    
-    // For TSh, put space after. For others, put right next to number.
-    const displayStr = symbol.trim() === 'TSh' ? `${symbol}${formatted}` : `${symbol}${formatted}`;
-    
+    const needsSpace = symbol.length > 1 && !symbol.endsWith('$');
+    const displayStr = needsSpace ? `${symbol} ${formatted}` : `${symbol}${formatted}`;
     return isNegative ? `-${displayStr}` : displayStr;
   };
 
-  return { currency, symbol, updateCurrency, formatAmount };
+  return { currency, symbol, updateCurrency, formatAmount, currencies: CURRENCIES };
 };

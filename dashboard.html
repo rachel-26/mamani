@@ -193,7 +193,7 @@
 <span class="material-symbols-outlined text-primary dark:text-primary-fixed">notifications</span>
 <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
 </button>
-<button onclick="openProfileModal()" title="View Profile" class="flex items-center gap-3 border-l border-black/10 pl-5 hover:opacity-85 active:scale-95 transition-all focus:outline-none cursor-pointer group bg-transparent">
+<button onclick="window.location.href='profile.html'" title="View Profile" class="flex items-center gap-3 border-l border-black/10 pl-5 hover:opacity-85 active:scale-95 transition-all focus:outline-none cursor-pointer group bg-transparent">
 <div class="text-right">
 <p class="text-label-bold text-primary dark:text-primary-fixed font-bold leading-tight group-hover:underline decoration-primary/30" id="header-username">Peter Parker</p>
 <p class="text-xs text-on-surface-variant/80 font-medium" id="header-useremail">Premium Member</p>
@@ -242,7 +242,7 @@
 <div class="absolute right-10 bottom-0 w-32 h-32 bg-black/10 rounded-full blur-2xl pointer-events-none"></div>
 <div class="relative z-10">
 <p class="text-label-bold text-on-surface-variant font-bold uppercase tracking-widest mb-2">Total Net Worth</p>
-<h3 class="text-3xl font-bold font-display-lg text-primary mb-6 tracking-tight drop-shadow-sm">$124,592.00</h3>
+<h3 class="text-3xl font-bold font-display-lg text-primary mb-6 tracking-tight drop-shadow-sm" id="total-net-worth">$0.00</h3>
 <div class="grid grid-cols-2 gap-md border-t border-black/5 pt-lg">
 <div class="flex items-center gap-4">
 <div class="w-12 h-12 bg-surface-container-low shadow-sm rounded-xl flex items-center justify-center">
@@ -250,7 +250,7 @@
 </div>
 <div>
 <p class="text-label-sm text-on-surface-variant font-medium">Income This Month</p>
-<p class="font-numbers-md text-numbers-md text-primary font-bold">+$8,420.00</p>
+<p class="font-numbers-md text-numbers-md text-primary font-bold" id="total-income">+$0.00</p>
 </div>
 </div>
 <div class="flex items-center gap-4">
@@ -259,7 +259,7 @@
 </div>
 <div>
 <p class="text-label-sm text-on-surface-variant font-medium">Expenses This Month</p>
-<p class="font-numbers-md text-numbers-md text-red-200 font-bold">-$3,150.24</p>
+<p class="font-numbers-md text-numbers-md text-red-200 font-bold" id="total-expenses">-$0.00</p>
 </div>
 </div>
 </div>
@@ -371,10 +371,15 @@
                 const userEmail = user.email || '';
                 localStorage.setItem('user_name', userName);
                 localStorage.setItem('user_email', userEmail);
-                if (user.currency) localStorage.setItem('user_currency', user.currency);
+                if (user.currency) MamaniAPI.setCurrency(user.currency, false);
 
                 const headerNameEl = document.getElementById('header-username');
                 if (headerNameEl) headerNameEl.innerText = userName;
+                
+                if (user.avatar_url) {
+                    const headerAvatar = document.getElementById('header-avatar-img');
+                    if (headerAvatar) headerAvatar.src = user.avatar_url;
+                }
 
                 const greetingEl = document.getElementById('welcome-greeting');
                 if (greetingEl) {
@@ -398,6 +403,15 @@
             try {
                 const summary = await MamaniAPI.getTransactionSummary();
                 const sym = MamaniAPI.getCurrencySymbol();
+                
+                const netWorthEl = document.getElementById('total-net-worth');
+                const incomeEl = document.getElementById('total-income');
+                const expensesEl = document.getElementById('total-expenses');
+                
+                if (netWorthEl) netWorthEl.innerText = MamaniAPI.formatAmount(summary.net_worth, sym);
+                if (incomeEl) incomeEl.innerText = `+${MamaniAPI.formatAmount(summary.total_income, sym)}`;
+                if (expensesEl) expensesEl.innerText = `-${MamaniAPI.formatAmount(summary.total_expenses, sym)}`;
+
                 const txs = summary.recent_transactions || [];
 
                 if (txs.length === 0) {
@@ -444,16 +458,21 @@
                 }
 
                 container.innerHTML = display.map(g => `
-                    <div>
-                      <div class="flex justify-between items-end mb-2">
-                        <div>
-                          <p class="font-label-bold text-on-surface">${g.title}</p>
+                    <div class="group/goal p-2.5 -mx-2.5 rounded-2xl hover:bg-surface-container-low/50 transition-colors">
+                      <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1 min-w-0 pr-2">
+                          <p class="font-label-bold text-on-surface truncate">${g.title}</p>
                           <p class="text-label-sm text-on-surface-variant">${MamaniAPI.formatAmount(g.saved_amount, sym)} / ${MamaniAPI.formatAmount(g.target_amount, sym)}</p>
                         </div>
-                        <span class="text-label-bold text-secondary">${Math.round(g.progress_percentage)}%</span>
+                        <div class="flex items-center gap-2 shrink-0">
+                          <span class="text-label-bold text-secondary text-sm">${Math.round(g.progress_percentage)}%</span>
+                          <button onclick="openAddFunds(${g.id}, '${(g.title || '').replace(/'/g, "\\'")}')" class="p-1 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary hover:text-white transition-colors" title="Add Funds">
+                            <span class="material-symbols-outlined text-[16px] block">add</span>
+                          </button>
+                        </div>
                       </div>
-                      <div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
-                        <div class="h-full bg-secondary rounded-full" style="width:${g.progress_percentage}%; box-shadow:0 0 8px rgba(134,242,228,0.4)"></div>
+                      <div class="w-full h-2.5 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-secondary rounded-full transition-all duration-500" style="width:${Math.min(100, g.progress_percentage)}%; box-shadow:0 0 8px rgba(134,242,228,0.4)"></div>
                       </div>
                     </div>`).join('');
             } catch (e) {
@@ -461,10 +480,81 @@
             }
         }
 
+        let addFundsGoalId = null;
+
+        function openAddFunds(id, title = '') {
+            addFundsGoalId = id;
+            const modal = document.getElementById('add-funds-modal');
+            const symEl = document.getElementById('add-funds-sym');
+            const goalTitleEl = document.getElementById('add-funds-goal-name');
+            if (symEl) symEl.innerText = MamaniAPI.getCurrencySymbol();
+            if (goalTitleEl) goalTitleEl.innerText = title ? `Adding to "${title}"` : 'Add funds to your goal';
+            if (modal) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                const input = document.getElementById('add-funds-input');
+                if (input) {
+                    input.value = '';
+                    setTimeout(() => input.focus(), 50);
+                }
+            }
+        }
+
+        function setQuickAddAmount(val) {
+            const input = document.getElementById('add-funds-input');
+            if (!input) return;
+            const current = parseFloat(input.value) || 0;
+            input.value = (current + val);
+            input.focus();
+        }
+
+        function closeAddFunds() {
+            const modal = document.getElementById('add-funds-modal');
+            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+            addFundsGoalId = null;
+        }
+
+        async function submitAddFunds() {
+            const input = document.getElementById('add-funds-input');
+            const btn = document.getElementById('add-funds-submit-btn');
+            const amount = parseFloat(input?.value);
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount greater than 0.');
+                return;
+            }
+            if (!addFundsGoalId) return;
+            try {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span> Adding...';
+                }
+                await MamaniAPI.depositToGoal(addFundsGoalId, amount);
+                closeAddFunds();
+                await loadGoals();
+            } catch (e) {
+                alert('Deposit failed: ' + e.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Deposit';
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAddFunds();
+        });
+
         // ── Init ────────────────────────────────────────────────────
-        updateUserData();
-        loadRecentTransactions();
-        loadGoals();
+        async function initDashboard() {
+            await updateUserData();
+            await Promise.all([loadRecentTransactions(), loadGoals()]);
+        }
+        initDashboard();
+
+        MamaniAPI.onCurrencyChange(() => {
+            loadRecentTransactions();
+            loadGoals();
+        });
 
         // Micro-interaction hover on cards
         document.querySelectorAll('.glass-card').forEach(card => {
@@ -475,6 +565,38 @@
             });
         });
     </script>
+
+<!-- Add Funds Modal -->
+<div id="add-funds-modal" class="fixed inset-0 z-[120] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" onclick="if(event.target === this) closeAddFunds()">
+    <div class="bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-4 text-left">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="font-bold text-lg text-primary">Add Funds</h3>
+                <p id="add-funds-goal-name" class="text-xs text-on-surface-variant font-medium"></p>
+            </div>
+            <button onclick="closeAddFunds()" class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase mb-1">Deposit Amount</label>
+            <div class="relative">
+                <span id="add-funds-sym" class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-on-surface-variant">$</span>
+                <input type="number" step="any" min="0.01" id="add-funds-input" placeholder="0.00" onkeydown="if(event.key === 'Enter') submitAddFunds()" class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 font-numbers-md text-primary font-bold focus:ring-2 focus:ring-primary/20 outline-none"/>
+            </div>
+            <div class="flex gap-2 mt-2.5">
+                <button type="button" onclick="setQuickAddAmount(50)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+50</button>
+                <button type="button" onclick="setQuickAddAmount(100)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+100</button>
+                <button type="button" onclick="setQuickAddAmount(500)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+500</button>
+                <button type="button" onclick="setQuickAddAmount(1000)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+1k</button>
+            </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+            <button onclick="closeAddFunds()" class="px-4 py-2 text-sm font-semibold rounded-xl text-on-surface-variant hover:bg-black/5 transition-colors">Cancel</button>
+            <button id="add-funds-submit-btn" onclick="submitAddFunds()" class="px-5 py-2 text-sm font-semibold rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md transition-colors flex items-center gap-1.5">Deposit</button>
+        </div>
+    </div>
+</div>
 
 <!-- Profile Modal Pop-up -->
 <div id="profile-modal-overlay" class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">

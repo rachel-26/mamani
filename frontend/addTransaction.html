@@ -187,10 +187,11 @@
 <button class="px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200" id="btn-income">Income</button>
 </div>
 <div class="text-center w-full">
-<div class="relative group">
-<input id="transaction-amount" class="w-full bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00"/>
-<div class="h-0.5 w-32 bg-secondary/20 group-focus-within:bg-secondary mx-auto transition-colors mt-1 rounded-full"></div>
+<div class="relative group flex items-center justify-center">
+<span id="amount-currency-sym" class="font-numbers-lg text-numbers-lg text-on-background opacity-60 mr-1">$</span>
+<input id="transaction-amount" class="w-48 bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00"/>
 </div>
+<div class="h-0.5 w-32 bg-secondary/20 group-focus-within:bg-secondary mx-auto transition-colors mt-1 rounded-full"></div>
 </div>
 </div>
 <!-- Category Grid -->
@@ -291,6 +292,11 @@
 <script>
         // Try requireAuth but ignore if not found
         if (typeof MamaniAPI !== 'undefined') MamaniAPI.requireAuth();
+
+        const symEl = document.getElementById('amount-currency-sym');
+        if (symEl && typeof MamaniAPI !== 'undefined') {
+            symEl.innerText = MamaniAPI.getCurrencySymbol();
+        }
 
         let activeCategory = 'Housing';
         let isExpense = true;

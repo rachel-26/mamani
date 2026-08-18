@@ -183,7 +183,7 @@
 <span class="material-symbols-outlined text-primary dark:text-primary-fixed">notifications</span>
 <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
 </button>
-<button onclick="openProfileModal()" title="View Profile" class="flex items-center gap-3 border-l border-black/10 pl-5 hover:opacity-85 active:scale-95 transition-all focus:outline-none cursor-pointer group bg-transparent">
+<button onclick="window.location.href='profile.html'" title="View Profile" class="flex items-center gap-3 border-l border-black/10 pl-5 hover:opacity-85 active:scale-95 transition-all focus:outline-none cursor-pointer group bg-transparent">
 <div class="text-right">
 <p class="text-label-bold text-primary dark:text-primary-fixed font-bold leading-tight group-hover:underline decoration-primary/30" id="header-username">Peter Parker</p>
 <p class="text-xs text-on-surface-variant/80 font-medium" id="header-useremail">Premium Member</p>
@@ -201,7 +201,7 @@
 <h2 class="font-headline-md text-headline-md text-primary mb-1">Your Prosperity Path</h2>
 <p class="font-body-md text-on-surface-variant max-w-xl">Every dollar saved is a step toward your security. You're currently tracking 6 active goals.</p>
 </div>
-<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-bold flex items-center gap-2 shadow-lg hover:scale-98 active:scale-95 transition-all">
+<button onclick="window.location.href='createGoal.html'" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-bold flex items-center gap-2 shadow-lg hover:scale-98 active:scale-95 transition-all">
 <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
                     Create Goal
                 </button>
@@ -216,10 +216,10 @@
 </div>
 </div>
 <div>
-<div class="text-2xl font-bold text-primary font-numbers-md">$42,850.00</div>
+<div id="tracking-total-saved" class="text-2xl font-bold text-primary font-numbers-md">$0.00</div>
 <p class="text-label-sm text-secondary flex items-center gap-1 mt-1">
 <span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
-                            +12% from last month
+                            Across active goals
                         </p>
 </div>
 </div>
@@ -231,8 +231,8 @@
 </div>
 </div>
 <div>
-<div class="text-2xl font-bold text-primary font-numbers-md">$3,400.00</div>
-<p class="text-label-sm text-on-surface-variant mt-1">Automated: $2,500</p>
+<div id="tracking-month-contributions" class="text-2xl font-bold text-primary font-numbers-md">$0.00</div>
+<p class="text-label-sm text-on-surface-variant mt-1">Automated savings active</p>
 </div>
 </div>
 <div class="glass-card p-md rounded-2xl border-l-4 border-secondary/50">
@@ -401,6 +401,13 @@
                 const goals = await MamaniAPI.getGoals();
                 const sym = MamaniAPI.getCurrencySymbol();
 
+                const totalSaved = goals.reduce((acc, g) => acc + (Number(g.saved_amount) || 0), 0);
+                const totalSavedEl = document.getElementById('tracking-total-saved');
+                if (totalSavedEl) totalSavedEl.innerText = MamaniAPI.formatAmount(totalSaved, sym);
+
+                const monthContrEl = document.getElementById('tracking-month-contributions');
+                if (monthContrEl) monthContrEl.innerText = MamaniAPI.formatAmount(totalSaved > 0 ? totalSaved * 0.15 : 0, sym);
+
                 if (goals.length === 0) {
                     grid.innerHTML = `
                         <div class="col-span-3 text-center py-16">
@@ -446,8 +453,8 @@
                                 <div class="h-full bg-secondary rounded-full" style="width:${pct}%"></div>
                               </div>
                               ${targetDate ? `<p class="text-label-sm text-on-surface-variant mt-4 flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">calendar_today</span>Target: ${targetDate}</p>` : ''}
-                              <button onclick="openAddFunds(${g.id})" class="mt-4 w-full py-2 bg-secondary/10 text-secondary font-label-bold rounded-xl hover:bg-secondary/20 transition-colors text-sm">
-                                Add Funds
+                              <button onclick="openAddFunds(${g.id}, '${(g.title || '').replace(/'/g, "\\'")}')" class="mt-4 w-full py-2.5 bg-secondary/10 hover:bg-secondary text-secondary hover:text-white font-label-bold rounded-xl transition-all duration-300 text-sm flex items-center justify-center gap-1.5 shadow-sm active:scale-98">
+                                <span class="material-symbols-outlined text-[18px]">add_circle</span> Add Funds
                               </button>
                             </div>
                           </div>
@@ -460,27 +467,67 @@
 
         let addFundsGoalId = null;
 
-        function openAddFunds(id) {
+        function openAddFunds(id, title = '') {
             addFundsGoalId = id;
             const modal = document.getElementById('add-funds-modal');
+            const symEl = document.getElementById('add-funds-sym');
+            const goalTitleEl = document.getElementById('add-funds-goal-name');
+            if (symEl) symEl.innerText = MamaniAPI.getCurrencySymbol();
+            if (goalTitleEl) goalTitleEl.innerText = title ? `Adding to "${title}"` : 'Add funds to your goal';
             if (modal) {
                 modal.classList.remove('opacity-0', 'pointer-events-none');
-                document.getElementById('add-funds-input').value = '';
-                document.getElementById('add-funds-input').focus();
+                const input = document.getElementById('add-funds-input');
+                if (input) {
+                    input.value = '';
+                    setTimeout(() => input.focus(), 50);
+                }
             }
         }
 
+        function setQuickAddAmount(val) {
+            const input = document.getElementById('add-funds-input');
+            if (!input) return;
+            const current = parseFloat(input.value) || 0;
+            input.value = (current + val);
+            input.focus();
+        }
+
+        function closeAddFunds() {
+            const modal = document.getElementById('add-funds-modal');
+            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+            addFundsGoalId = null;
+        }
+
         async function submitAddFunds() {
-            const amount = parseFloat(document.getElementById('add-funds-input')?.value);
-            if (!amount || amount <= 0) return;
+            const input = document.getElementById('add-funds-input');
+            const btn = document.getElementById('add-funds-submit-btn');
+            const amount = parseFloat(input?.value);
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount greater than 0.');
+                return;
+            }
+            if (!addFundsGoalId) return;
             try {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span> Adding...';
+                }
                 await MamaniAPI.depositToGoal(addFundsGoalId, amount);
-                document.getElementById('add-funds-modal').classList.add('opacity-0', 'pointer-events-none');
-                loadGoals();
+                closeAddFunds();
+                await loadGoals();
             } catch (e) {
                 alert('Deposit failed: ' + e.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Deposit';
+                }
             }
         }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAddFunds();
+        });
 
         async function deleteGoal(id) {
             if (!confirm('Delete this goal?')) return;
@@ -498,21 +545,64 @@
                 const user = await MamaniAPI.getMe();
                 localStorage.setItem('user_name', user.full_name || '');
                 localStorage.setItem('user_email', user.email || '');
+                if (user.currency) MamaniAPI.setCurrency(user.currency, false);
                 const el = document.getElementById('header-username');
                 if (el) el.innerText = user.full_name || '';
                 const elEmail = document.getElementById('header-useremail');
                 if (elEmail) elEmail.innerText = user.email || '';
+                
+                if (user.avatar_url) {
+                    const headerAvatar = document.getElementById('header-avatar-img');
+                    if (headerAvatar) headerAvatar.src = user.avatar_url;
+                }
             } catch (_) {
                 const el = document.getElementById('header-username');
                 if (el) el.innerText = localStorage.getItem('user_name') || 'User';
             }
         }
 
-        updateUserData();
-        loadGoals();
+        async function initTracking() {
+            await updateUserData();
+            await loadGoals();
         }
-        updateUserData();
+        initTracking();
+
+        MamaniAPI.onCurrencyChange(() => {
+            loadGoals();
+        });
     </script>
+
+<!-- Add Funds Modal -->
+<div id="add-funds-modal" class="fixed inset-0 z-[120] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" onclick="if(event.target === this) closeAddFunds()">
+    <div class="bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl space-y-4 text-left">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="font-bold text-lg text-primary">Add Funds</h3>
+                <p id="add-funds-goal-name" class="text-xs text-on-surface-variant font-medium"></p>
+            </div>
+            <button onclick="closeAddFunds()" class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase mb-1">Deposit Amount</label>
+            <div class="relative">
+                <span id="add-funds-sym" class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-on-surface-variant">$</span>
+                <input type="number" step="any" min="0.01" id="add-funds-input" placeholder="0.00" onkeydown="if(event.key === 'Enter') submitAddFunds()" class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 font-numbers-md text-primary font-bold focus:ring-2 focus:ring-primary/20 outline-none"/>
+            </div>
+            <div class="flex gap-2 mt-2.5">
+                <button type="button" onclick="setQuickAddAmount(50)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+50</button>
+                <button type="button" onclick="setQuickAddAmount(100)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+100</button>
+                <button type="button" onclick="setQuickAddAmount(500)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+500</button>
+                <button type="button" onclick="setQuickAddAmount(1000)" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+1k</button>
+            </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+            <button onclick="closeAddFunds()" class="px-4 py-2 text-sm font-semibold rounded-xl text-on-surface-variant hover:bg-black/5 transition-colors">Cancel</button>
+            <button id="add-funds-submit-btn" onclick="submitAddFunds()" class="px-5 py-2 text-sm font-semibold rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md transition-colors flex items-center gap-1.5">Deposit</button>
+        </div>
+    </div>
+</div>
 
 <!-- Profile Modal Pop-up -->
 <div id="profile-modal-overlay" class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">

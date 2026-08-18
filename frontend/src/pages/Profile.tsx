@@ -70,9 +70,8 @@ const ProfilePage: React.FC = () => {
     { id: 'Help & Support',icon: 'help' },
   ];
 
-  const currencyOptions = [
-    'USD ($)', 'EUR (€)', 'GBP (£)', 'TSH (TSh)', 'JPY (¥)', 'CAD (CA$)',
-  ];
+  const { currencies } = useCurrency();
+  const currencyOptions = currencies.map(c => `${c.code} (${c.symbol})`);
 
   return (
     <>

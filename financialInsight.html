@@ -164,7 +164,7 @@
 <span class="material-symbols-outlined text-primary dark:text-primary-fixed">notifications</span>
 <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
 </button>
-<button onclick="openProfileModal()" title="View Profile" class="flex items-center gap-3 border-l border-black/10 pl-5 hover:opacity-85 active:scale-95 transition-all focus:outline-none cursor-pointer group bg-transparent">
+<button onclick="window.location.href='profile.html'" title="View Profile" class="flex items-center gap-3 border-l border-black/10 pl-5 hover:opacity-85 active:scale-95 transition-all focus:outline-none cursor-pointer group bg-transparent">
 <div class="text-right">
 <p class="text-label-bold text-primary dark:text-primary-fixed font-bold leading-tight group-hover:underline decoration-primary/30" id="header-username">Peter Parker</p>
 <p class="text-xs text-on-surface-variant/80 font-medium" id="header-useremail">Premium Member</p>
@@ -221,7 +221,7 @@
 <path d="M0,280 Q100,270 200,290 T400,260 T600,270 T800,250" fill="none" stroke="#bfc9c3" stroke-dasharray="8 4" stroke-width="3"></path>
 </svg>
 <!-- Y-Axis Labels -->
-<div class="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-outline p-2">
+<div id="chart-y-axis" class="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-outline p-2">
 <span>$12,000</span><span>$9,000</span><span>$6,000</span><span>$3,000</span><span>$0</span>
 </div>
 <!-- X-Axis Labels -->
@@ -249,22 +249,13 @@
 <circle cx="18" cy="18" fill="none" r="16" stroke="#006f66" stroke-dasharray="15, 100" stroke-dashoffset="-70" stroke-linecap="round" stroke-width="4"></circle>
 </svg>
 <div class="absolute inset-0 flex flex-col items-center justify-center">
-<span class="text-label-bold text-primary">$4,280</span>
+<span class="text-label-bold text-primary" id="category-total-expenses">$0.00</span>
 <span class="text-[10px] text-outline uppercase tracking-wider">Total</span>
 </div>
 </div>
-<div class="w-full space-y-2">
+<div class="w-full space-y-2" id="category-breakdown-list">
 <div class="flex justify-between items-center text-label-sm">
-<div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-primary-container"></div><span>Housing</span></div>
-<div class="flex items-center gap-2"><span class="font-bold">45%</span><span class="text-error text-[10px] flex items-center"><span class="material-symbols-outlined text-[12px]" data-icon="arrow_upward">arrow_upward</span>2%</span></div>
-</div>
-<div class="flex justify-between items-center text-label-sm">
-<div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-on-tertiary-container"></div><span>Dining</span></div>
-<div class="flex items-center gap-2"><span class="font-bold">25%</span><span class="text-secondary text-[10px] flex items-center"><span class="material-symbols-outlined text-[12px]" data-icon="arrow_downward">arrow_downward</span>15%</span></div>
-</div>
-<div class="flex justify-between items-center text-label-sm">
-<div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-secondary"></div><span>Health</span></div>
-<div class="flex items-center gap-2"><span class="font-bold">15%</span><span class="text-outline text-[10px]">--</span></div>
+<div class="flex items-center gap-2"><span class="text-outline">Loading...</span></div>
 </div>
 </div>
 </div>
@@ -272,39 +263,10 @@
 <!-- Weekly Spending -->
 <div class="glass-card p-md rounded-2xl flex flex-col">
 <h3 class="font-label-bold text-on-surface mb-md">Weekly Heatmap</h3>
-<div class="flex-1 grid grid-cols-7 gap-2 items-end pb-2">
-<div class="space-y-1 text-center">
-<div class="bg-surface-container-high h-12 w-full rounded-lg"></div>
-<span class="text-[10px] text-outline">Mon</span>
+<div class="flex-1 grid grid-cols-7 gap-2 items-end pb-2 h-32" id="weekly-heatmap-container">
+<!-- Dynamic heatmap injected here -->
 </div>
-<div class="space-y-1 text-center">
-<div class="bg-primary-container/20 h-20 w-full rounded-lg"></div>
-<span class="text-[10px] text-outline">Tue</span>
-</div>
-<div class="space-y-1 text-center">
-<div class="bg-primary-container/60 h-32 w-full rounded-lg"></div>
-<span class="text-[10px] text-outline">Wed</span>
-</div>
-<div class="space-y-1 text-center">
-<div class="bg-surface-container-high h-16 w-full rounded-lg"></div>
-<span class="text-[10px] text-outline">Thu</span>
-</div>
-<div class="space-y-1 text-center">
-<div class="bg-primary-container h-44 w-full rounded-lg relative group">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Max</div>
-</div>
-<span class="text-[10px] text-on-surface font-bold">Fri</span>
-</div>
-<div class="space-y-1 text-center">
-<div class="bg-primary-container/80 h-36 w-full rounded-lg"></div>
-<span class="text-[10px] text-outline">Sat</span>
-</div>
-<div class="space-y-1 text-center">
-<div class="bg-surface-container-high h-14 w-full rounded-lg"></div>
-<span class="text-[10px] text-outline">Sun</span>
-</div>
-</div>
-<p class="text-label-sm text-on-surface-variant mt-md">You spend <span class="font-bold text-primary">32% more</span> on Fridays compared to other weekdays.</p>
+<p class="text-label-sm text-on-surface-variant mt-md" id="heatmap-insight-text">Loading insights...</p>
 </div>
 <!-- Savings Rate -->
 <div class="glass-card p-md rounded-2xl flex flex-col items-center text-center">
@@ -312,14 +274,14 @@
 <h3 class="font-label-bold text-on-surface">Savings Rate</h3>
 <span class="material-symbols-outlined text-outline text-lg" data-icon="help_outline">help_outline</span>
 </div>
-<div class="circular-progress relative mb-md">
+<div class="circular-progress relative mb-md" style="--percentage: 0">
 <div class="absolute inset-0 flex flex-col items-center justify-center">
-<span class="font-display-lg text-headline-md text-primary">68%</span>
+<span class="font-display-lg text-headline-md text-primary">0%</span>
 </div>
 </div>
 <div class="space-y-1">
-<p class="text-label-bold text-secondary">Target Met!</p>
-<p class="text-label-sm text-on-surface-variant">You've reached your monthly savings goal of $2,500.</p>
+<p class="text-label-bold text-secondary" id="savings-status-title">Evaluating...</p>
+<p class="text-label-sm text-on-surface-variant" id="savings-status-desc">Analyzing your income and expenses.</p>
 </div>
 </div>
 </div>
@@ -377,14 +339,121 @@
                 card.style.transform = 'translateY(0)';
             });
         });
+        
+        async function loadInsights() {
+            try {
+                const summary = await MamaniAPI.getTransactionSummary();
+                const allTx = await MamaniAPI.getTransactions();
+                const sym = MamaniAPI.getCurrencySymbol();
+                
+                // Format chart Y-axis labels dynamically
+                const yAxis = document.getElementById('chart-y-axis');
+                if (yAxis) {
+                    yAxis.innerHTML = `<span>${MamaniAPI.formatAmount(12000, sym)}</span><span>${MamaniAPI.formatAmount(9000, sym)}</span><span>${MamaniAPI.formatAmount(6000, sym)}</span><span>${MamaniAPI.formatAmount(3000, sym)}</span><span>${MamaniAPI.formatAmount(0, sym)}</span>`;
+                }
+                
+                // 1. Savings Rate
+                const progress = document.querySelector('.circular-progress');
+                const progressText = document.querySelector('.circular-progress .font-display-lg');
+                const savingsRate = Math.round(summary.savings_rate || 0);
+                const savingsRateEl = document.getElementById('savings-rate-pct');
+                if(progress) {
+                    progress.style.setProperty('--percentage', Math.max(0, savingsRate));
+                }
+                if(savingsRateEl) {
+                    savingsRateEl.innerText = `${Math.max(0, savingsRate)}%`;
+                }
+                const savingsTitle = document.getElementById('savings-status-title');
+                const savingsDesc = document.getElementById('savings-status-desc');
+                if (savingsTitle && savingsDesc) {
+                    if (savingsRate >= 20) {
+                        savingsTitle.innerText = 'Target Met!';
+                        savingsTitle.className = 'text-label-bold text-secondary';
+                        savingsDesc.innerText = 'You are saving a healthy portion of your income.';
+                    } else if (savingsRate > 0) {
+                        savingsTitle.innerText = 'On Track';
+                        savingsTitle.className = 'text-label-bold text-primary';
+                        savingsDesc.innerText = 'Consider finding ways to boost your savings rate.';
+                    } else {
+                        savingsTitle.innerText = 'Needs Attention';
+                        savingsTitle.className = 'text-label-bold text-error';
+                        savingsDesc.innerText = 'Your expenses currently exceed your income.';
+                    }
+                }
+                
+                // 2. Category Breakdown
+                let categoryTotals = {};
+                let totalExpenses = 0;
+                allTx.forEach(tx => {
+                    if(tx.is_expense) {
+                        categoryTotals[tx.category] = (categoryTotals[tx.category] || 0) + tx.amount;
+                        totalExpenses += tx.amount;
+                    }
+                });
+                
+                const categoryBreakdownEl = document.getElementById('category-breakdown-list');
+                const totalExpensesEl = document.getElementById('category-total-expenses');
+                if (totalExpensesEl) totalExpensesEl.innerText = MamaniAPI.formatAmount(totalExpenses, sym);
+                
+                if (categoryBreakdownEl && totalExpenses > 0) {
+                    const sortedCategories = Object.entries(categoryTotals).sort((a,b) => b[1] - a[1]).slice(0, 4);
+                    const colors = ['bg-primary-container', 'bg-on-tertiary-container', 'bg-secondary', 'bg-error'];
+                    
+                    categoryBreakdownEl.innerHTML = sortedCategories.map(([cat, amt], i) => {
+                        const pct = Math.round((amt / totalExpenses) * 100);
+                        return `
+                            <div class="flex justify-between items-center text-label-sm">
+                                <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full ${colors[i%colors.length]}"></div><span>${cat}</span></div>
+                                <div class="flex items-center gap-2"><span class="font-bold">${pct}%</span><span class="text-on-surface-variant text-[10px] w-16 text-right">${MamaniAPI.formatAmount(amt, sym)}</span></div>
+                            </div>
+                        `;
+                    }).join('');
+                } else if (categoryBreakdownEl) {
+                    categoryBreakdownEl.innerHTML = '<p class="text-label-sm text-outline">No expenses yet.</p>';
+                }
+                
+                // 3. Weekly Heatmap
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const dayTotals = [0, 0, 0, 0, 0, 0, 0];
+                allTx.forEach(tx => {
+                    if (tx.is_expense) {
+                        const d = new Date(tx.date).getDay();
+                        dayTotals[d] += tx.amount;
+                    }
+                });
+                const maxDayAmt = Math.max(...dayTotals, 1); // prevent div by zero
+                
+                const heatmapContainer = document.getElementById('weekly-heatmap-container');
+                if (heatmapContainer) {
+                    // Start from Monday (1) to Sunday (0)
+                    heatmapContainer.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => {
+                        const amt = dayTotals[d];
+                        const pct = (amt / maxDayAmt) * 100;
+                        const hClass = pct === 0 ? 'bg-surface-container-high h-4' : 
+                                       pct === 100 ? 'bg-primary-container h-32' :
+                                       pct > 50 ? 'bg-primary-container/80 h-24' : 'bg-primary-container/40 h-12';
+                        return `
+                        <div class="space-y-1 text-center flex flex-col justify-end h-full">
+                            <div class="${hClass} w-full rounded-lg relative group transition-all">
+                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">${MamaniAPI.formatAmount(amt, sym)}</div>
+                            </div>
+                            <span class="text-[10px] text-outline">${days[d]}</span>
+                        </div>`;
+                    }).join('');
+                }
+                
+                const heatmapInsight = document.getElementById('heatmap-insight-text');
+                if (heatmapInsight && totalExpenses > 0) {
+                    const maxDayIdx = dayTotals.indexOf(Math.max(...dayTotals));
+                    heatmapInsight.innerHTML = `You spend the most on <span class="font-bold text-primary">${days[maxDayIdx]}s</span>.`;
+                } else if (heatmapInsight) {
+                    heatmapInsight.innerHTML = 'Not enough data yet.';
+                }
 
-        // Simulating some dynamic data changes
-        setTimeout(() => {
-            const progress = document.querySelector('.circular-progress');
-            if(progress) {
-                progress.style.setProperty('--percentage', '72');
+            } catch (e) {
+                console.error("Failed to load insights:", e);
             }
-        }, 1000);
+        }
 
         // Dynamically set username from session
         async function updateUserData() {
@@ -392,16 +461,31 @@
                 const user = await MamaniAPI.getMe();
                 localStorage.setItem('user_name', user.full_name || '');
                 localStorage.setItem('user_email', user.email || '');
+                if (user.currency) MamaniAPI.setCurrency(user.currency, false);
                 const el = document.getElementById('header-username');
                 if (el) el.innerText = user.full_name || '';
                 const elEmail = document.getElementById('header-useremail');
                 if (elEmail) elEmail.innerText = user.email || '';
+                
+                if (user.avatar_url) {
+                    const headerAvatar = document.getElementById('header-avatar-img');
+                    if (headerAvatar) headerAvatar.src = user.avatar_url;
+                }
             } catch (_) {
                 const el = document.getElementById('header-username');
                 if (el) el.innerText = localStorage.getItem('user_name') || 'User';
             }
         }
-        updateUserData();
+        
+        async function initInsights() {
+            await updateUserData();
+            await loadInsights();
+        }
+        initInsights();
+
+        MamaniAPI.onCurrencyChange(() => {
+            loadInsights();
+        });
     </script>
 
 <!-- Profile Modal Pop-up -->

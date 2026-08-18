@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useApi } from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
@@ -72,30 +72,6 @@ function formatRelativeDate(dateStr: string) {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-/** Animates a numeric value from 0 to `end` over `duration` ms. */
-function useCountUp(end: number, duration = 1800): string {
-  const [display, setDisplay] = useState("0");
-  const frame = useRef<number>(0);
-
-  useEffect(() => {
-    if (!end && end !== 0) return;
-    let start: number | null = null;
-
-    const step = (ts: number) => {
-      if (!start) start = ts;
-      const progress = Math.min((ts - start) / duration, 1);
-      const value = Math.floor(progress * end);
-      setDisplay(value.toLocaleString("en-US"));
-      if (progress < 1) frame.current = requestAnimationFrame(step);
-    };
-
-    frame.current = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame.current);
-  }, [end, duration]);
-
-  return display;
-}
-
 // ─── Skeleton loaders ────────────────────────────────────────────────────────
 
 function SkeletonCard({ className = "" }: { className?: string }) {
@@ -114,8 +90,7 @@ function SkeletonCard({ className = "" }: { className?: string }) {
 // ─── Cards ───────────────────────────────────────────────────────────────────
 
 function NetWorthCard({ summary }: { summary: Summary | null }) {
-  const { symbol } = useCurrency();
-  const displayValue = useCountUp(summary?.net_worth ?? 0);
+  const { formatAmount } = useCurrency();
 
   return (
     <div
@@ -129,13 +104,13 @@ function NetWorthCard({ summary }: { summary: Summary | null }) {
       <div className="relative z-10">
         <p className="text-xs font-semibold opacity-80 uppercase tracking-widest mb-2">Total Net Worth</p>
         <h3 className="font-bold tracking-tight mb-8" style={{ fontSize: "48px", lineHeight: "56px" }}>
-          {symbol}{displayValue}
+          {formatAmount(summary?.net_worth ?? 0)}
         </h3>
 
         <div className="grid grid-cols-2 border-t border-black/5" style={{ gap: "24px", paddingTop: "48px" }}>
           {[
-            { icon: "trending_up",   iconColor: "#006a61", label: "Income This Month",  value: `+${symbol}${(summary?.total_income ?? 0).toLocaleString()}` },
-            { icon: "trending_down", iconColor: "#ba1a1a", label: "Expenses This Month", value: `-${symbol}${(summary?.total_expenses ?? 0).toLocaleString()}` },
+            { icon: "trending_up",   iconColor: "#006a61", label: "Income This Month",  value: `+${formatAmount(summary?.total_income ?? 0)}` },
+            { icon: "trending_down", iconColor: "#ba1a1a", label: "Expenses This Month", value: `-${formatAmount(summary?.total_expenses ?? 0)}` },
           ].map(({ icon, iconColor, label, value }) => (
             <div key={label} className="flex items-center gap-4">
               <div className="w-12 h-12 bg-black/5 rounded-xl flex items-center justify-center">
@@ -186,7 +161,7 @@ function HealthScoreCard({ savingsRate }: { savingsRate: number }) {
 }
 
 function RecentTransactionsCard({ transactions }: { transactions: RecentTransaction[] }) {
-  const { symbol } = useCurrency();
+  const { formatAmount } = useCurrency();
   const navigate = useNavigate();
 
   return (
@@ -223,7 +198,7 @@ function RecentTransactionsCard({ transactions }: { transactions: RecentTransact
                   </div>
                 </div>
                 <p className={`text-xl font-semibold ${tx.is_expense ? "text-[#141b2b]" : "text-[#006a61]"}`}>
-                  {tx.is_expense ? "-" : "+"}{symbol}{tx.amount.toLocaleString()}
+                  {tx.is_expense ? "-" : "+"}{formatAmount(tx.amount)}
                 </p>
               </div>
             );
@@ -235,7 +210,7 @@ function RecentTransactionsCard({ transactions }: { transactions: RecentTransact
 }
 
 function SavingsGoalsCard({ goals }: { goals: Goal[] }) {
-  const { symbol } = useCurrency();
+  const { formatAmount } = useCurrency();
   const navigate = useNavigate();
   const displayGoals = goals.slice(0, 3);
 
@@ -256,7 +231,7 @@ function SavingsGoalsCard({ goals }: { goals: Goal[] }) {
                 <div>
                   <p className="text-sm font-semibold text-[#141b2b]">{goal.title}</p>
                   <p className="text-xs text-[#404944]">
-                    {symbol}{goal.saved_amount.toLocaleString()} / {symbol}{goal.target_amount.toLocaleString()}
+                    {formatAmount(goal.saved_amount)} / {formatAmount(goal.target_amount)}
                   </p>
                 </div>
                 <span className="text-sm font-semibold text-[#006a61]">{Math.round(goal.progress_percentage)}%</span>

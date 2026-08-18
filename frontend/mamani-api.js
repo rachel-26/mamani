@@ -78,7 +78,13 @@ const MamaniAPI = {
   // ── User ──────────────────────────────────────────────────────────
   async getMe() {
     const res = await fetch(`${API_BASE}/users/me`, { headers: this._authHeaders() });
-    return this._handleResponse(res);
+    const user = await this._handleResponse(res);
+    if (user && user.currency) {
+      this.setCurrency(user.currency, false);
+    }
+    if (user && user.full_name) localStorage.setItem('user_name', user.full_name);
+    if (user && user.email) localStorage.setItem('user_email', user.email);
+    return user;
   },
 
   async updateMe(payload) {
@@ -87,7 +93,13 @@ const MamaniAPI = {
       headers: this._authHeaders(),
       body: JSON.stringify(payload),
     });
-    return this._handleResponse(res);
+    const updated = await this._handleResponse(res);
+    if (updated && updated.currency) {
+      this.setCurrency(updated.currency);
+    }
+    if (updated && updated.full_name) localStorage.setItem('user_name', updated.full_name);
+    if (updated && updated.email) localStorage.setItem('user_email', updated.email);
+    return updated;
   },
 
   // ── Transactions ──────────────────────────────────────────────────
@@ -166,20 +178,56 @@ const MamaniAPI = {
   },
 
   // ── Helpers ───────────────────────────────────────────────────────
-  getCurrencySymbol() {
-    const saved = localStorage.getItem('user_currency') || 'USD ($)';
-    if (saved.includes('TSh')) return 'TSh';
-    if (saved.includes('€'))   return '€';
-    if (saved.includes('£'))   return '£';
-    if (saved.includes('¥'))   return '¥';
-    if (saved.includes('CA$')) return 'CA$';
-    return '$';
+  CURRENCIES: [
+    { code: "USD", symbol: "$" }, { code: "EUR", symbol: "€" }, { code: "GBP", symbol: "£" }, { code: "JPY", symbol: "¥" },
+    { code: "AUD", symbol: "A$" }, { code: "CAD", symbol: "C$" }, { code: "CHF", symbol: "CHF" }, { code: "CNY", symbol: "¥" },
+    { code: "SEK", symbol: "kr" }, { code: "NZD", symbol: "NZ$" }, { code: "MXN", symbol: "$" }, { code: "SGD", symbol: "S$" },
+    { code: "HKD", symbol: "HK$" }, { code: "NOK", symbol: "kr" }, { code: "KRW", symbol: "₩" }, { code: "TRY", symbol: "₺" },
+    { code: "RUB", symbol: "₽" }, { code: "INR", symbol: "₹" }, { code: "BRL", symbol: "R$" }, { code: "ZAR", symbol: "R" },
+    { code: "TZS", symbol: "TSh" }, { code: "KES", symbol: "KSh" }, { code: "UGX", symbol: "USh" }, { code: "NGN", symbol: "₦" },
+    { code: "GHS", symbol: "GH₵" }, { code: "RWF", symbol: "FRw" }, { code: "ZMW", symbol: "ZK" }, { code: "AED", symbol: "د.إ" },
+    { code: "SAR", symbol: "﷼" }, { code: "THB", symbol: "฿" }, { code: "MYR", symbol: "RM" }, { code: "PHP", symbol: "₱" },
+    { code: "IDR", symbol: "Rp" }, { code: "VND", symbol: "₫" }, { code: "PLN", symbol: "zł" }, { code: "DKK", symbol: "kr" }
+  ],
+
+  getCurrency() {
+    return localStorage.getItem('user_currency') || 'USD ($)';
+  },
+
+  setCurrency(currencyStr, dispatch = true) {
+    if (!currencyStr) return;
+    localStorage.setItem('user_currency', currencyStr);
+    if (dispatch && typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('currencyChange', { detail: { currency: currencyStr } }));
+    }
+  },
+
+  getCurrencySymbol(currencyString) {
+    const raw = currencyString || this.getCurrency();
+    const match = raw.match(/\(([^)]+)\)/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+    const found = this.CURRENCIES.find(c => c.code.toUpperCase() === raw.trim().toUpperCase());
+    if (found) return found.symbol;
+    return raw.trim() || '$';
   },
 
   formatAmount(amount, symbol) {
     const sym = symbol || this.getCurrencySymbol();
-    const num = Math.abs(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return `${sym}${num}`;
+    const num = Math.abs(Number(amount) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const isNegative = Number(amount) < 0;
+    const needsSpace = sym.length > 1 && !sym.endsWith('$');
+    const formatted = needsSpace ? `${sym} ${num}` : `${sym}${num}`;
+    return isNegative ? `-${formatted}` : formatted;
+  },
+
+  onCurrencyChange(callback) {
+    if (typeof window === 'undefined') return;
+    window.addEventListener('currencyChange', callback);
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'user_currency') callback(e);
+    });
   },
 
   formatRelativeDate(dateStr) {

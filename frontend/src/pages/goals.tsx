@@ -317,31 +317,50 @@ const GoalsPage: React.FC = () => {
 
       {/* Add Funds Modal */}
       {depositGoalId !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm" onClick={e => { if (e.target === e.currentTarget) setDepositGoalId(null); }}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
-            <h3 className="font-headline-md text-on-surface mb-4">Add Funds</h3>
-            <p className="text-on-surface-variant mb-4">Enter amount to deposit into this goal:</p>
-            <div className="relative mb-4">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-bold">{symbol}</span>
-              <input
-                className="w-full bg-surface-container-low border-none rounded-lg pl-8 pr-4 py-3 font-body-md text-on-surface focus:ring-2 focus:ring-secondary/20"
-                placeholder="0.00"
-                type="number"
-                min="0.01"
-                step="0.01"
-                value={depositAmount}
-                onChange={e => setDepositAmount(e.target.value)}
-                autoFocus
-              />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={e => { if (e.target === e.currentTarget) setDepositGoalId(null); }}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 text-left space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-headline-md text-on-surface text-lg font-bold">Add Funds</h3>
+                <p className="text-xs text-on-surface-variant line-clamp-1">
+                  {goals?.find(g => g.id === depositGoalId)?.title ? `Adding to "${goals.find(g => g.id === depositGoalId)?.title}"` : 'Enter amount to deposit:'}
+                </p>
+              </div>
+              <button onClick={() => setDepositGoalId(null)} className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-on-surface-variant hover:text-primary">
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
             </div>
-            <div className="flex gap-3">
-              <button className="flex-1 py-3 border border-outline-variant rounded-lg font-label-bold text-on-surface-variant" onClick={() => setDepositGoalId(null)}>Cancel</button>
+            <div>
+              <label className="block text-xs font-bold text-on-surface-variant uppercase mb-1">Deposit Amount</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">{symbol}</span>
+                <input
+                  className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 font-numbers-md text-primary font-bold focus:ring-2 focus:ring-secondary/20 outline-none"
+                  placeholder="0.00"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={depositAmount}
+                  onChange={e => setDepositAmount(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleDeposit(); }}
+                  autoFocus
+                />
+              </div>
+              <div className="flex gap-2 mt-2.5">
+                <button type="button" onClick={() => setDepositAmount(String((parseFloat(depositAmount) || 0) + 50))} className="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+50</button>
+                <button type="button" onClick={() => setDepositAmount(String((parseFloat(depositAmount) || 0) + 100))} className="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+100</button>
+                <button type="button" onClick={() => setDepositAmount(String((parseFloat(depositAmount) || 0) + 500))} className="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+500</button>
+                <button type="button" onClick={() => setDepositAmount(String((parseFloat(depositAmount) || 0) + 1000))} className="flex-1 py-1.5 text-xs font-bold rounded-lg bg-surface-container-high text-primary hover:bg-primary/10 transition-colors">+1k</button>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <button className="px-4 py-2 text-sm font-semibold rounded-xl text-on-surface-variant hover:bg-black/5" onClick={() => setDepositGoalId(null)}>Cancel</button>
               <button
-                className="flex-1 py-3 bg-secondary text-white rounded-lg font-label-bold hover:opacity-90 disabled:opacity-60"
-                disabled={isDepositing || !depositAmount}
+                className="px-5 py-2 text-sm font-semibold rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md transition-colors flex items-center gap-1.5 disabled:opacity-60"
+                disabled={isDepositing || !depositAmount || parseFloat(depositAmount) <= 0}
                 onClick={handleDeposit}
               >
-                {isDepositing ? 'Saving...' : 'Add Funds'}
+                {isDepositing ? 'Adding...' : 'Deposit'}
               </button>
             </div>
           </div>
