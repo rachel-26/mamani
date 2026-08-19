@@ -69,6 +69,117 @@ const InsightsPage: React.FC = () => {
     return 'bg-surface-container-high';
   };
 
+  // Compute monthly spending vs income for the real data line chart (last 6 months)
+  const [hoveredMonth, setHoveredMonth] = useState<number | null>(null);
+
+  const monthlyChartData = useMemo(() => {
+    const now = new Date();
+    const monthsList: { label: string; year: number; month: number; income: number; expenses: number }[] = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      monthsList.push({
+        label: d.toLocaleString('default', { month: 'short' }),
+        year: d.getFullYear(),
+        month: d.getMonth(),
+        income: 0,
+        expenses: 0,
+      });
+    }
+
+    if (transactions && Array.isArray(transactions)) {
+      transactions.forEach((t: any) => {
+        if (!t.date) return;
+        const txDate = new Date(t.date);
+        if (isNaN(txDate.getTime())) return;
+        const mIdx = monthsList.findIndex(
+          m => m.year === txDate.getFullYear() && m.month === txDate.getMonth()
+        );
+        if (mIdx !== -1) {
+          const amt = Number(t.amount) || 0;
+          if (t.is_expense) {
+            monthsList[mIdx].expenses += amt;
+          } else {
+            monthsList[mIdx].income += amt;
+          }
+        }
+      });
+    }
+
+    const rawMax = Math.max(...monthsList.map(m => Math.max(m.income, m.expenses)), 0);
+    let chartMax = 1000;
+    if (rawMax > 0) {
+      const power = Math.pow(10, Math.floor(Math.log10(rawMax)));
+      const normalized = rawMax / power;
+      let factor = 1.2;
+      if (normalized <= 1) factor = 1.2;
+      else if (normalized <= 2) factor = 2.5;
+      else if (normalized <= 5) factor = 6;
+      else factor = 12;
+      chartMax = Math.ceil(factor * power);
+    }
+
+    const svgW = 800;
+    const svgH = 260;
+    const padX = 50;
+    const padY = 25;
+    const plotW = svgW - 2 * padX;
+    const plotH = svgH - 2 * padY;
+
+    const incomePoints = monthsList.map((m, i) => ({
+      x: padX + (i / (monthsList.length - 1)) * plotW,
+      y: padY + (1 - Math.min(m.income / chartMax, 1)) * plotH,
+      income: m.income,
+      expenses: m.expenses,
+      label: m.label,
+    }));
+
+    const expensePoints = monthsList.map((m, i) => ({
+      x: padX + (i / (monthsList.length - 1)) * plotW,
+      y: padY + (1 - Math.min(m.expenses / chartMax, 1)) * plotH,
+      income: m.income,
+      expenses: m.expenses,
+      label: m.label,
+    }));
+
+    const createCurvedPath = (pts: { x: number; y: number }[]) => {
+      if (pts.length === 0) return '';
+      if (pts.length === 1) return `M ${pts[0].x} ${pts[0].y}`;
+      let d = `M ${pts[0].x} ${pts[0].y}`;
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[i];
+        const p1 = pts[i + 1];
+        const cx1 = p0.x + (p1.x - p0.x) / 2;
+        const cy1 = p0.y;
+        const cx2 = p0.x + (p1.x - p0.x) / 2;
+        const cy2 = p1.y;
+        d += ` C ${cx1} ${cy1}, ${cx2} ${cy2}, ${p1.x} ${p1.y}`;
+      }
+      return d;
+    };
+
+    const incomePath = createCurvedPath(incomePoints);
+    const expensePath = createCurvedPath(expensePoints);
+
+    const bottomY = svgH - padY;
+    const incomeAreaPath = incomePoints.length > 0
+      ? `${incomePath} L ${incomePoints[incomePoints.length - 1].x} ${bottomY} L ${incomePoints[0].x} ${bottomY} Z`
+      : '';
+    const expenseAreaPath = expensePoints.length > 0
+      ? `${expensePath} L ${expensePoints[expensePoints.length - 1].x} ${bottomY} L ${expensePoints[0].x} ${bottomY} Z`
+      : '';
+
+    return {
+      months: monthsList,
+      chartMax,
+      incomePoints,
+      expensePoints,
+      incomePath,
+      expensePath,
+      incomeAreaPath,
+      expenseAreaPath,
+    };
+  }, [transactions]);
+
   return (
     <>
       <div className="text-on-surface">
@@ -102,37 +213,154 @@ const InsightsPage: React.FC = () => {
               </div>
               <div className="flex gap-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-primary-container"></div>
-                  <span className="text-label-sm text-on-surface-variant">Income</span>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/30"></div>
+                  <span className="text-label-sm text-on-surface font-medium">Income</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-outline-variant"></div>
-                  <span className="text-label-sm text-on-surface-variant">Spending</span>
+                  <div className="w-3 h-3 rounded-full bg-orange-500 shadow-sm shadow-orange-500/30"></div>
+                  <span className="text-label-sm text-on-surface font-medium">Expenses</span>
                 </div>
               </div>
             </div>
-            {/* Mock Line Chart */}
+
+            {/* Real Line Chart */}
             <div className="h-80 w-full chart-grid relative flex items-end justify-between px-md pb-base">
-              <svg className="absolute inset-0 w-full h-full p-md pointer-events-none" viewBox="0 0 800 300">
-                <path d="M0,240 Q100,200 200,220 T400,150 T600,100 T800,80" fill="none" stroke="#064e3b" strokeWidth="3"></path>
-                <path d="M0,280 Q100,270 200,290 T400,260 T600,270 T800,250" fill="none" stroke="#bfc9c3" strokeDasharray="8 4" strokeWidth="3"></path>
+              <svg className="absolute inset-0 w-full h-full p-md overflow-visible" viewBox="0 0 800 260">
+                <defs>
+                  {/* Income Green Gradient */}
+                  <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#10B981" stopOpacity="0.0" />
+                  </linearGradient>
+                  {/* Expense Orange Gradient */}
+                  <linearGradient id="expenseGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F97316" stopOpacity="0.20" />
+                    <stop offset="100%" stopColor="#F97316" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Horizontal Grid lines */}
+                {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => (
+                  <line
+                    key={i}
+                    x1="50"
+                    y1={25 + (1 - pct) * 210}
+                    x2="750"
+                    y2={25 + (1 - pct) * 210}
+                    stroke="rgba(0,0,0,0.05)"
+                    strokeDasharray={pct === 0 ? 'none' : '4 4'}
+                    strokeWidth="1"
+                  />
+                ))}
+
+                {/* Area Fills */}
+                {monthlyChartData.incomeAreaPath && (
+                  <path d={monthlyChartData.incomeAreaPath} fill="url(#incomeGradient)" />
+                )}
+                {monthlyChartData.expenseAreaPath && (
+                  <path d={monthlyChartData.expenseAreaPath} fill="url(#expenseGradient)" />
+                )}
+
+                {/* Income Line (Green) */}
+                {monthlyChartData.incomePath && (
+                  <path
+                    d={monthlyChartData.incomePath}
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="drop-shadow-sm"
+                  />
+                )}
+
+                {/* Expense Line (Orange) */}
+                {monthlyChartData.expensePath && (
+                  <path
+                    d={monthlyChartData.expensePath}
+                    fill="none"
+                    stroke="#F97316"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="drop-shadow-sm"
+                  />
+                )}
+
+                {/* Data Points */}
+                {monthlyChartData.incomePoints.map((pt, i) => (
+                  <g key={`inc-${i}`} className="cursor-pointer">
+                    <circle
+                      cx={pt.x}
+                      cy={pt.y}
+                      r={hoveredMonth === i ? 7 : 5}
+                      fill="#10B981"
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      className="transition-all duration-200 drop-shadow"
+                      onMouseEnter={() => setHoveredMonth(i)}
+                      onMouseLeave={() => setHoveredMonth(null)}
+                    />
+                  </g>
+                ))}
+
+                {monthlyChartData.expensePoints.map((pt, i) => (
+                  <g key={`exp-${i}`} className="cursor-pointer">
+                    <circle
+                      cx={pt.x}
+                      cy={pt.y}
+                      r={hoveredMonth === i ? 7 : 5}
+                      fill="#F97316"
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      className="transition-all duration-200 drop-shadow"
+                      onMouseEnter={() => setHoveredMonth(i)}
+                      onMouseLeave={() => setHoveredMonth(null)}
+                    />
+                  </g>
+                ))}
               </svg>
+
+              {/* Tooltip Overlay */}
+              {hoveredMonth !== null && monthlyChartData.months[hoveredMonth] && (
+                <div
+                  className="absolute z-20 bg-gray-900/90 text-white text-xs rounded-xl px-3 py-2 shadow-xl backdrop-blur-md pointer-events-none transform -translate-x-1/2 -translate-y-full transition-all"
+                  style={{
+                    left: `${(hoveredMonth / (monthlyChartData.months.length - 1)) * 85 + 7}%`,
+                    top: '20%',
+                  }}
+                >
+                  <p className="font-bold text-white mb-1">{monthlyChartData.months[hoveredMonth].label} {monthlyChartData.months[hoveredMonth].year}</p>
+                  <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Income: {formatAmount(monthlyChartData.months[hoveredMonth].income)}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-orange-400 font-medium">
+                    <span className="w-2 h-2 rounded-full bg-orange-400"></span>
+                    <span>Expenses: {formatAmount(monthlyChartData.months[hoveredMonth].expenses)}</span>
+                  </div>
+                </div>
+              )}
+
               {/* Y-Axis Labels */}
-              <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-outline p-2">
-                <span>{formatAmount(12000)}</span>
-                <span>{formatAmount(9000)}</span>
-                <span>{formatAmount(6000)}</span>
-                <span>{formatAmount(3000)}</span>
+              <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-[10px] text-outline p-2 pointer-events-none select-none">
+                <span>{formatAmount(monthlyChartData.chartMax)}</span>
+                <span>{formatAmount(Math.round(monthlyChartData.chartMax * 0.75))}</span>
+                <span>{formatAmount(Math.round(monthlyChartData.chartMax * 0.5))}</span>
+                <span>{formatAmount(Math.round(monthlyChartData.chartMax * 0.25))}</span>
                 <span>{formatAmount(0)}</span>
               </div>
+
               {/* X-Axis Labels */}
               <div className="flex justify-between w-full pt-4 border-t border-black/5">
-                <span className="text-label-sm text-outline">Jan</span>
-                <span className="text-label-sm text-outline">Feb</span>
-                <span className="text-label-sm text-outline">Mar</span>
-                <span className="text-label-sm text-outline">Apr</span>
-                <span className="text-label-sm text-outline">May</span>
-                <span className="text-label-sm text-on-surface font-bold">Jun</span>
+                {monthlyChartData.months.map((m, idx) => (
+                  <span
+                    key={idx}
+                    className={`text-label-sm ${idx === monthlyChartData.months.length - 1 ? 'text-primary font-bold' : 'text-outline'}`}
+                  >
+                    {m.label}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
