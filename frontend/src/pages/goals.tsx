@@ -332,10 +332,10 @@ const GoalsPage: React.FC = () => {
             </div>
             <div>
               <label className="block text-xs font-bold text-on-surface-variant uppercase mb-1">Deposit Amount</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">{symbol}</span>
+              <div className="flex items-center w-full bg-surface-container-low rounded-xl px-4 py-3 focus-within:ring-2 focus-within:ring-secondary/20 transition-all">
+                <span className="text-on-surface-variant font-bold mr-2 select-none pointer-events-none">{symbol}</span>
                 <input
-                  className="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-3 font-numbers-md text-primary font-bold focus:ring-2 focus:ring-secondary/20 outline-none"
+                  className="w-full bg-transparent border-none p-0 font-numbers-md text-primary font-bold focus:ring-0 outline-none"
                   type="number"
                   min="0.01"
                   step="0.01"
