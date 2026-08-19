@@ -33,6 +33,7 @@ interface Goal {
   saved_amount: number;
   target_amount: number;
   progress_percentage: number;
+  image_url?: string | null;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -224,23 +225,32 @@ function SavingsGoalsCard({ goals }: { goals: Goal[] }) {
           <p className="text-sm text-[#404944]">No goals yet.</p>
         </div>
       ) : (
-        <div className="space-y-8 flex-1">
+        <div className="space-y-6 flex-1">
           {displayGoals.map((goal) => (
-            <div key={goal.id}>
-              <div className="flex justify-between items-end mb-2">
-                <div>
-                  <p className="text-sm font-semibold text-[#141b2b]">{goal.title}</p>
-                  <p className="text-xs text-[#404944]">
-                    {formatAmount(goal.saved_amount)} / {formatAmount(goal.target_amount)}
-                  </p>
-                </div>
-                <span className="text-sm font-semibold text-[#006a61]">{Math.round(goal.progress_percentage)}%</span>
+            <div key={goal.id} className="flex items-center gap-3.5 group cursor-pointer" onClick={() => navigate('/goals')}>
+              <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center shadow-sm border border-black/5 group-hover:scale-105 transition-transform duration-300">
+                {goal.image_url ? (
+                  <img src={goal.image_url} alt={goal.title} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="material-symbols-outlined text-2xl text-primary/40">savings</span>
+                )}
               </div>
-              <div className="w-full h-3 bg-[#dce2f7] rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-[#006a61] rounded-full transition-all duration-700"
-                  style={{ width: `${goal.progress_percentage}%`, boxShadow: "0 0 12px rgba(134,242,228,0.4)" }}
-                />
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between items-end mb-1.5">
+                  <div className="min-w-0 pr-2">
+                    <p className="text-sm font-semibold text-[#141b2b] truncate group-hover:text-primary transition-colors">{goal.title}</p>
+                    <p className="text-xs text-[#404944]">
+                      {formatAmount(goal.saved_amount)} / {formatAmount(goal.target_amount)}
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold text-[#006a61] shrink-0">{Math.round(goal.progress_percentage)}%</span>
+                </div>
+                <div className="w-full h-2 bg-[#dce2f7] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#006a61] rounded-full transition-all duration-700"
+                    style={{ width: `${goal.progress_percentage}%`, boxShadow: "0 0 12px rgba(134,242,228,0.4)" }}
+                  />
+                </div>
               </div>
             </div>
           ))}
