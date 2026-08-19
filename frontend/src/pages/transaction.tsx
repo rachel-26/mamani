@@ -13,6 +13,8 @@ interface Transaction {
   is_expense: boolean;
   account: string;
   notes?: string;
+  is_fixed?: boolean;
+  frequency?: string;
 }
 
 const TransactionsPage: React.FC = () => {
@@ -29,8 +31,11 @@ const TransactionsPage: React.FC = () => {
     return true;
   });
 
-  // Group by date
-  const grouped = filtered.reduce((groups, tx) => {
+  const fixedTransactions = filtered.filter(t => t.is_fixed);
+  const regularTransactions = filtered.filter(t => !t.is_fixed);
+
+  // Group regular transactions by date
+  const grouped = regularTransactions.reduce((groups, tx) => {
     const date = new Date(tx.date);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -102,7 +107,7 @@ const TransactionsPage: React.FC = () => {
             </div>
             <button
               id="add-transaction-btn"
-              className="flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-xl text-label-bold hover:opacity-90 active:scale-95 transition-all"
+              className="flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-xl text-label-bold hover:opacity-90 active:scale-95 transition-all shadow-sm"
               onClick={() => setIsModalOpen(true)}
             >
               <span className="material-symbols-outlined text-[18px]">add</span>
@@ -148,8 +153,87 @@ const TransactionsPage: React.FC = () => {
           </div>
         )}
 
-        {!loading && !error && (
+        {!loading && !error && filtered.length > 0 && (
           <div className="space-y-lg">
+            {/* Pinned Fixed Items */}
+            {fixedTransactions.length > 0 && (
+              <div className="mb-8 space-y-3 bg-gradient-to-br from-amber-500/10 via-primary/5 to-surface-container-low/40 p-4 md:p-6 rounded-3xl border border-amber-500/20 shadow-sm relative overflow-hidden">
+                <div className="flex items-center justify-between px-1 mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-700 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-[17px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        push_pin
+                      </span>
+                    </div>
+                    <h3 className="font-label-bold text-primary font-bold tracking-wider uppercase text-xs">
+                      Pinned Fixed Transactions ({fixedTransactions.length})
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-200">
+                    Recurring & Fixed
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {fixedTransactions.map((tx) => {
+                    const meta = getMeta(tx);
+                    return (
+                      <div
+                        key={tx.id}
+                        className="bg-white/90 backdrop-blur-md flex items-center justify-between p-4 rounded-2xl hover:shadow-md hover:border-amber-500/40 border border-black/5 transition-all group"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className={`w-12 h-12 rounded-xl ${meta.bg} flex items-center justify-center shrink-0 relative`}>
+                            <span className={`material-symbols-outlined ${meta.color}`}>{meta.icon}</span>
+                            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
+                              <span className="material-symbols-outlined text-[10px]" style={{ fontVariationSettings: "'FILL' 1" }}>push_pin</span>
+                            </span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <h4 className="font-label-bold text-on-surface group-hover:text-primary transition-colors">
+                                {tx.title}
+                              </h4>
+                              {tx.frequency && (
+                                <span className="bg-amber-500/15 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                  {tx.frequency}
+                                </span>
+                              )}
+                            </div>
+                            <p className="font-label-sm text-on-surface-variant/70 mt-0.5">
+                              {tx.category} • {tx.account}
+                            </p>
+                            {tx.notes && (
+                              <p className="font-label-sm text-on-surface-variant mt-1 italic">
+                                "{tx.notes}"
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <span className={`font-numbers-md ${getAmountColor(tx.is_expense)} font-bold`}>
+                              {tx.is_expense ? '-' : '+'}{formatAmount(tx.amount)}
+                            </span>
+                          </div>
+                          <button
+                            className="opacity-0 group-hover:opacity-100 w-8 h-8 flex items-center justify-center rounded-full hover:bg-error/10 text-error transition-all"
+                            disabled={deletingId === tx.id}
+                            onClick={() => handleDelete(tx.id)}
+                            title="Delete transaction"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">
+                              {deletingId === tx.id ? 'hourglass_empty' : 'delete'}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Regular Transactions by Date */}
             {Object.entries(grouped).map(([groupName, txList]) => (
               <div key={groupName} className="space-y-4">
                 <h3 className="font-label-bold text-label-bold text-on-surface-variant/60 uppercase tracking-widest px-2">

@@ -54,12 +54,16 @@ class TransactionCreate(BaseModel):
     account: Optional[str] = "Main Savings"
     date: Optional[datetime] = None
     receipt_url: Optional[str] = None
+    is_fixed: Optional[bool] = False
+    frequency: Optional[str] = None
 
 
 class TransactionOut(TransactionCreate):
     id: int
     owner_id: int
     date: datetime
+    is_fixed: Optional[bool] = False
+    frequency: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -76,6 +80,8 @@ class RecentTransaction(BaseModel):
     account: Optional[str] = "Main Savings"
     date: datetime
     notes: Optional[str] = None
+    is_fixed: Optional[bool] = False
+    frequency: Optional[str] = None
 
     class Config:
         from_attributes = True

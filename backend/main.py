@@ -2,11 +2,25 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from sqlalchemy import text
 from database import Base, engine
 from routers import auth, users, transactions, goals
 
 # Create all tables on startup
 Base.metadata.create_all(bind=engine)
+
+# Safe SQLite migrations for newly added columns
+with engine.connect() as conn:
+    try:
+        conn.execute(text("ALTER TABLE transactions ADD COLUMN is_fixed BOOLEAN DEFAULT 0"))
+        conn.commit()
+    except Exception:
+        pass
+    try:
+        conn.execute(text("ALTER TABLE transactions ADD COLUMN frequency VARCHAR DEFAULT NULL"))
+        conn.commit()
+    except Exception:
+        pass
 
 app = FastAPI(
     title="Mamani Finance API",

@@ -63,6 +63,8 @@ def get_summary(
                 account=t.account or "Main Savings",
                 date=t.date,
                 notes=t.notes,
+                is_fixed=bool(t.is_fixed),
+                frequency=t.frequency,
             )
             for t in recent
         ],
@@ -72,9 +74,10 @@ def get_summary(
 @router.get("", response_model=List[TransactionOut])
 def list_transactions(
     skip: int = Query(0, ge=0),
-    limit: int = Query(50, ge=1, le=200),
+    limit: int = Query(100, ge=1, le=500),
     category: Optional[str] = None,
     is_expense: Optional[bool] = None,
+    is_fixed: Optional[bool] = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -86,8 +89,10 @@ def list_transactions(
         query = query.filter(Transaction.category == category)
     if is_expense is not None:
         query = query.filter(Transaction.is_expense == is_expense)
+    if is_fixed is not None:
+        query = query.filter(Transaction.is_fixed == is_fixed)
 
-    return query.order_by(Transaction.date.desc()).offset(skip).limit(limit).all()
+    return query.order_by(Transaction.is_fixed.desc(), Transaction.date.desc()).offset(skip).limit(limit).all()
 
 
 @router.post("", response_model=TransactionOut, status_code=status.HTTP_201_CREATED)

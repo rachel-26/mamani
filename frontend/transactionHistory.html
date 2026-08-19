@@ -302,9 +302,66 @@
                     return;
                 }
 
-                // Group by date
+                // Separate fixed vs regular transactions
+                const fixedTx = allTx.filter(t => t.is_fixed);
+                const regularTx = allTx.filter(t => !t.is_fixed);
+
+                let pinnedHtml = '';
+                if (fixedTx.length > 0) {
+                    pinnedHtml = `
+                        <div class="mb-8 space-y-3 bg-gradient-to-br from-amber-500/10 via-primary/5 to-surface-container-low/40 p-4 md:p-6 rounded-3xl border border-amber-500/20 shadow-sm relative overflow-hidden">
+                          <div class="flex items-center justify-between px-1 mb-2">
+                            <div class="flex items-center gap-2">
+                              <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-700 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[17px]" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+                              </div>
+                              <h3 class="font-label-bold text-primary font-bold tracking-wider uppercase text-xs">
+                                Pinned Fixed Transactions (${fixedTx.length})
+                              </h3>
+                            </div>
+                            <span class="text-[11px] font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-200 shadow-2xs">
+                              Recurring & Fixed
+                            </span>
+                          </div>
+                          <div class="space-y-2">
+                            ${fixedTx.map(tx => {
+                                const meta = MamaniAPI.getCategoryMeta(tx.category, tx.is_expense);
+                                const amtClass = tx.is_expense ? 'text-error' : 'text-secondary';
+                                const amtStr  = tx.is_expense ? `-${MamaniAPI.formatAmount(tx.amount, sym)}` : `+${MamaniAPI.formatAmount(tx.amount, sym)}`;
+                                const freqBadge = tx.frequency ? `<span class="bg-amber-500/15 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ml-1.5">${tx.frequency}</span>` : '';
+                                return `
+                                  <div class="bg-white/90 backdrop-blur-md flex items-center justify-between p-4 rounded-2xl hover:shadow-md hover:border-amber-500/40 border border-black/5 transition-all group cursor-pointer" onclick="if(!event.target.closest('button')) viewTransaction(${tx.id})">
+                                    <div class="flex items-center gap-4">
+                                      <div class="w-12 h-12 rounded-xl ${meta.bg} flex items-center justify-center shrink-0 relative">
+                                        <span class="material-symbols-outlined ${meta.color}">${meta.icon}</span>
+                                        <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
+                                          <span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+                                        </span>
+                                      </div>
+                                      <div>
+                                        <div class="flex items-center gap-1.5 flex-wrap">
+                                          <h4 class="font-label-bold text-on-surface group-hover:text-primary transition-colors">${tx.title}</h4>
+                                          ${freqBadge}
+                                        </div>
+                                        <p class="font-label-sm text-on-surface-variant/70 mt-0.5">${tx.category} · ${tx.account || 'Main Savings'}</p>
+                                        ${tx.notes ? `<p class="font-label-sm text-on-surface-variant mt-1 italic">"${tx.notes}"</p>` : ''}
+                                      </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                      <span class="font-numbers-md ${amtClass} font-bold">${amtStr}</span>
+                                      <button onclick="deleteTx(${tx.id})" class="opacity-0 group-hover:opacity-100 w-8 h-8 rounded-full hover:bg-error/10 text-error flex items-center justify-center transition-all" title="Delete">
+                                        <span class="material-symbols-outlined text-[16px]">delete</span>
+                                      </button>
+                                    </div>
+                                  </div>`;
+                            }).join('')}
+                          </div>
+                        </div>`;
+                }
+
+                // Group regular transactions by date
                 const groups = {};
-                allTx.forEach(tx => {
+                regularTx.forEach(tx => {
                     const date = new Date(tx.date);
                     const now = new Date();
                     const diffDays = Math.floor((now - date) / (1000*60*60*24));
@@ -315,7 +372,7 @@
                     groups[key].push(tx);
                 });
 
-                container.innerHTML = Object.entries(groups).map(([groupName, txList]) => `
+                const regularHtml = Object.entries(groups).map(([groupName, txList]) => `
                     <div class="space-y-4">
                       <h3 class="font-label-bold text-label-bold text-on-surface-variant/60 uppercase tracking-widest px-2">${groupName}</h3>
                       <div class="space-y-2">
@@ -327,7 +384,7 @@
                             return `
                               <div class="glass-card flex items-center justify-between p-4 rounded-xl hover:shadow-md transition-shadow group cursor-pointer" onclick="if(!event.target.closest('button')) viewTransaction(${tx.id})">
                                 <div class="flex items-center gap-4">
-                                  <div class="w-12 h-12 rounded-xl ${meta.bg} flex items-center justify-center">
+                                  <div class="w-12 h-12 rounded-xl ${meta.bg} flex items-center justify-center shrink-0">
                                     <span class="material-symbols-outlined ${meta.color}">${meta.icon}</span>
                                   </div>
                                   <div>
@@ -346,6 +403,8 @@
                         }).join('')}
                       </div>
                     </div>`).join('');
+
+                container.innerHTML = pinnedHtml + regularHtml;
             } catch (e) {
                 container.innerHTML = `<p class="text-center text-on-surface-variant py-8">${e.message}</p>`;
             }
@@ -374,14 +433,14 @@
 
             document.getElementById('view-modal-icon').innerHTML = `<span class="material-symbols-outlined ${meta.color}">${meta.icon}</span>`;
             document.getElementById('view-modal-icon').className = `w-14 h-14 rounded-2xl ${meta.bg} flex items-center justify-center`;
-            document.getElementById('view-modal-title').innerText = tx.title;
+            document.getElementById('view-modal-title').innerHTML = `${tx.title} ${tx.is_fixed ? '<span class="inline-block bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-full font-semibold ml-2 align-middle">📌 Fixed</span>' : ''}`;
             document.getElementById('view-modal-amount').innerText = amtStr;
             document.getElementById('view-modal-amount').className = `text-3xl font-bold font-numbers-lg mb-6 ${amtClass}`;
             
             document.getElementById('view-modal-date').innerText = dateStr;
             document.getElementById('view-modal-category').innerText = tx.category;
             document.getElementById('view-modal-account').innerText = tx.account || 'Main Savings';
-            document.getElementById('view-modal-notes').innerText = tx.notes || 'No description provided.';
+            document.getElementById('view-modal-notes').innerText = tx.notes || (tx.is_fixed ? `Recurring ${tx.frequency || 'Monthly'}` : 'No description provided.');
             
             const receiptContainer = document.getElementById('view-modal-receipt-container');
             const receiptImg = document.getElementById('view-modal-receipt-img');

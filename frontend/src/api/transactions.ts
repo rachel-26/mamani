@@ -8,6 +8,8 @@ export interface TransactionPayload {
   notes?: string;
   account?: string;
   date?: string;
+  is_fixed?: boolean;
+  frequency?: string;
 }
 
 export const getTransactions = async (params?: {

@@ -162,88 +162,122 @@
 </div>
 </main>
 <!-- Modal Overlay -->
+<!-- Modal Overlay -->
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-on-background/20 backdrop-blur-sm transition-opacity duration-300" id="modal-container">
 <!-- Add Transaction Modal -->
-<div aria-modal="true" class="relative w-full max-w-lg glass-effect rounded-xl ambient-shadow overflow-hidden flex flex-col max-h-[90vh] transition-all duration-300 transform scale-100 opacity-100" role="dialog">
+<div aria-modal="true" class="relative w-full max-w-lg glass-effect rounded-2xl ambient-shadow overflow-hidden flex flex-col max-h-[90vh] transition-all duration-300 transform scale-100 opacity-100 bg-white" role="dialog">
 <!-- Modal Header -->
-<div class="flex items-center justify-between px-6 py-5 border-b border-black/5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 flex items-center justify-center bg-secondary-container rounded-lg">
-<span class="material-symbols-outlined text-on-secondary-container text-[20px]">add_card</span>
-</div>
-<h2 class="font-headline-md text-headline-md text-on-surface">Add New Transaction</h2>
+<div class="flex items-center justify-between px-6 py-4 border-b border-black/5 relative">
+<div class="relative flex items-center gap-3">
+  <!-- Type of Transaction Dropdown Selector -->
+  <div class="relative">
+    <button id="type-selector-btn" type="button" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-black/5 text-on-surface font-headline-md text-base transition-all focus:ring-2 focus:ring-secondary/20 shadow-sm group">
+      <div id="current-type-icon-container" class="w-7 h-7 flex items-center justify-center bg-secondary-container rounded-lg">
+        <span id="current-type-icon" class="material-symbols-outlined text-on-secondary-container text-[18px]">receipt_long</span>
+      </div>
+      <div class="text-left">
+        <span class="block text-[10px] uppercase font-bold tracking-wider text-on-surface-variant/70 -mb-0.5">Type of Transaction</span>
+        <span id="current-type-label" class="font-bold text-sm text-primary">Normal Transaction</span>
+      </div>
+      <span class="material-symbols-outlined text-on-surface-variant text-[20px] group-hover:text-primary transition-transform duration-200 ml-1" id="type-dropdown-arrow">expand_more</span>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div id="type-dropdown-menu" class="hidden absolute left-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-xl border border-black/10 p-2 z-50 transition-all transform origin-top-left">
+      <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/70">Select Transaction Type</div>
+      <button type="button" id="select-normal-btn" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container-low transition-colors group bg-surface-container-low/60">
+        <div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-colors">
+          <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-on-surface">Normal Transaction</p>
+          <p class="text-[11px] text-on-surface-variant">One-off expense or income</p>
+        </div>
+      </button>
+      <button type="button" id="select-fixed-btn" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container-low transition-colors group mt-1">
+        <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition-colors">
+          <span class="material-symbols-outlined text-[18px]">push_pin</span>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-on-surface">Fixed Transaction</p>
+          <p class="text-[11px] text-on-surface-variant">Recurring rent, bills, salary</p>
+        </div>
+      </button>
+    </div>
+  </div>
 </div>
 <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors text-on-surface-variant" id="close-modal">
 <span class="material-symbols-outlined">close</span>
 </button>
 </div>
-<!-- Modal Content (Scrollable Area) -->
-<div class="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-8">
+
+<!-- Normal Transaction Form Content -->
+<div id="normal-transaction-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-6">
 <!-- Amount Input Section -->
-<div class="flex flex-col items-center justify-center py-4 space-y-4">
+<div class="flex flex-col items-center justify-center py-2 space-y-4">
 <!-- Income/Expense Toggle -->
 <div class="flex p-1 bg-surface-container-low rounded-lg w-fit">
-<button class="px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200" id="btn-expense">Expense</button>
-<button class="px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200" id="btn-income">Income</button>
+<button class="px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200" id="btn-expense" type="button">Expense</button>
+<button class="px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200" id="btn-income" type="button">Income</button>
 </div>
 <div class="text-center w-full">
 <div class="relative group flex items-center justify-center">
 <span id="amount-currency-sym" class="font-numbers-lg text-numbers-lg text-on-background opacity-60 mr-1">$</span>
-<input id="transaction-amount" class="w-48 bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant" placeholder="0.00" type="text" value="0.00"/>
+<input id="transaction-amount" class="w-48 bg-transparent border-none text-center font-numbers-lg text-numbers-lg text-on-background focus:ring-0 placeholder:text-surface-variant"  type="number" step="any" placeholder="0.00"/>
 </div>
 <div class="h-0.5 w-32 bg-secondary/20 group-focus-within:bg-secondary mx-auto transition-colors mt-1 rounded-full"></div>
 </div>
 </div>
 <!-- Category Grid -->
-<div class="space-y-4">
+<div class="space-y-3">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Category</label>
-<div class="grid grid-cols-4 gap-3">
-<button class="category-chip category-chip-active group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-blue-50 hover:border-blue-200">
-<span class="material-symbols-outlined text-[24px] text-blue-600">home</span>
+<div class="grid grid-cols-4 gap-2.5">
+<button type="button" class="category-chip category-chip-active group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-blue-50 hover:border-blue-200">
+<span class="material-symbols-outlined text-[22px] text-blue-600">home</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-blue-900">Housing</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-orange-50 hover:border-orange-200">
-<span class="material-symbols-outlined text-[24px] text-orange-600">restaurant</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-orange-50 hover:border-orange-200">
+<span class="material-symbols-outlined text-[22px] text-orange-600">restaurant</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-orange-900">Food</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-teal-50 hover:border-teal-200">
-<span class="material-symbols-outlined text-[24px] text-teal-600">directions_car</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-teal-50 hover:border-teal-200">
+<span class="material-symbols-outlined text-[22px] text-teal-600">directions_car</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-teal-900">Transport</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-yellow-50 hover:border-yellow-200">
-<span class="material-symbols-outlined text-[24px] text-yellow-600">bolt</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-yellow-50 hover:border-yellow-200">
+<span class="material-symbols-outlined text-[22px] text-yellow-600">bolt</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-yellow-900">Utilities</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-fuchsia-50 hover:border-fuchsia-200">
-<span class="material-symbols-outlined text-[24px] text-fuchsia-600">movie</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-fuchsia-50 hover:border-fuchsia-200">
+<span class="material-symbols-outlined text-[22px] text-fuchsia-600">movie</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-fuchsia-900">Movies</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-rose-50 hover:border-rose-200">
-<span class="material-symbols-outlined text-[24px] text-rose-600">medical_services</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-rose-50 hover:border-rose-200">
+<span class="material-symbols-outlined text-[22px] text-rose-600">medical_services</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-rose-900">Health</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-purple-50 hover:border-purple-200">
-<span class="material-symbols-outlined text-[24px] text-purple-600">shopping_bag</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-purple-50 hover:border-purple-200">
+<span class="material-symbols-outlined text-[22px] text-purple-600">shopping_bag</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-purple-900">Shopping</span>
 </button>
-<button class="category-chip group flex flex-col items-center gap-2 p-3 rounded-xl border border-black/5 transition-all duration-200 bg-slate-50 hover:border-slate-200">
-<span class="material-symbols-outlined text-[24px] text-slate-600">more_horiz</span>
+<button type="button" class="category-chip group flex flex-col items-center gap-1.5 p-2.5 rounded-xl border border-black/5 transition-all duration-200 bg-slate-50 hover:border-slate-200">
+<span class="material-symbols-outlined text-[22px] text-slate-600">more_horiz</span>
 <span class="text-[11px] font-medium uppercase tracking-wider text-slate-900">Others</span>
 </button>
 </div>
 </div>
 <!-- Fields Grid -->
 <div class="grid grid-cols-2 gap-4">
-<div class="space-y-2">
+<div class="space-y-1.5">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Date</label>
 <div class="relative">
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer" type="date" id="transaction-date" onclick="this.showPicker()"/>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer" type="date" id="transaction-date" onclick="this.showPicker()"/>
 </div>
 </div>
-<div class="space-y-2">
+<div class="space-y-1.5">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Account</label>
 <div class="relative">
-<select id="transaction-account" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer">
+<select id="transaction-account" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all cursor-pointer">
 <option>Main Savings</option>
 <option>Credit Card</option>
 <option>Investment Wallet</option>
@@ -252,56 +286,213 @@
 </div>
 </div>
 <!-- Description Field -->
-<div class="space-y-2">
+<div class="space-y-1.5">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Note / Description</label>
-<textarea id="transaction-note" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all resize-none" placeholder="What was this for?" rows="2"></textarea>
+<textarea id="transaction-note" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all resize-none" placeholder="What was this for?" rows="2"></textarea>
 </div>
 <!-- Attachment -->
-<div class="space-y-2">
+<div class="space-y-1.5">
 <label class="font-label-bold text-label-bold text-on-surface-variant block">Attach Receipt</label>
 <input type="file" id="receipt-upload" accept="image/*,application/pdf" class="hidden" />
-<button id="upload-btn" class="w-full border-2 border-dashed border-outline-variant rounded-xl p-6 flex flex-col items-center justify-center gap-2 hover:bg-surface-container-low hover:border-secondary transition-all group overflow-hidden relative">
-    <div id="upload-content" class="flex flex-col items-center gap-2">
-        <span class="material-symbols-outlined text-[28px] text-on-surface-variant group-hover:text-secondary">cloud_upload</span>
-        <span class="font-label-bold text-label-bold text-on-surface-variant">Tap to upload image</span>
-        <span class="text-label-sm text-surface-variant">PDF, JPG or PNG (max 5MB)</span>
+<button type="button" id="upload-btn" class="w-full border-2 border-dashed border-outline-variant rounded-xl p-4 flex flex-col items-center justify-center gap-1.5 hover:bg-surface-container-low hover:border-secondary transition-all group overflow-hidden relative">
+    <div id="upload-content" class="flex flex-col items-center gap-1">
+        <span class="material-symbols-outlined text-[24px] text-on-surface-variant group-hover:text-secondary">cloud_upload</span>
+        <span class="font-label-bold text-label-bold text-on-surface-variant text-xs">Tap to upload image or PDF</span>
+        <span class="text-[11px] text-surface-variant">PNG, JPG or PDF (max 5MB)</span>
     </div>
     <div id="upload-preview" class="hidden absolute inset-0 bg-surface-container-low flex flex-col items-center justify-center">
-        <span class="material-symbols-outlined text-secondary text-3xl mb-1">check_circle</span>
-        <span id="upload-filename" class="text-sm font-bold text-on-surface truncate px-4 w-full text-center"></span>
-        <span class="text-xs text-on-surface-variant mt-1">Tap to change</span>
+        <span class="material-symbols-outlined text-secondary text-2xl mb-0.5">check_circle</span>
+        <span id="upload-filename" class="text-xs font-bold text-on-surface truncate px-4 w-full text-center"></span>
+        <span class="text-[11px] text-on-surface-variant">Tap to change</span>
     </div>
 </button>
 </div>
 </div>
+
+<!-- Fixed Item Form Content (hidden by default) -->
+<div id="fixed-transaction-view" class="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-5 hidden">
+<!-- Type Toggle -->
+<div class="flex bg-surface-container-low rounded-lg p-1">
+<button type="button" id="fixed-btn-expense" class="flex-1 py-2 rounded-[6px] font-label-bold text-label-bold text-white bg-primary shadow-sm transition-colors text-center">Fixed Expense</button>
+<button type="button" id="fixed-btn-income" class="flex-1 py-2 rounded-[6px] font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-colors text-center">Fixed Income</button>
+</div>
+
+<!-- Item Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Item Name</label>
+<input id="fixed-item-name" class="w-full bg-[#F3F4F6] text-on-surface font-body-md text-body-md rounded-lg px-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none shadow-inner placeholder-on-surface-variant/50" placeholder="e.g., Rent, Salary, Internet" type="text"/>
+</div>
+
+<!-- Amount -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Amount</label>
+<div class="relative">
+<span id="fixed-amount-currency-sym" class="absolute left-4 top-1/2 -translate-y-1/2 font-body-md text-on-surface-variant">$</span>
+<input id="fixed-item-amount" class="w-full bg-[#F3F4F6] text-on-surface font-numbers-md text-numbers-md rounded-lg pl-10 pr-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none shadow-inner" placeholder="0.00" type="number" step="any"/>
+</div>
+</div>
+
+<!-- Frequency and Due Date Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Frequency</label>
+<div class="relative">
+<select id="fixed-frequency" class="w-full bg-[#F3F4F6] text-on-surface font-body-md text-body-md rounded-lg px-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none appearance-none shadow-inner cursor-pointer">
+<option value="Monthly">Monthly</option>
+<option value="Weekly">Weekly</option>
+<option value="Daily">Daily</option>
+<option value="Yearly">Yearly</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Next Due Date</label>
+<div class="relative">
+<input id="fixed-due-date" class="w-full bg-[#F3F4F6] text-on-surface font-body-md text-body-md rounded-lg px-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none shadow-inner appearance-none cursor-pointer" type="date" onclick="this.showPicker()"/>
+</div>
+</div>
+</div>
+
+<!-- Category and Account Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Category</label>
+<div class="relative">
+<select id="fixed-category" class="w-full bg-[#F3F4F6] text-on-surface font-body-md text-body-md rounded-lg px-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none appearance-none shadow-inner cursor-pointer">
+<option value="Housing">Housing</option>
+<option value="Food">Food</option>
+<option value="Transport">Transportation</option>
+<option value="Utilities">Utilities</option>
+<option value="Health">Health / Insurance</option>
+<option value="Shopping">Shopping</option>
+<option value="Movies">Entertainment</option>
+<option value="Income">Salary / Income</option>
+<option value="Others">Others</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Account</label>
+<div class="relative">
+<select id="fixed-account" class="w-full bg-[#F3F4F6] text-on-surface font-body-md text-body-md rounded-lg px-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none appearance-none shadow-inner cursor-pointer">
+<option value="Main Savings">Main Savings</option>
+<option value="Credit Card">Credit Card</option>
+<option value="Investment Wallet">Investment Wallet</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+
+<!-- Note / Description -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-bold text-label-bold text-on-surface">Note / Description (Optional)</label>
+<textarea id="fixed-item-note" class="w-full bg-[#F3F4F6] text-on-surface font-body-md text-body-md rounded-lg px-4 py-2.5 border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all outline-none shadow-inner resize-none placeholder-on-surface-variant/50" placeholder="e.g., Due on the 1st of every month" rows="2"></textarea>
+</div>
+</div>
+
 <!-- Modal Footer (Actions) -->
-<div class="px-6 py-5 border-t border-black/5 bg-white/40 flex items-center justify-between gap-4">
-<button class="px-6 py-3 rounded-lg font-label-bold text-label-bold text-on-surface-variant hover:bg-black/5 transition-all" id="cancel-modal">
-                    Cancel
-                </button>
-<div class="flex items-center gap-4">
-<img alt="Mamani Logo" class="h-6 w-6 opacity-20 hidden sm:block" src="https://lh3.googleusercontent.com/aida/AP1WRLugpjLuCLTGpp1lUW5gV0sJOJKgaQAgEQpiHY1JQuui6ySDvbnO4YZ0QHSRVhVd-hG-OwwggYfMsTrsrSd2KQuFrvRqxoWJmOt8gjKGA-No_W3HEumS22mhK9ClqYkVJUG_sa5Zly_4zQopwZf6KkXokO5PRHADSQ8XZf-xKApq4UdCcEwuIRf2imQ-NC2epY037chqC7-oJRJJNdq6K2E9u6Xqq76x2WiibwzE46E3-R8846YmKx-wYrSr"/>
-<button id="save-transaction-btn" class="px-8 py-3 bg-secondary text-white rounded-lg font-label-bold text-label-bold hover:opacity-90 active:scale-95 transition-all ambient-shadow">
-                        Save Transaction
-                    </button>
+<div class="px-6 py-4 border-t border-black/5 bg-surface-bright/50 flex items-center justify-between gap-4">
+<button type="button" class="px-6 py-2.5 rounded-lg font-label-bold text-label-bold text-on-surface-variant hover:bg-black/5 transition-all" id="cancel-modal">
+    Cancel
+</button>
+<button type="button" id="save-transaction-btn" class="px-8 py-2.5 bg-primary text-on-primary rounded-lg font-label-bold text-label-bold hover:opacity-90 active:scale-95 transition-all shadow-sm">
+    Save Transaction
+</button>
 </div>
 </div>
 </div>
-</div>
+
 <script src="mamani-api.js"></script>
 <script>
-        // Try requireAuth but ignore if not found
         if (typeof MamaniAPI !== 'undefined') MamaniAPI.requireAuth();
 
+        const sym = typeof MamaniAPI !== 'undefined' ? MamaniAPI.getCurrencySymbol() : '$';
         const symEl = document.getElementById('amount-currency-sym');
-        if (symEl && typeof MamaniAPI !== 'undefined') {
-            symEl.innerText = MamaniAPI.getCurrencySymbol();
-        }
+        if (symEl) symEl.innerText = sym;
+        const fixedSymEl = document.getElementById('fixed-amount-currency-sym');
+        if (fixedSymEl) fixedSymEl.innerText = sym;
 
+        let currentType = 'normal'; // 'normal' | 'fixed'
         let activeCategory = 'Housing';
         let isExpense = true;
+        let fixedIsExpense = true;
 
-        // Micro-interactions for Category Chips
+        // ── Transaction Type Switcher Logic ──────────────────────────
+        const typeSelectorBtn = document.getElementById('type-selector-btn');
+        const typeDropdownMenu = document.getElementById('type-dropdown-menu');
+        const typeDropdownArrow = document.getElementById('type-dropdown-arrow');
+        const currentTypeLabel = document.getElementById('current-type-label');
+        const currentTypeIcon = document.getElementById('current-type-icon');
+        const currentTypeIconContainer = document.getElementById('current-type-icon-container');
+        const selectNormalBtn = document.getElementById('select-normal-btn');
+        const selectFixedBtn = document.getElementById('select-fixed-btn');
+        const normalView = document.getElementById('normal-transaction-view');
+        const fixedView = document.getElementById('fixed-transaction-view');
+        const saveBtn = document.getElementById('save-transaction-btn');
+
+        function toggleDropdown(show) {
+            const isHidden = typeDropdownMenu.classList.contains('hidden');
+            const shouldShow = show !== undefined ? show : isHidden;
+            if (shouldShow) {
+                typeDropdownMenu.classList.remove('hidden');
+                typeDropdownArrow.style.transform = 'rotate(180deg)';
+            } else {
+                typeDropdownMenu.classList.add('hidden');
+                typeDropdownArrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        typeSelectorBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!typeSelectorBtn.contains(e.target) && !typeDropdownMenu.contains(e.target)) {
+                toggleDropdown(false);
+            }
+        });
+
+        function switchTransactionType(type) {
+            currentType = type;
+            toggleDropdown(false);
+
+            if (type === 'normal') {
+                currentTypeLabel.innerText = 'Normal Transaction';
+                currentTypeIcon.innerText = 'receipt_long';
+                currentTypeIcon.className = 'material-symbols-outlined text-on-secondary-container text-[18px]';
+                currentTypeIconContainer.className = 'w-7 h-7 flex items-center justify-center bg-secondary-container rounded-lg';
+                
+                selectNormalBtn.classList.add('bg-surface-container-low/60');
+                selectFixedBtn.classList.remove('bg-surface-container-low/60');
+
+                normalView.classList.remove('hidden');
+                fixedView.classList.add('hidden');
+                saveBtn.innerText = 'Save Transaction';
+            } else {
+                currentTypeLabel.innerText = 'Fixed Transaction';
+                currentTypeIcon.innerText = 'push_pin';
+                currentTypeIcon.className = 'material-symbols-outlined text-amber-800 text-[18px]';
+                currentTypeIconContainer.className = 'w-7 h-7 flex items-center justify-center bg-amber-100 rounded-lg';
+
+                selectFixedBtn.classList.add('bg-surface-container-low/60');
+                selectNormalBtn.classList.remove('bg-surface-container-low/60');
+
+                normalView.classList.add('hidden');
+                fixedView.classList.remove('hidden');
+                saveBtn.innerText = 'Add Fixed Item';
+            }
+        }
+
+        selectNormalBtn.addEventListener('click', () => switchTransactionType('normal'));
+        selectFixedBtn.addEventListener('click', () => switchTransactionType('fixed'));
+
+        // ── Normal Form Category Chips ──────────────────────────────
         const chips = document.querySelectorAll('.category-chip');
         chips.forEach(chip => {
             chip.addEventListener('click', () => {
@@ -315,13 +506,14 @@
             });
         });
 
-        // Set current date automatically
+        // Dates init
+        const todayStr = new Date().toISOString().split('T')[0];
         const dateInput = document.getElementById('transaction-date');
-        if(dateInput) {
-            dateInput.value = new Date().toISOString().split('T')[0];
-        }
+        if(dateInput) dateInput.value = todayStr;
+        const fixedDueDateInput = document.getElementById('fixed-due-date');
+        if(fixedDueDateInput) fixedDueDateInput.value = todayStr;
 
-        // Receipt Upload Logic
+        // ── Receipt Upload Logic ────────────────────────────────────
         const uploadBtn = document.getElementById('upload-btn');
         const fileInput = document.getElementById('receipt-upload');
         const uploadContent = document.getElementById('upload-content');
@@ -329,10 +521,7 @@
         const uploadFilename = document.getElementById('upload-filename');
 
         if(uploadBtn && fileInput) {
-            uploadBtn.addEventListener('click', () => {
-                fileInput.click();
-            });
-
+            uploadBtn.addEventListener('click', () => fileInput.click());
             fileInput.addEventListener('change', (e) => {
                 if (e.target.files && e.target.files[0]) {
                     const file = e.target.files[0];
@@ -343,19 +532,39 @@
             });
         }
 
-        // Toggle Switch Interaction
+        // ── Normal Form Expense / Income Toggles ────────────────────
         const btnExpense = document.getElementById('btn-expense');
         const btnIncome = document.getElementById('btn-income');
         
         btnExpense.addEventListener('click', () => {
-            // Already in Expense, do nothing or just ensure it's set
+            isExpense = true;
+            btnExpense.className = "px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200";
+            btnIncome.className = "px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200";
         });
 
         btnIncome.addEventListener('click', () => {
-            window.location.href = 'addTransactionIncome.html';
+            isExpense = false;
+            btnIncome.className = "px-6 py-2 rounded-md font-label-bold text-label-bold bg-secondary text-white transition-all duration-200";
+            btnExpense.className = "px-6 py-2 rounded-md font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-all duration-200";
         });
 
-        // Simple Close Logic
+        // ── Fixed Form Expense / Income Toggles ─────────────────────
+        const fixedBtnExpense = document.getElementById('fixed-btn-expense');
+        const fixedBtnIncome = document.getElementById('fixed-btn-income');
+
+        fixedBtnExpense.addEventListener('click', () => {
+            fixedIsExpense = true;
+            fixedBtnExpense.className = "flex-1 py-2 rounded-[6px] font-label-bold text-label-bold text-white bg-primary shadow-sm transition-colors text-center";
+            fixedBtnIncome.className = "flex-1 py-2 rounded-[6px] font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-colors text-center";
+        });
+
+        fixedBtnIncome.addEventListener('click', () => {
+            fixedIsExpense = false;
+            fixedBtnIncome.className = "flex-1 py-2 rounded-[6px] font-label-bold text-label-bold text-white bg-secondary shadow-sm transition-colors text-center";
+            fixedBtnExpense.className = "flex-1 py-2 rounded-[6px] font-label-bold text-label-bold text-on-surface-variant hover:text-on-surface transition-colors text-center";
+        });
+
+        // ── Close Modal Logic ───────────────────────────────────────
         const closeBtn = document.getElementById('close-modal');
         const cancelBtn = document.getElementById('cancel-modal');
         const modalContainer = document.getElementById('modal-container');
@@ -366,50 +575,52 @@
             if(dialog) dialog.classList.add('scale-95');
             setTimeout(() => {
                 const ref = document.referrer;
-                if (ref && !ref.includes('addTransaction')) {
+                if (ref && !ref.includes('addTransaction') && !ref.includes('addFixedItem')) {
                     window.location.href = ref;
                 } else {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'transactionHistory.html';
                 }
-            }, 250);
+            }, 200);
         }
 
         closeBtn.addEventListener('click', closeModal);
         cancelBtn.addEventListener('click', closeModal);
-
-        // Click outside to close
         modalContainer.addEventListener('click', (e) => {
             if (e.target === modalContainer) closeModal();
         });
 
-        // Handle Save Transaction
-        const saveBtn = document.getElementById('save-transaction-btn');
+        // Check if URL specifies fixed mode directly
+        if (window.location.search.includes('type=fixed') || window.location.pathname.includes('Fixed')) {
+            switchTransactionType('fixed');
+        }
+
+        // ── Save Transaction / Fixed Item ───────────────────────────
         if (saveBtn) {
             saveBtn.addEventListener('click', async () => {
-                const amountVal = document.getElementById('transaction-amount').value;
-                const amount = parseFloat(amountVal);
-                if (isNaN(amount) || amount <= 0) {
-                    alert("Please enter a valid amount.");
-                    return;
-                }
-
-                const notes = document.getElementById('transaction-note').value.trim();
-                const title = activeCategory;
-                const account = document.getElementById('transaction-account').value;
-                const dateVal = document.getElementById('transaction-date').value;
-
-                saveBtn.innerText = "Saving...";
-                saveBtn.disabled = true;
-                
-                try {
-                    let receiptUrl = null;
-                    if (fileInput && fileInput.files && fileInput.files.length > 0) {
-                        const file = fileInput.files[0];
-                        const uploadRes = await MamaniAPI.uploadReceipt(file);
-                        receiptUrl = uploadRes.url;
+                if (currentType === 'normal') {
+                    const amountVal = document.getElementById('transaction-amount').value;
+                    const amount = parseFloat(amountVal);
+                    if (isNaN(amount) || amount <= 0) {
+                        alert("Please enter a valid amount.");
+                        return;
                     }
 
-                    if (typeof MamaniAPI !== 'undefined') {
+                    const notes = document.getElementById('transaction-note').value.trim();
+                    const title = activeCategory;
+                    const account = document.getElementById('transaction-account').value;
+                    const dateVal = document.getElementById('transaction-date').value || todayStr;
+
+                    saveBtn.innerText = "Saving...";
+                    saveBtn.disabled = true;
+                    
+                    try {
+                        let receiptUrl = null;
+                        if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                            const file = fileInput.files[0];
+                            const uploadRes = await MamaniAPI.uploadReceipt(file);
+                            receiptUrl = uploadRes.url;
+                        }
+
                         await MamaniAPI.createTransaction({
                             amount: amount,
                             title: title,
@@ -418,18 +629,61 @@
                             is_expense: isExpense,
                             date: new Date(dateVal).toISOString(),
                             notes: notes || null,
-                            receipt_url: receiptUrl
+                            receipt_url: receiptUrl,
+                            is_fixed: false
                         });
+
+                        closeModal();
+                    } catch (e) {
+                        alert("Failed to save: " + e.message);
+                        saveBtn.innerText = "Save Transaction";
+                        saveBtn.disabled = false;
                     }
-                    closeModal();
-                } catch (e) {
-                    alert("Failed to save: " + e.message);
-                    saveBtn.innerText = "Save Transaction";
-                    saveBtn.disabled = false;
+                } else {
+                    // Fixed Item Save
+                    const itemName = document.getElementById('fixed-item-name').value.trim();
+                    const amountVal = document.getElementById('fixed-item-amount').value;
+                    const amount = parseFloat(amountVal);
+
+                    if (!itemName) {
+                        alert("Please enter an item name (e.g. Rent, Salary).");
+                        return;
+                    }
+                    if (isNaN(amount) || amount <= 0) {
+                        alert("Please enter a valid amount.");
+                        return;
+                    }
+
+                    const frequency = document.getElementById('fixed-frequency').value;
+                    const dueDate = document.getElementById('fixed-due-date').value || todayStr;
+                    const category = document.getElementById('fixed-category').value;
+                    const account = document.getElementById('fixed-account').value;
+                    const notes = document.getElementById('fixed-item-note').value.trim();
+
+                    saveBtn.innerText = "Adding...";
+                    saveBtn.disabled = true;
+
+                    try {
+                        await MamaniAPI.createTransaction({
+                            amount: amount,
+                            title: itemName,
+                            category: category,
+                            account: account,
+                            is_expense: fixedIsExpense,
+                            date: new Date(dueDate).toISOString(),
+                            notes: notes || `Recurring ${frequency}`,
+                            is_fixed: true,
+                            frequency: frequency
+                        });
+
+                        closeModal();
+                    } catch (e) {
+                        alert("Failed to add fixed item: " + e.message);
+                        saveBtn.innerText = "Add Fixed Item";
+                        saveBtn.disabled = false;
+                    }
                 }
             });
         }
-    
-
     </script>
 </body></html>

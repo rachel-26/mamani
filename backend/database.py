@@ -42,6 +42,8 @@ class Transaction(Base):
     account = Column(String, nullable=True, default="Main Savings")
     date = Column(DateTime, default=datetime.utcnow)
     receipt_url = Column(String, nullable=True)
+    is_fixed = Column(Boolean, default=False)
+    frequency = Column(String, nullable=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="transactions")
